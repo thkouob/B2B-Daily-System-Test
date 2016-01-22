@@ -78,5 +78,9 @@ namespace B2BDR2.UI.Controllers
             return View();
         }
 
+        public ActionResult CreateProject()
+        {
+            return View("CreateProject");
+        }
     }
 }
