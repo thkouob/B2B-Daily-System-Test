@@ -1,0 +1,262 @@
+﻿@{
+    ViewBag.Title = "Blank";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Create Project</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <form role="form" class="ng-pristine ng-valid">
+
+                        <!-- Basic Info -->
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Project No</label>
+                                    <input class="form-control" maxlength="5" placeholder="9527" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Project Name</label>
+                                    <input class="form-control" maxlength="200" placeholder="" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Dev Gruop</label>
+                                    <div></div>
+                                    <label class="radio-inline"><input type="radio" name="optionsDevGroup" id="optionsDevGruop1" value="1" />WWW</label>
+                                    <label class="radio-inline"><input type="radio" name="optionsDevGroup" id="optionsDevGruop2" value="2" />SSL</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Scrum Master</label>
+                                    <input class="form-control" maxlength="20" placeholder="Carboon" />
+                                    <datalist>
+                                        <!-- TODO get it from service [GET_MemberList] -->
+                                        <option>Carboon.C.Wu</option>
+                                        <option>Sin.C.Lin</option>
+                                        <option>Stella.W.Chen</option>
+                                    </datalist>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                        <!-- Date -->
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Start Day</label>
+                                    <input class="form-control" type="date" maxlength="10" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Release Day</label>
+                                    <input class="form-control" type="date" maxlength="10" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Launch Day</label>
+                                    <input class="form-control" type="date" maxlength="10" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                        <h2>Back log</h2>
+                        <!-- Back log action -->
+                        <div class="row">
+                            <div class="col-lg-8"></div>
+                            <div class="col-lg-2">
+                                <button class="btn btn-info btn-circle" id="btn_add"><i class="fa fa-plus"></i></button>
+                                <label for="btn_add">Add To Project</label>
+                            </div>
+                            <div class="col-lg-2">
+                                <button class="btn btn-default btn-clipboard" id="btn_batchEdit"><i class="fa fa-edit"></i></button>
+                                <label for="btn_batchEdit">Batch Edit</label>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                        <!-- Back log PB list-->
+                        <div class="row">
+                            <div class="panel panel-default">
+                                <!--<div class="panel-heading">Owner</div>-->
+                                <div class="panel-body">
+                                    <table class="table table-hover">
+                                        <!--<thead>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>-->
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="checkbox" id="cb_9679" /></td>
+                                                <td>TCBB-9679</td>
+                                                <td>Fix the deadlock issue of Sciquest order process app.</td>
+                                                <td><button class="btn btn-default">Edit</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="checkbox" id="cb_9634" /></td>
+                                                <td>TCBB-9634</td>
+                                                <td>Export order results</td>
+                                                <td><button class="btn btn-default">Edit</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="checkbox" id="cb_9623" /></td>
+                                                <td>TCBB-9623</td>
+                                                <td>support multiple fixed discount promo code for multiple warehouse order</td>
+                                                <td><button class="btn btn-default">Edit</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="checkbox" id="cb_9642" /></td>
+                                                <td>TCBB-9642</td>
+                                                <td>Remove redundancy javascript file (phase 2)</td>
+                                                <td><button class="btn btn-default">Edit</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="checkbox" id="cb_9611" /></td>
+                                                <td>TCBB-9611</td>
+                                                <td>SSL - Re-structure API URL (phase 2)</td>
+                                                <td><button class="btn btn-default">Edit</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="checkbox" id="cb_9667" /></td>
+                                                <td>TCBB-9667</td>
+                                                <td>Fix the deadlock issue of Sciquest order process app.</td>
+                                                <td><button class="btn btn-default">Edit</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                        <h2>Sub Task</h2>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#TCBB9527" data-toggle="tab">TCBB9527 <i class="fa fa-times"></i></a>
+                                    </li>
+                                    <li><a href="#TCBB689" data-toggle="tab">TCBB689</a></li>
+                                    <li><a href="#TCBB0001" data-toggle="tab">TCBB0001</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade in active" id="TCBB9527">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><h4>Fix the deadlock issue of Sciquest order process app</h4></div>
+                                            <div class="panel-body">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>NO.</th>
+                                                            <th>Role</th>
+                                                            <th>Assignee</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>TEST</td>
+                                                            <td>Jarvis</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td>UI</td>
+                                                            <td>Stella</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td>Service</td>
+                                                            <td>Sin</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="TCBB689">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><h4>Export order results</h4></div>
+                                            <div class="panel-body">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>NO.</th>
+                                                            <th>Role</th>
+                                                            <th>Assignee</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>TEST</td>
+                                                            <td>Jarvis</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td>UI</td>
+                                                            <td>Stella</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td>Service</td>
+                                                            <td>Sin</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="TCBB0001">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><h4>Export order results</h4></div>
+                                            <div class="panel-body">
+                                                <div class="text-center">
+                                                    <div class="well text-center">
+                                                        <h4>NO DATA</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button class="btn btn-primary btn-lg btn-block">Create</button>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                    </form>
+                </div>
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+</div>
