@@ -11,6 +11,9 @@ namespace B2BDR2.UI.Domain
         public IEnumerable<Navbar> navbarItems()
         {
             var menu = new List<Navbar>();
+            menu.Add(new Navbar { Id = 19, nameOption = "Mockup", imageClass = "fa fa-magic fa-fw", status = true, isParent = true, parentId = 0 });
+            menu.Add(new Navbar { Id = 20, nameOption = "Project Status", controller = "Home", action = "ProjectStatus", status = true, isParent = false, parentId = 19 });
+
             menu.Add(new Navbar { Id = 1, nameOption = "Dashboard", controller = "Home", action = "Index", imageClass = "fa fa-dashboard fa-fw", status = true, isParent = false, parentId = 0 });
             menu.Add(new Navbar { Id = 2, nameOption = "Charts", imageClass = "fa fa-bar-chart-o fa-fw", status = true, isParent = true, parentId = 0 });
             menu.Add(new Navbar { Id = 3, nameOption = "Flot Charts", controller = "Home", action = "FlotCharts", status = true, isParent = false, parentId = 2 });
