@@ -32,5 +32,13 @@ namespace B2BDR2.UI.Domain
 
             return menu.ToList();
         }
+
+        public IEnumerable<Navbar> GetB2BNavbarItems()
+        {
+            var menu = new List<Navbar>();
+            menu.Add(new Navbar { Id = 1, nameOption = "Dashboard", controller = "B2BHome", action = "Index", imageClass = "fa fa-dashboard fa-fw", status = true, isParent = false, parentId = 0 });
+
+            return menu.ToList();
+        }
     }
 }
