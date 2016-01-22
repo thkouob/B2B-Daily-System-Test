@@ -11,6 +11,11 @@ namespace B2BDR2.UI.Controllers
         public ActionResult Index()
         {
             return View();
+        }        
+
+        public ActionResult CreateProject()
+        {
+            return View("CreateProject");
         }
     }
 }
