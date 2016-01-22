@@ -912,7 +912,7 @@
     <Content Include="Views\Home\Blank.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\ProjectStatus.cshtml" />
-    <Content Include="Views\Home\CreateProject.cshtml">
+    <Content Include="Views\B2BHome\CreateProject.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\B2BHome\Index.cshtml" />
