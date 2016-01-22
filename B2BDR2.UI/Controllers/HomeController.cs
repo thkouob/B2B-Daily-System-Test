@@ -73,5 +73,10 @@ namespace B2BDR2.UI.Controllers
             return View("Login");
         }
 
+        public ActionResult ProjectStatus()
+        {
+            return View();
+        }
+
     }
 }
