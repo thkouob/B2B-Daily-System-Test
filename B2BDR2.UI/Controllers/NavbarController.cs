@@ -20,7 +20,7 @@ namespace B2BDR2.UI.Controllers
         public ActionResult B2BIndex()
         {
             var data = new Data();
-            return PartialView("_Navbar", data.GetB2BNavbarItems().ToList());
+            return PartialView("_B2BNavbar", data.GetB2BNavbarItems().ToList());
         }
     }
 }
