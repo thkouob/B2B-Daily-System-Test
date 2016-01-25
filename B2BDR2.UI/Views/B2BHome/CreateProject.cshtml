@@ -44,13 +44,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Scrum Master</label>
-                                    <input class="form-control" maxlength="20" placeholder="Carboon" />
-                                    <datalist>
-                                        <!-- TODO get it from service [GET_MemberList] -->
-                                        <option>Carboon.C.Wu</option>
-                                        <option>Sin.C.Lin</option>
-                                        <option>Stella.W.Chen</option>
-                                    </datalist>
+                                    <input class="form-control" list="listMembers" maxlength="20" placeholder="" />                                    
                                 </div>
                             </div>
                         </div>
@@ -276,11 +270,20 @@
     <!-- /.row -->
 </div>
 
+<!-- List Data -->
+<datalist id="listMembers">
+    <!-- TODO get it from service [GET_MemberList] -->
+    <option>Carboon.C.Wu</option>
+    <option>Sin.C.Lin</option>
+    <option>Stella.W.Chen</option>
+</datalist>
+
 <!-- modal -->
 <div id="modalBatchEdit" class="modal fade" role="dialog" aria-labelledby="createSubTaskLabel"></div>
 
-<script>
+<!-- TODO 好像佈上測試環境後怪怪der -->
+@*<script>
     window.document.body.onbeforeunload = function () {
         return '★★ 揪斗媽爹, 真要走?? 好，你走吧！ ★★';
     }
-</script>
+</script>*@
