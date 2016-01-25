@@ -114,6 +114,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\B2BHomeController.cs" />
+    <Compile Include="Controllers\ScrumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NavbarController.cs" />
     <Compile Include="Domain\Data.cs" />
@@ -557,6 +558,7 @@
     <None Include="bower_components\raphael\raphael.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ProjectStatus.css" />
     <Content Include="Content\sb-admin-2.css" />
     <Content Include="Content\timeline.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
@@ -937,9 +939,13 @@
     <Content Include="Views\Shared\_B2BLayout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_B2BNavbar.cshtml" />
+    <Content Include="Views\Scrum\CreateProjectTest.cshtml" />
+    <Content Include="Views\B2BHome\CreateSubTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Scrum\" />
+    <Folder Include="Scripts\Scrum\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
