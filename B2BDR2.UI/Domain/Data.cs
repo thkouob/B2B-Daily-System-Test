@@ -37,8 +37,11 @@ namespace B2BDR2.UI.Domain
         {
             var menu = new List<Navbar>();
             // Default index page
-            menu.Add(new Navbar { Id = 1, nameOption = "Dashboard", controller = "B2BHome", action = "Index", imageClass = "fa fa-dashboard fa-fw", status = true, isParent = true, parentId = 0 });
-            menu.Add(new Navbar { Id = 40, nameOption = "Create Project", controller = "Dashboard", action = "CreateProjectTest", status = true, isParent = false, parentId = 1 });
+            menu.Add(new Navbar { Id = 1, nameOption = "Dashboard", controller = "B2BHome", action = "Index", imageClass = "fa fa-dashboard fa-fw", status = true, isParent = false, parentId = 0 });
+
+            // Scrum
+            menu.Add(new Navbar { Id = 40, nameOption = "Scrum", controller = "Scrum", imageClass = "fa fa-dashboard fa-fw", status = true, isParent = true, parentId = 0 });
+            menu.Add(new Navbar { Id = 41, nameOption = "Create Project", controller = "Scrum", action = "CreateProjectTest", status = true, isParent = false, parentId = 40 });
 
             // Mockup
             menu.Add(new Navbar { Id = 19, nameOption = "Mockup", imageClass = "fa fa-magic fa-fw", status = true, isParent = true, parentId = 0 });
