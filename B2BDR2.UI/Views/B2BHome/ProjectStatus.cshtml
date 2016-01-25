@@ -3,36 +3,7 @@
     Layout = "~/Views/Shared/_B2BLayout.cshtml";
 }
 
-<style>
-     /*調整Status Icon的顏色*/
-    .fa-check:before {
-        color:green;
-    }
-
-    .fa-spinner:before {
-        color: orange;
-    }
-
-    .fa-times:before {
-        color: red;
-    }
-
-     /*調整Table的排序箭頭*/
-    table.dataTable thead .sorting_desc:after,
-    table.dataTable thead .sorting_asc:after,
-    table.dataTable thead .sorting:after {
-        content: "";
-    }
-
-     /*隱藏Status欄位內用於排序的資料*/
-    td span {
-        display: none;
-    }
-
-    td.center {
-        text-align: center;
-    }
-</style>
+<link href="@Url.Content("~/Content/ProjectStatus.css")" rel="stylesheet" />
 
 <div class="container-fluid">
     <div class="row">
