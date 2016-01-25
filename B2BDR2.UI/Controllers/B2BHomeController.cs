@@ -15,7 +15,7 @@ namespace B2BDR2.UI.Controllers
 
         public ActionResult CreateProject()
         {
-            return View("CreateProject");
+            return View();
         }
 
         public ActionResult ProjectStatus()
