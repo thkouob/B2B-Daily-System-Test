@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace B2BDR2.UI.Controllers
 {
-    public class DashboardController : Controller
+    public class ScrumController : Controller
     {
         public ActionResult CreateProjectTest()
         {
