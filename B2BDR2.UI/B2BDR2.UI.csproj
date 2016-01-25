@@ -919,6 +919,7 @@
     <Content Include="Views\Shared\_B2BLayout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_B2BNavbar.cshtml" />
+    <Content Include="Views\B2BHome\CreateSubTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
