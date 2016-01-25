@@ -52,7 +52,19 @@
         $(document).ready(function () {
             $('#dataTables-example').DataTable({
                 responsive: true,
-                "aaSorting":[]
+                "aaSorting": [],
+                "oLanguage": {"sProcessing":"處理中...",
+                    "sLengthMenu":"每頁顯示 _MENU_ 筆",
+                    "sZeroRecords":"沒有要找的資料",
+                    "sInfo":"顯示第 _START_ 至 _END_ 筆，共 _TOTAL_ 筆",
+                    "sInfoEmpty":"顯示第 0 至 0 筆，共 0 筆",
+                    "sInfoFiltered":"(從 _MAX_ 筆結果過濾)",
+                    "sSearch":"搜尋:",
+                    "oPaginate":{"sFirst":"首頁",
+                        "sPrevious": "前頁",
+                        "sNext": "後頁",
+                        "sLast":"尾頁"}
+                }
             });
         });
     </script>
