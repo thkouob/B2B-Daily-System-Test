@@ -22,12 +22,5 @@ namespace B2BDR2.UI.Controllers
         {
             return View();
         }
-
-        #region Modal
-        public ActionResult CreateSubTask()
-        {
-            return View();
-        }
-        #endregion
     }
 }
