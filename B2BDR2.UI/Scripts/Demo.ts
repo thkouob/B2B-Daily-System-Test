@@ -6,6 +6,7 @@
     JIRAStatus: number,
     DRStatus: number
 }
+//http://www.typescriptlang.org/Handbook#classes
 class ProjectStatus implements IProjectStatus {
     ProjectNumber: number;
     ProjectName: string;
@@ -24,6 +25,7 @@ class ProjectStatus implements IProjectStatus {
         this.DRStatus = drStatus;
     }
 }
+//http://confluence.newegg.org/display/TCBB/TypeScript+Share
 enum DRStatus {
     none = 0,
     process = 1,
@@ -39,7 +41,15 @@ enum JIRAStatus {
 }
 
 angular.module('mvcapp', [])
-    .factory('projectService', ['$http', function ($http) {
+    .factory('projectService', ['$http', function ($http: ng.IHttpService) {
+
+        //TODO Get API Data
+        //$http.get('Url')
+        //    .then(function (response) {
+        //    }, function (response) {
+        //
+        //    });
+
         var mockData: Array<ProjectStatus> = [];
 
         mockData.push(new ProjectStatus(12815, "B2B_WWW Newkit phase I", "Sean.Z.Chen", "2015/12/19", JIRAStatus.process, DRStatus.done));
@@ -52,8 +62,18 @@ angular.module('mvcapp', [])
         }
     }])
     .controller('indexCtrl', ['$scope', '$sce', 'projectService', function ($scope, $sce: ng.ISCEService, projectService) {
+
         $scope.DataList = projectService.DataList;
+
         $scope.GetTdClass = function (value) {
+            //https://docs.angularjs.org/api/ng/service/$sce
             return value == DRStatus.process || value == JIRAStatus.process ? $sce.trustAsHtml('<p class="fa fa-spinner" /><span>x</span>') : $sce.trustAsHtml('<p class="fa fa-check" /><span>v</span>');
         }
+
+        $scope.SearchVal;
+
+        $scope.RemoveSearchVal = function () {
+            $scope.SearchVal = null;
+        }
+
     }]);
