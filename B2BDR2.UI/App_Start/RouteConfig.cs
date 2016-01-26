@@ -16,7 +16,7 @@ namespace B2BDR2.UI
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "B2BHome", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Mockup", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

@@ -11,7 +11,7 @@ angular.module('scrumModule', [])
             DataList: mockData
         };
     }])
-    .controller('scrumCtrl', ['$scope', '$sce', 'projectMiscService', function ($scope, $sce, projectMiscService) {
+    .controller('createProjectCtrl', ['$scope', '$sce', 'projectMiscService', function ($scope, $sce, projectMiscService) {
         $scope.DataList = projectMiscService.DataList;
     }]);
 //# sourceMappingURL=createProjectSin.js.map
