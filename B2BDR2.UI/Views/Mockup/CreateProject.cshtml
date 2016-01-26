@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_MockupLayout.cshtml";
 }
 
-@*<div class="container-fluid">*@
+<div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Create Project</h1>
@@ -24,7 +24,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Project No</label>
-                                    <input class="form-control" maxlength="5" placeholder="9527" />
+                                    <input class="form-control" maxlength="5" placeholder="19999" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
@@ -44,13 +44,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Scrum Master</label>
-                                    <input class="form-control" maxlength="20" placeholder="Carboon" />
-                                    <datalist>
-                                        <!-- TODO get it from service [GET_MemberList] -->
-                                        <option>Carboon.C.Wu</option>
-                                        <option>Sin.C.Lin</option>
-                                        <option>Stella.W.Chen</option>
-                                    </datalist>
+                                    <input class="form-control" list="listMembers" maxlength="20" placeholder="" />
                                 </div>
                             </div>
                         </div>
@@ -85,50 +79,36 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <table class="table table-hover">
-                                            <!--<thead>
-                                                <tr>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>-->
                                             <tbody>
                                                 <tr>
                                                     <td><input type="checkbox" id="cb_9679" /></td>
-                                                    <td>TCBB-9679</td>
-                                                    <td>Fix the deadlock issue of Sciquest order process app.</td>
-                                                    <td><button class="btn btn-default">Edit</button></td>
+                                                    <td><a href="http://jira/browse/TCBB-9679" target="_blank">TCBB-9679</a></td>
+                                                    <td>{{Fix the deadlock issue of Sciquest order process app.}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td><input type="checkbox" id="cb_9634" /></td>
-                                                    <td>TCBB-9634</td>
-                                                    <td>Export order results</td>
-                                                    <td><button class="btn btn-default">Edit</button></td>
+                                                    <td><a href="http://jira/browse/TCBB-9634" target="_blank">TCBB-9634</td>
+                                                    <td>{{Export order results}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td><input type="checkbox" id="cb_9623" /></td>
-                                                    <td>TCBB-9623</td>
-                                                    <td>support multiple fixed discount promo code for multiple warehouse order</td>
-                                                    <td><button class="btn btn-default">Edit</button></td>
+                                                    <td><a href="http://jira/browse/TCBB-9623" target="_blank">TCBB-9623</td>
+                                                    <td>{{support multiple fixed discount promo code for multiple warehouse order}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td><input type="checkbox" id="cb_9642" /></td>
-                                                    <td>TCBB-9642</td>
-                                                    <td>Remove redundancy javascript file (phase 2)</td>
-                                                    <td><button class="btn btn-default">Edit</button></td>
+                                                    <td><a href="http://jira/browse/TCBB-9642" target="_blank">TCBB-9642</td>
+                                                    <td>{{Remove redundancy javascript file (phase 2)}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td><input type="checkbox" id="cb_9611" /></td>
-                                                    <td>TCBB-9611</td>
-                                                    <td>SSL - Re-structure API URL (phase 2)</td>
-                                                    <td><button class="btn btn-default">Edit</button></td>
+                                                    <td><a href="http://jira/browse/TCBB-9611" target="_blank">TCBB-9611</td>
+                                                    <td>{{SSL - Re-structure API URL (phase 2)}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td><input type="checkbox" id="cb_9667" /></td>
-                                                    <td>TCBB-9667</td>
-                                                    <td>Fix the deadlock issue of Sciquest order process app.</td>
-                                                    <td><button class="btn btn-default">Edit</button></td>
+                                                    <td><a href="http://jira/browse/TCBB-9667" target="_blank">TCBB-9667</td>
+                                                    <td>{{Fix the deadlock issue of Sciquest order process app.}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -137,8 +117,14 @@
                                     <div class="panel-footer panel-info">
                                         <!-- Back log action -->
                                         <ul class="nav nav-pills">
-                                            <li role="presentation"><a href="#"><i class="fa fa-plus"></i> Add To Project</a></li>
-                                            <li role="presentation"><a href="#"><i class="fa fa-edit"></i> Batch Edit</a></li>
+                                            <li role="presentation">
+                                                <a href="#"><i class="fa fa-plus"></i> Add To Project</a>
+                                            </li>
+                                            <li role="presentation">
+                                                <a href="void(0);" data-toggle="modal" data-target="#modalBatchEdit">
+                                                    <i class="fa fa-edit"></i> Batch Edit
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
                                     <!-- /.panel-footer -->
@@ -154,15 +140,21 @@
                             <div class="col-lg-12">
                                 <ul class="nav nav-tabs">
                                     <li class="active">
-                                        <a href="#TCBB9527" data-toggle="tab">TCBB9527 <i class="fa fa-times"></i></a>
+                                        <a href="#TCBB9527" data-toggle="tab">{{TCBB9527}}&nbsp;<span class="badge">{{3}}</span></a>
                                     </li>
-                                    <li><a href="#TCBB689" data-toggle="tab">TCBB689</a></li>
-                                    <li><a href="#TCBB0001" data-toggle="tab">TCBB0001</a></li>
+                                    <li><a href="#TCBB689" data-toggle="tab">{{TCBB689}} <span class="badge">{{3}}</span></a></li>
+                                    <li><a href="#TCBB0001" data-toggle="tab">{{TCBB0001}} <span class="badge">{{0}}</span></a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active" id="TCBB9527">
                                         <div class="panel panel-default">
-                                            <div class="panel-heading"><h4>Fix the deadlock issue of Sciquest order process app</h4></div>
+                                            <div class="panel-heading">
+                                                <h4>{{Fix the deadlock issue of Sciquest order process app}}</h4>
+                                                <div class="btn-group pull-right">
+                                                    <button type="button" class="btn btn-default">Edit</button>
+                                                    <button type="button" class="btn btn-danger">Remove from Project</button>
+                                                </div>
+                                            </div>
                                             <div class="panel-body">
                                                 <table class="table table-hover">
                                                     <thead>
@@ -175,18 +167,18 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>1</td>
-                                                            <td>TEST</td>
-                                                            <td>Jarvis</td>
+                                                            <td>{{TEST}}</td>
+                                                            <td>{{Jarvis}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td>2</td>
-                                                            <td>UI</td>
-                                                            <td>Stella</td>
+                                                            <td>{{UI}}</td>
+                                                            <td>{{Stella}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td>3</td>
-                                                            <td>Service</td>
-                                                            <td>Sin</td>
+                                                            <td>{{Service}}</td>
+                                                            <td>{{Sin}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -195,7 +187,13 @@
                                     </div>
                                     <div class="tab-pane" id="TCBB689">
                                         <div class="panel panel-default">
-                                            <div class="panel-heading"><h4>Export order results</h4></div>
+                                            <div class="panel-heading">
+                                                <h4>{{Export order results}}</h4>
+                                                <div class="btn-group pull-right">
+                                                    <button type="button" class="btn btn-default">Edit</button>
+                                                    <button type="button" class="btn btn-danger">Remove from Project</button>
+                                                </div>
+                                            </div>
                                             <div class="panel-body">
                                                 <table class="table table-hover">
                                                     <thead>
@@ -208,18 +206,18 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>1</td>
-                                                            <td>TEST</td>
-                                                            <td>Jarvis</td>
+                                                            <td>{{TEST}}</td>
+                                                            <td>{{Jarvis}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td>2</td>
-                                                            <td>UI</td>
-                                                            <td>Stella</td>
+                                                            <td>{{UI}}</td>
+                                                            <td>{{Stella}}</td>
                                                         </tr>
                                                         <tr>
                                                             <td>3</td>
-                                                            <td>Service</td>
-                                                            <td>Sin</td>
+                                                            <td>{{Service}}</td>
+                                                            <td>{{Sin}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -228,7 +226,13 @@
                                     </div>
                                     <div class="tab-pane" id="TCBB0001">
                                         <div class="panel panel-default">
-                                            <div class="panel-heading"><h4>Export order results</h4></div>
+                                            <div class="panel-heading">
+                                                <h4>{{Export order results}}</h4>
+                                                <div class="btn-group pull-right">
+                                                    <button type="button" class="btn btn-default">Edit</button>
+                                                    <button type="button" class="btn btn-danger">Remove from Project</button>
+                                                </div>
+                                            </div>
                                             <div class="panel-body">
                                                 <div class="text-center">
                                                     <div class="well text-center">
@@ -245,7 +249,7 @@
 
                         <div class="row">
                             <div class="col-lg-12">
-                                <button class="btn btn-primary btn-lg btn-block">Create</button>
+                                <button class="btn btn-primary btn-lg btn-block" onclick="window.document.body.onbeforeunload = null; return true;">Create</button>
                             </div>
                         </div>
                         <!-- /.row -->
@@ -258,4 +262,27 @@
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
-@*</div>*@
+</div>
+
+<!-- List Data -->
+<datalist id="listMembers">
+    <!-- TODO get it from service [GET_MemberList] -->
+    <option>{{Carboon.C.Wu}}</option>
+    <option>{{Sin.C.Lin}}</option>
+    <option>{{Stella.W.Chen}}</option>
+</datalist>
+
+<!-- modal -->
+@section Modal { 
+    <div id="modalBatchEdit" class="modal fade" role="dialog" aria-labelledby="createSubTaskLabel">
+        @Html.Partial("_CreateSubTask")
+    </div>
+    <!-- /.modal -->
+}
+
+<!-- TODO 好像佈上測試環境後怪怪der -->
+@*<script>
+        window.document.body.onbeforeunload = function () {
+            return '★★ 揪斗媽爹, 真要走?? 好，你走吧！ ★★';
+        }
+    </script>*@

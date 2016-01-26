@@ -113,7 +113,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\B2BHomeController.cs" />
+    <Compile Include="Controllers\MockupController.cs" />
     <Compile Include="Controllers\ScrumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NavbarController.cs" />
@@ -903,6 +903,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\sb-admin-2.js" />
+    <Content Include="Scripts\Scrum\createProjectSin.js">
+      <DependentUpon>createProjectSin.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\Scrum\CpStellaTest.js">
       <DependentUpon>CpStellaTest.ts</DependentUpon>
     </Content>
@@ -934,15 +937,20 @@
     <Content Include="Views\Home\Grid.cshtml" />
     <Content Include="Views\Home\Blank.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\B2BHome\ProjectStatus.cshtml" />
-    <Content Include="Views\B2BHome\CreateProject.cshtml">
+    <Content Include="Views\Mockup\ProjectStatus.cshtml" />
+    <Content Include="Views\Mockup\CreateProject.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\B2BHome\Index.cshtml" />
-    <Content Include="Views\Shared\_B2BLayout.cshtml" />
+    <Content Include="Views\Mockup\Index.cshtml" />
+    <Content Include="Views\Shared\_MockupLayout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_B2BNavbar.cshtml" />
     <Content Include="Views\Scrum\CreateProjectTest.cshtml" />
+    <Content Include="Views\Mockup\_CreateSubTask.cshtml" />
+    <Content Include="Views\Scrum\CreateProjectSin.cshtml" />
+    <Content Include="Scripts\Scrum\createProjectSin.js.map">
+      <DependentUpon>createProjectSin.ts</DependentUpon>
+    </Content>
     <Content Include="Views\B2BHome\_CreateSubTask.cshtml" />
     <Content Include="Views\Scrum\CpStellaTest.cshtml" />
     <Content Include="Scripts\Scrum\CpStellaTest.js.map">
@@ -964,6 +972,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\Demo.ts" />
+    <TypeScriptCompile Include="Scripts\Scrum\createProjectSin.ts" />
     <TypeScriptCompile Include="Scripts\Scrum\CpStellaTest.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-component-router.d.ts" />
