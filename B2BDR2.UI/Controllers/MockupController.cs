@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace B2BDR2.UI.Controllers
 {
-    public class B2BHomeController : Controller
+    public class MockupController : Controller
     {
         public ActionResult Index()
         {

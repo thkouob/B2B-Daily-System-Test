@@ -113,7 +113,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\B2BHomeController.cs" />
+    <Compile Include="Controllers\MockupController.cs" />
     <Compile Include="Controllers\ScrumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NavbarController.cs" />
@@ -931,16 +931,16 @@
     <Content Include="Views\Home\Grid.cshtml" />
     <Content Include="Views\Home\Blank.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\B2BHome\ProjectStatus.cshtml" />
-    <Content Include="Views\B2BHome\CreateProject.cshtml">
+    <Content Include="Views\Mockup\ProjectStatus.cshtml" />
+    <Content Include="Views\Mockup\CreateProject.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\B2BHome\Index.cshtml" />
-    <Content Include="Views\Shared\_B2BLayout.cshtml" />
+    <Content Include="Views\Mockup\Index.cshtml" />
+    <Content Include="Views\Shared\_MockupLayout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_B2BNavbar.cshtml" />
     <Content Include="Views\Scrum\CreateProjectTest.cshtml" />
-    <Content Include="Views\B2BHome\_CreateSubTask.cshtml" />
+    <Content Include="Views\Mockup\_CreateSubTask.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
