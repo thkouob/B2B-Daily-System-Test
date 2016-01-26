@@ -903,6 +903,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\sb-admin-2.js" />
+    <Content Include="Scripts\Scrum\CpStellaTest.js">
+      <DependentUpon>CpStellaTest.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -941,11 +944,14 @@
     <Content Include="Views\Shared\_B2BNavbar.cshtml" />
     <Content Include="Views\Scrum\CreateProjectTest.cshtml" />
     <Content Include="Views\B2BHome\_CreateSubTask.cshtml" />
+    <Content Include="Views\Scrum\CpStellaTest.cshtml" />
+    <Content Include="Scripts\Scrum\CpStellaTest.js.map">
+      <DependentUpon>CpStellaTest.ts</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Scrum\" />
-    <Folder Include="Scripts\Scrum\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -958,6 +964,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\Demo.ts" />
+    <TypeScriptCompile Include="Scripts\Scrum\CpStellaTest.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-component-router.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
