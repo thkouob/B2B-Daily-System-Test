@@ -13,6 +13,11 @@ interface IB2bMember {
     GroupId: number
 }
 
+interface IProjectB {
+    Id: string,
+    Title: string
+}
+
 class BackLog implements IBackLog {
     IssueId: number;
     IssueKey: string;
@@ -41,6 +46,15 @@ class B2bMember implements IB2bMember {
     }
 }
 
+class ProjectB implements IProjectB {
+    Id: string;
+    Title: string;
+    constructor(id: string, title: string) {
+        this.Id = id;
+        this.Title = title;
+    }
+}
+
 var tpscpPractice = angular.module("jiraApp", []);
 //tpscpPractice.config([]);
 tpscpPractice.factory('getBackLogList', ['$http', function ($http: ng.IHttpService) {
@@ -62,24 +76,36 @@ tpscpPractice.factory('getBackLogList', ['$http', function ($http: ng.IHttpServi
     }
 }]).factory('getMemberList', ['$http', function ($http: ng.IHttpService) {
     ////todo getMember
-    //var apiurl = 'http://localhost:12676/misc/v1.0.0//eprocurement/namelist';
+    //var fakeData: Array<B2bMember> = [];
 
-    //$http.get(apiurl).then(function (result) {
-    //});
+    //fakeData.push(new B2bMember("sc3l", "Sean.Z.Chen", "Sean", "Dev", 2, 2));
+    //fakeData.push(new B2bMember("ll9v", "Leo.L.Lee", "Leo", "Dev", 2, 2));
+    //fakeData.push(new B2bMember("cw0q", "Carboon.C.Wu", "Carboon", "Dev", 1, 2));
+    //fakeData.push(new B2bMember("sl0h", "Sin.C.Lin", "Sin", "Dev", 2, 2));
 
-    var fakeData: Array<B2bMember> = [];
+    var apiurl = 'http://10.16.133.102:52332/prj/v1/Person';
 
-    fakeData.push(new B2bMember("sc3l", "Sean.Z.Chen", "Sean", "Dev", 2, 2));
-    fakeData.push(new B2bMember("ll9v", "Leo.L.Lee", "Leo", "Dev", 2, 2));
-    fakeData.push(new B2bMember("cw0q", "Carboon.C.Wu", "Carboon", "Dev", 1, 2));
-    fakeData.push(new B2bMember("sl0h", "Sin.C.Lin", "Sin", "Dev", 2, 2));
     return {
-        DataList: fakeData
+        getMembers: function () {
+            return $http({
+                url: apiurl,
+                method: 'GET'
+            })
+        }
     }
 }]);
 
 tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList',
     function ($scope, getBackLogList, getMemberList) {
-        $scope.MembersList = getMemberList.DataList;
 
+        getMemberList.getMembers().success(function (result) {
+            $scope.MembersList = result;
+        });
+      
+        $scope.BacklogList = getBackLogList.DataList;
+        var tempData: Array<ProjectB> = [];
+        $scope.SelectedLog = function (pb) {
+            tempData.push(new ProjectB(pb.IssueKey, pb.Title));
+            $scope.ProjectList = tempData;
+        };
 }]);

@@ -91,55 +91,14 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <table class="table table-hover">
-                                            <tbody >
-                                                <tr>
-                                                    <td><input type="checkbox" id="cb_9679" /></td>
-                                                    <td>TCBB-9679</td>
-                                                    <td>Fix the deadlock issue of Sciquest order process app.</td>
-                                                    <td><button class="btn btn-default">Edit</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type="checkbox" id="cb_9634" /></td>
-                                                    <td>TCBB-9634</td>
-                                                    <td>Export order results</td>
-                                                    <td><button class="btn btn-default">Edit</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type="checkbox" id="cb_9623" /></td>
-                                                    <td>TCBB-9623</td>
-                                                    <td>support multiple fixed discount promo code for multiple warehouse order</td>
-                                                    <td><button class="btn btn-default">Edit</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type="checkbox" id="cb_9642" /></td>
-                                                    <td>TCBB-9642</td>
-                                                    <td>Remove redundancy javascript file (phase 2)</td>
-                                                    <td><button class="btn btn-default">Edit</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type="checkbox" id="cb_9611" /></td>
-                                                    <td>TCBB-9611</td>
-                                                    <td>SSL - Re-structure API URL (phase 2)</td>
-                                                    <td><button class="btn btn-default">Edit</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type="checkbox" id="cb_9667" /></td>
-                                                    <td>TCBB-9667</td>
-                                                    <td>Fix the deadlock issue of Sciquest order process app.</td>
-                                                    <td><button class="btn btn-default">Edit</button></td>
+                                            <tbody>
+                                                <tr id="{{u.IssueId}}" ng-click="SelectedLog(u)" ng-repeat="u in BacklogList">
+                                                    <td>{{u.IssueKey}}</td>
+                                                    <td>{{u.Title}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                    <!-- /.panel-body -->
-                                    <div class="panel-footer panel-info">
-                                        <!-- Back log action -->
-                                        <ul class="nav nav-pills">
-                                            <li role="presentation"><a href="#"><i class="fa fa-plus"></i> Add To Project</a></li>
-                                            <li role="presentation"><a href="#"><i class="fa fa-edit"></i> Batch Edit</a></li>
-                                        </ul>
-                                    </div>
-                                    <!-- /.panel-footer -->
                                 </div>
                                 <!-- /.panel -->
                             </div>
@@ -151,82 +110,13 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <ul class="nav nav-tabs">
-                                    <li class="active">
-                                        <a href="#TCBB9527" data-toggle="tab">TCBB9527 <i class="fa fa-times"></i></a>
-                                    </li>
-                                    <li><a href="#TCBB689" data-toggle="tab">TCBB689</a></li>
-                                    <li><a href="#TCBB0001" data-toggle="tab">TCBB0001</a></li>
+                                    <li ng-repeat="b in ProjectList"><a href="#TCBB0001" data-toggle="tab">{{b.Id}}</a></li>
                                 </ul>
+
                                 <div class="tab-content">
-                                    <div class="tab-pane fade in active" id="TCBB9527">
+                                    <div class="tab-pane" id="{{b.Id}}" ng-repeat="b in ProjectList">
                                         <div class="panel panel-default">
-                                            <div class="panel-heading"><h4>Fix the deadlock issue of Sciquest order process app</h4></div>
-                                            <div class="panel-body">
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>NO.</th>
-                                                            <th>Role</th>
-                                                            <th>Assignee</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>TEST</td>
-                                                            <td>Jarvis</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>UI</td>
-                                                            <td>Stella</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Service</td>
-                                                            <td>Sin</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="TCBB689">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading"><h4>Export order results</h4></div>
-                                            <div class="panel-body">
-                                                <table class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>NO.</th>
-                                                            <th>Role</th>
-                                                            <th>Assignee</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>TEST</td>
-                                                            <td>Jarvis</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>UI</td>
-                                                            <td>Stella</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>Service</td>
-                                                            <td>Sin</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="TCBB0001">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading"><h4>Export order results</h4></div>
+                                            <div class="panel-heading"><h4>{{b.Title}}project</h4></div>
                                             <div class="panel-body">
                                                 <div class="text-center">
                                                     <div class="well text-center">
@@ -237,6 +127,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <!-- /.row -->

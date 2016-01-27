@@ -17,6 +17,13 @@ var B2bMember = (function () {
     }
     return B2bMember;
 })();
+var ProjectB = (function () {
+    function ProjectB(id, title) {
+        this.Id = id;
+        this.Title = title;
+    }
+    return ProjectB;
+})();
 var tpscpPractice = angular.module("jiraApp", []);
 //tpscpPractice.config([]);
 tpscpPractice.factory('getBackLogList', ['$http', function ($http) {
@@ -34,20 +41,31 @@ tpscpPractice.factory('getBackLogList', ['$http', function ($http) {
         };
     }]).factory('getMemberList', ['$http', function ($http) {
         ////todo getMember
-        //var apiurl = 'http://localhost:12676/misc/v1.0.0//eprocurement/namelist';
-        //$http.get(apiurl).then(function (result) {
-        //});
-        var fakeData = [];
-        fakeData.push(new B2bMember("sc3l", "Sean.Z.Chen", "Sean", "Dev", 2, 2));
-        fakeData.push(new B2bMember("ll9v", "Leo.L.Lee", "Leo", "Dev", 2, 2));
-        fakeData.push(new B2bMember("cw0q", "Carboon.C.Wu", "Carboon", "Dev", 1, 2));
-        fakeData.push(new B2bMember("sl0h", "Sin.C.Lin", "Sin", "Dev", 2, 2));
+        //var fakeData: Array<B2bMember> = [];
+        //fakeData.push(new B2bMember("sc3l", "Sean.Z.Chen", "Sean", "Dev", 2, 2));
+        //fakeData.push(new B2bMember("ll9v", "Leo.L.Lee", "Leo", "Dev", 2, 2));
+        //fakeData.push(new B2bMember("cw0q", "Carboon.C.Wu", "Carboon", "Dev", 1, 2));
+        //fakeData.push(new B2bMember("sl0h", "Sin.C.Lin", "Sin", "Dev", 2, 2));
+        var apiurl = 'http://10.16.133.102:52332/prj/v1/Person';
         return {
-            DataList: fakeData
+            getMembers: function () {
+                return $http({
+                    url: apiurl,
+                    method: 'GET'
+                });
+            }
         };
     }]);
 tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList',
     function ($scope, getBackLogList, getMemberList) {
-        $scope.MembersList = getMemberList.DataList;
+        getMemberList.getMembers().success(function (result) {
+            $scope.MembersList = result;
+        });
+        $scope.BacklogList = getBackLogList.DataList;
+        var tempData = [];
+        $scope.SelectedLog = function (pb) {
+            tempData.push(new ProjectB(pb.IssueKey, pb.Title));
+            $scope.ProjectList = tempData;
+        };
     }]);
 //# sourceMappingURL=CpStellaTest.js.map
