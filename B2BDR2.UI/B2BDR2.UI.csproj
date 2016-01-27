@@ -113,6 +113,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\MockupController.cs" />
     <Compile Include="Controllers\ScrumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -951,7 +952,6 @@
     <Content Include="Scripts\Scrum\createProjectSin.js.map">
       <DependentUpon>createProjectSin.ts</DependentUpon>
     </Content>
-    <Content Include="Views\B2BHome\_CreateSubTask.cshtml" />
     <Content Include="Views\Scrum\CpStellaTest.cshtml" />
     <Content Include="Scripts\Scrum\CpStellaTest.js.map">
       <DependentUpon>CpStellaTest.ts</DependentUpon>
@@ -960,6 +960,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Scrum\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
