@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Create Project";
-    Layout = "~/Views/Shared/_B2BLayout.cshtml";
+    Layout = "~/Views/Shared/_MockupLayout.cshtml";
 }
 
 @section scripts{
@@ -8,7 +8,7 @@
     <script src="~/Scripts/Scrum/CpStellaTest.js"></script>
 }
 
-<div class="container-fluid" ng-app="jiraApp">
+<div class="container-fluid" ng-app="jiraApp" ng-controller="JiraCtrl">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Create Project</h1>
@@ -28,32 +28,35 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Project No</label>
-                                    <input class="form-control" maxlength="5" placeholder="9527" />
+                                    <input class="form-control" maxlength="5" placeholder="9527" ng-model="ProjectNumber" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Project Name</label>
-                                    <input class="form-control" maxlength="200" placeholder="" />
+                                    <input class="form-control" maxlength="200" placeholder="" ng-model="ProjectName" />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Dev Gruop</label>
                                     <div></div>
-                                    <label class="radio-inline"><input type="radio" name="optionsDevGroup" id="optionsDevGruop1" value="1" />WWW</label>
-                                    <label class="radio-inline"><input type="radio" name="optionsDevGroup" id="optionsDevGruop2" value="2" />SSL</label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optionsDevGroup" id="optionsDevGruop1" value="1" ng-model="DevGruop" />WWW
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optionsDevGroup" id="optionsDevGruop2" value="2" ng-model="DevGruop" />SSL
+                                    </label>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Scrum Master</label>
-                                    <input class="form-control" maxlength="20" placeholder="Carboon" />
-                                    <datalist>
-                                        <!-- TODO get it from service [GET_MemberList] -->
-                                        <option>Carboon.C.Wu</option>
-                                        <option>Sin.C.Lin</option>
-                                        <option>Stella.W.Chen</option>
+                                    <input class="form-control" list="listMembers" maxlength="20" placeholder="" ng-model="SMUID" />
+                                    <!-- List Data -->
+                                    <datalist id="listMembers">
+                                        <option ng-repeat="m in MembersList" value="{{m.UID}}">{{m.Name}}</option>
+                                            <!-- TODO get it from service [GET_MemberList] -->
                                     </datalist>
                                 </div>
                             </div>
@@ -263,3 +266,5 @@
     </div>
     <!-- /.row -->
 </div>
+
+
