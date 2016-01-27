@@ -113,6 +113,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\MockupController.cs" />
     <Compile Include="Controllers\ScrumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -550,12 +551,20 @@
     <None Include="bower_components\morrisjs\spec\viz\exemplary\stacked_bar0.png" />
     <None Include="bower_components\morrisjs\spec\viz\test.html" />
     <None Include="bower_components\morrisjs\spec\viz\visual_specs.js" />
+    <Content Include="bower_components\ngTagsInput\bower.json" />
+    <Content Include="bower_components\ngTagsInput\README" />
     <None Include="bower_components\raphael\dev\amdDev.js" />
     <None Include="bower_components\raphael\dev\index.js" />
     <None Include="bower_components\raphael\dev\require.js" />
     <None Include="bower_components\raphael\license.txt" />
     <None Include="bower_components\raphael\raphael-min.js" />
     <None Include="bower_components\raphael\raphael.js" />
+    <Content Include="bower_components\ngTagsInput\ng-tags-input.bootstrap.css" />
+    <Content Include="bower_components\ngTagsInput\ng-tags-input.bootstrap.min.css" />
+    <Content Include="bower_components\ngTagsInput\ng-tags-input.css" />
+    <Content Include="bower_components\ngTagsInput\ng-tags-input.js" />
+    <Content Include="bower_components\ngTagsInput\ng-tags-input.min.css" />
+    <Content Include="bower_components\ngTagsInput\ng-tags-input.min.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ProjectStatus.css" />
@@ -951,7 +960,6 @@
     <Content Include="Scripts\Scrum\createProjectSin.js.map">
       <DependentUpon>createProjectSin.ts</DependentUpon>
     </Content>
-    <Content Include="Views\B2BHome\_CreateSubTask.cshtml" />
     <Content Include="Views\Scrum\CpStellaTest.cshtml" />
     <Content Include="Scripts\Scrum\CpStellaTest.js.map">
       <DependentUpon>CpStellaTest.ts</DependentUpon>
@@ -960,6 +968,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Scrum\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
