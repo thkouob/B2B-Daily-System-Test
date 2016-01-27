@@ -959,7 +959,6 @@
     <Content Include="Scripts\Scrum\createProjectSin.js.map">
       <DependentUpon>createProjectSin.ts</DependentUpon>
     </Content>
-    <Content Include="Views\B2BHome\_CreateSubTask.cshtml" />
     <Content Include="Views\Scrum\CpStellaTest.cshtml" />
     <Content Include="Scripts\Scrum\CpStellaTest.js.map">
       <DependentUpon>CpStellaTest.ts</DependentUpon>
