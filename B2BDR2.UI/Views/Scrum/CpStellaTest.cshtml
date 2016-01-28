@@ -84,7 +84,7 @@
                         </div>
                         <!-- /.row -->
 
-                        <h2>Back log</h2>
+                        <h2 class="SelectBL">Select Back log</h2>
                         <!-- Back log PB list-->
                         <div class="row">
                             <div class="col-lg-12">
@@ -92,9 +92,9 @@
                                     <div class="panel-body">
                                         <table class="table table-hover">
                                             <tbody>
-                                                <tr id="{{u.IssueId}}" ng-click="SelectedLog(u)" ng-repeat="u in BacklogList">
-                                                    <td>{{u.IssueKey}}</td>
-                                                    <td>{{u.Title}}</td>
+                                                <tr id="{{u.Id}}" ng-click="SelectedProjectLog($index)" ng-repeat="u in BacklogList">
+                                                    <td>{{u.Key}}</td>
+                                                    <td>{{u.Summary}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -106,27 +106,40 @@
                         </div>
                         <!-- /.row -->
 
-                        <h2>Sub Task</h2>
+                        <h2 class="EditST">Edit Sub Task</h2>
                         <div class="row">
                             <div class="col-lg-12">
                                 <ul class="nav nav-tabs">
-                                    <li ng-repeat="b in ProjectList"><a href="#TCBB0001" data-toggle="tab">{{b.Id}}</a></li>
+                                    <li ng-repeat="b in ProjectList"><a href="#{{b.Id}}" data-toggle="tab">{{b.Id}}&nbsp;&nbsp;&nbsp;<i class="fa fa-times" ng-click="RemoveProjectLog($index)"></i></a></li>
                                 </ul>
-
+                            
                                 <div class="tab-content">
-                                    <div class="tab-pane" id="{{b.Id}}" ng-repeat="b in ProjectList">
+                                    <div class="tab-pane {{b.Active}}" id="{{b.Id}}" ng-repeat="b in ProjectList">
+                        
                                         <div class="panel panel-default">
-                                            <div class="panel-heading"><h4>{{b.Title}}project</h4></div>
+                                            <div class="panel-heading"><h4>{{b.Title}}</h4></div>
                                             <div class="panel-body">
-                                                <div class="text-center">
-                                                    <div class="well text-center">
-                                                        <h4>NO DATA</h4>
-                                                    </div>
-                                                </div>
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>NO.</th>
+                                                            <th>Role</th>
+                                                            <th>Assignee</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="s in SubTaskList">
+                                                            <td>{{$index+1}}</td>
+                                                            <td>{{TEST}}</td>
+                                                            <td>{{JARVIS}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- /.one -->
 
                             </div>
                         </div>
