@@ -964,6 +964,7 @@
     <Content Include="Scripts\Scrum\CpStellaTest.js.map">
       <DependentUpon>CpStellaTest.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Mockup\_CreateProjectConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
