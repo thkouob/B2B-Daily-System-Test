@@ -7,9 +7,9 @@
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/Scrum/createProjectSin.js"></script>
 }
+
 <div ng-app="scrumModule">
     <div ng-controller="createProjectCtrl">
-
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
@@ -31,13 +31,13 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Project No</label>
-                                            <input class="form-control" maxlength="5" placeholder="19999" />
+                                            <input class="form-control" maxlength="5" placeholder="" ng-model="projectNumber" />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Project Name</label>
-                                            <input class="form-control" maxlength="200" placeholder="" />
+                                            <input class="form-control" maxlength="200" placeholder="" ng-model="projectName" />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -51,7 +51,10 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Scrum Master</label>
-                                            <input class="form-control" list="listMembers" maxlength="20" placeholder="" />
+                                            <input class="form-control" list="memberlist" maxlength="20" placeholder="" />
+                                            <datalist id="memberlist">
+                                                <option ng-repeat="p in PersonData" value="{{p.Name}}"></option>
+                                            </datalist>
                                         </div>
                                     </div>
                                 </div>
@@ -79,62 +82,30 @@
                                 </div>
                                 <!-- /.row -->
 
-                                <h2>Back log</h2>
+                                <h2>Backlog</h2>
                                 <!-- Back log PB list-->
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="panel panel-default">
                                             <div class="panel-body">
                                                 <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Jira Number</th>
+                                                            <th>Description</th>
+                                                        </tr>
+                                                    </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td><input type="checkbox" id="cb_9679" /></td>
-                                                            <td><a href="http://jira/browse/TCBB-9679" target="_blank">TCBB-9679</a></td>
-                                                            <td>{{Fix the deadlock issue of Sciquest order process app.}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input type="checkbox" id="cb_9634" /></td>
-                                                            <td><a href="http://jira/browse/TCBB-9634" target="_blank">TCBB-9634</td>
-                                                            <td>{{Export order results}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input type="checkbox" id="cb_9623" /></td>
-                                                            <td><a href="http://jira/browse/TCBB-9623" target="_blank">TCBB-9623</td>
-                                                            <td>{{support multiple fixed discount promo code for multiple warehouse order}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input type="checkbox" id="cb_9642" /></td>
-                                                            <td><a href="http://jira/browse/TCBB-9642" target="_blank">TCBB-9642</td>
-                                                            <td>{{Remove redundancy javascript file (phase 2)}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input type="checkbox" id="cb_9611" /></td>
-                                                            <td><a href="http://jira/browse/TCBB-9611" target="_blank">TCBB-9611</td>
-                                                            <td>{{SSL - Re-structure API URL (phase 2)}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input type="checkbox" id="cb_9667" /></td>
-                                                            <td><a href="http://jira/browse/TCBB-9667" target="_blank">TCBB-9667</td>
-                                                            <td>{{Fix the deadlock issue of Sciquest order process app.}}</td>
+                                                        <tr ng-repeat="backlog in BackLogList">
+                                                            <td><button class="btn btn-default" type="button" ng-click="AddPB($index)"><i class="fa fa-plus"></i></button></td>
+                                                            <td><a href="{{backlog.JiraLink}}" target="_blank">{{backlog.JiraNumber}}</a></td>
+                                                            <td>{{backlog.Description}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                             <!-- /.panel-body -->
-                                            <div class="panel-footer panel-info">
-                                                <!-- Back log action -->
-                                                <ul class="nav nav-pills">
-                                                    <li role="presentation">
-                                                        <a href="#"><i class="fa fa-plus"></i> Add To Project</a>
-                                                    </li>
-                                                    <li role="presentation">
-                                                        <a href="void(0);" data-toggle="modal" data-target="#modalBatchEdit">
-                                                            <i class="fa fa-edit"></i> Batch Edit
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <!-- /.panel-footer -->
                                         </div>
                                         <!-- /.panel -->
                                     </div>
@@ -142,118 +113,54 @@
                                 </div>
                                 <!-- /.row -->
 
-                                <h2>Sub Task</h2>
-                                <div class="row">
+                                <h2>Project {{projectNumber}} PBs</h2>
+          
+                                <div class="row" id="projectPBs">
                                     <div class="col-lg-12">
                                         <ul class="nav nav-tabs">
-                                            <li class="active">
-                                                <a href="#TCBB9527" data-toggle="tab">{{TCBB9527}}&nbsp;<span class="badge">{{3}}</span></a>
+                                            <li ng-repeat="addedList in AddedProjectPBInfo" ng-class="{active: $index == 0}">
+                                                <a href="#tab{{$index + 1}}" data-toggle="tab">{{addedList.JiraNumber}}</a>
                                             </li>
-                                            <li><a href="#TCBB689" data-toggle="tab">{{TCBB689}} <span class="badge">{{3}}</span></a></li>
-                                            <li><a href="#TCBB0001" data-toggle="tab">{{TCBB0001}} <span class="badge">{{0}}</span></a></li>
                                         </ul>
                                         <div class="tab-content">
-                                            <div class="tab-pane fade in active" id="TCBB9527">
+                                            <div class="tab-pane fade in" id="tab{{$index + 1}}" ng-repeat="addedList in AddedProjectPBInfo" ng-class="{active: $index == 0}">
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading">
-                                                        <h4>{{Fix the deadlock issue of Sciquest order process app}}</h4>
                                                         <div class="btn-group pull-right">
-                                                            <button type="button" class="btn btn-default">Edit</button>
-                                                            <button type="button" class="btn btn-danger">Remove from Project</button>
+                                                            <button type="button" class="btn btn-danger" ng-click="RemovePB($index)"><span class="glyphicon glyphicon-remove"></span>&nbsp;Remove</button>
                                                         </div>
+                                                        <h4>{{addedList.Description}}</h4>
                                                     </div>
                                                     <div class="panel-body">
                                                         <table class="table table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>NO.</th>
                                                                     <th>Role</th>
                                                                     <th>Assignee</th>
+                                                                    <th>AssigneeTag</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td>1</td>
-                                                                    <td>{{TEST}}</td>
-                                                                    <td>{{Jarvis}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>2</td>
-                                                                    <td>{{UI}}</td>
-                                                                    <td>{{Stella}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>3</td>
-                                                                    <td>{{Service}}</td>
-                                                                    <td>{{Sin}}</td>
+                                                                <tr ng-repeat="subTask in addedList.SubTaskList">
+                                                                    <td>{{subTask.Role}}</td>
+                                                                    <td>{{subTask.Assignee}}</td>
+                                                                    <td>
+                                                                        <tags-input ng-model="subTask.Assignee" placeholder="Add a member">
+
+                                                                        </tags-input>
+                                                                    </td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tab-pane" id="TCBB689">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading">
-                                                        <h4>{{Export order results}}</h4>
-                                                        <div class="btn-group pull-right">
-                                                            <button type="button" class="btn btn-default">Edit</button>
-                                                            <button type="button" class="btn btn-danger">Remove from Project</button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="panel-body">
-                                                        <table class="table table-hover">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>NO.</th>
-                                                                    <th>Role</th>
-                                                                    <th>Assignee</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>1</td>
-                                                                    <td>{{TEST}}</td>
-                                                                    <td>{{Jarvis}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>2</td>
-                                                                    <td>{{UI}}</td>
-                                                                    <td>{{Stella}}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>3</td>
-                                                                    <td>{{Service}}</td>
-                                                                    <td>{{Sin}}</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tab-pane" id="TCBB0001">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading">
-                                                        <h4>{{Export order results}}</h4>
-                                                        <div class="btn-group pull-right">
-                                                            <button type="button" class="btn btn-default">Edit</button>
-                                                            <button type="button" class="btn btn-danger">Remove from Project</button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="panel-body">
-                                                        <div class="text-center">
-                                                            <div class="well text-center">
-                                                                <h4>NO DATA</h4>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- /.row -->
 
+                                <!-- /.row -->
+                                
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <button class="btn btn-primary btn-lg btn-block" onclick="window.document.body.onbeforeunload = null; return true;">Create</button>
@@ -270,5 +177,6 @@
             </div>
             <!-- /.row -->
         </div>
+        
     </div>
 </div>
