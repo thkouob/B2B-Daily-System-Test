@@ -569,6 +569,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ProjectStatus.css" />
     <Content Include="Content\sb-admin-2.css" />
+    <Content Include="Content\spinkit.css" />
     <Content Include="Content\timeline.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="favicon.ico" />
@@ -965,6 +966,7 @@
       <DependentUpon>CpStellaTest.ts</DependentUpon>
     </Content>
     <Content Include="Views\Mockup\_CreateProjectConfirm.cshtml" />
+    <Content Include="Views\Mockup\CreateProjectLoading.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
