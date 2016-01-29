@@ -40,7 +40,6 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Dev Gruop</label>
-                                    <div></div>
                                     <label class="radio-inline">
                                         <input type="radio" name="optionsDevGroup" id="optionsDevGruop1" value="1" ng-model="DevGruop" />WWW
                                     </label>
@@ -55,7 +54,7 @@
                                     <input class="form-control" list="listMembers" maxlength="20" placeholder="" ng-model="SMUID" />
                                     <!-- List Data -->
                                     <datalist id="listMembers">
-                                        <option ng-repeat="m in MembersList" value="{{m.UID}}">{{m.Name}}</option> 
+                                        <option ng-repeat="m in MembersList" value="{{m.UID}}">{{m.Name}}</option>
                                     </datalist>
                                 </div>
                             </div>
@@ -109,30 +108,107 @@
                         <h2 class="EditST">Edit Sub Task</h2>
                         <div class="row">
                             <div class="col-lg-12">
+                                <!-- /.SubTaskTagArea -->
                                 <ul class="nav nav-tabs">
-                                    <li ng-repeat="b in ProjectList"><a href="#{{b.Id}}" data-toggle="tab">{{b.Id}}&nbsp;&nbsp;&nbsp;<i class="fa fa-times" ng-click="RemoveProjectLog($index)"></i></a></li>
+                                    <li ng-repeat="b in ProjectList" class="{{b.Active}}">
+                                        <a href="#{{b.Id}}" data-toggle="tab">
+                                            {{b.Id}}&nbsp;&nbsp;&nbsp;<i class="fa fa-times" ng-click="RemoveProjectLog($index)"></i>
+                                        </a>
+                                    </li>
                                 </ul>
-                            
+                                <!-- /.SubTaskTagArea -->
+                                
                                 <div class="tab-content">
-                                    <div class="tab-pane {{b.Active}}" id="{{b.Id}}" ng-repeat="b in ProjectList">
-                        
+                                    <div class="tab-pane fade in {{b.Active}}" id="{{b.Id}}" ng-repeat="b in ProjectList">
+
                                         <div class="panel panel-default">
-                                            <div class="panel-heading"><h4>{{b.Title}}</h4></div>
+                                            <!-- /.SubTaskTitleArea -->
+                                            <div class="panel-heading">
+                                                <div class="btn-group pull-right">
+                                                    <div ng-hide="assignDisplay">
+                                                        <button type="button" class="btn btn-default glyphicon glyphicon-pencil" ng-click="assignDisplay=true;"></button>
+                                                        <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="addAreaDisplay=true;"></button>
+                                                    </div>
+                                                    <div ng-show="assignDisplay">
+                                                        <button type="button" class="btn btn-default glyphicon glyphicon-remove" ng-click="assignDisplay=false;"></button>
+                                                    </div>
+                                                </div>
+                                                <h4>{{b.Title}}</h4>
+                                            </div>
+                                            <!-- /.SubTaskTitleArea -->
                                             <div class="panel-body">
-                                                <table class="table table-hover">
+                                                <table class="table">
                                                     <thead>
                                                         <tr>
                                                             <th>NO.</th>
                                                             <th>Role</th>
                                                             <th>Assignee</th>
+                                                            <th></th>
+                                                            <th></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr ng-repeat="s in SubTaskList">
+                                                        <!-- /.SubTaskDisplayArea -->
+                                                        <tr ng-repeat="s in b.Subtask">
                                                             <td>{{$index+1}}</td>
-                                                            <td>{{TEST}}</td>
-                                                            <td>{{JARVIS}}</td>
+                                                            <td>{{s.Role}}</td>
+                                                            <td>
+                                                                <div ng-hide="assignDisplay">{{s.Assign}}</div>
+                                                                <div ng-show="assignDisplay"><input class="form-control" maxlength="20" /></div>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <div ng-hide="assignDisplay"></div>
+                                                                <div ng-show="assignDisplay">
+                                                                    <button type="button" class="btn btn-default fa fa-floppy-o" ng-click="AddSubTask($index)" style="font-size:larger;"></button>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="fa fa-times-circle" ng-click="RemoveSubTask(s.Id, $index)"></i>
+                                                            </td>
                                                         </tr>
+                                                        <!-- /.SubTaskDisplayArea -->
+                                                        <!-- /.SubTaskAddArea -->
+                                                        <tr>
+                                                            <td>
+                                                                <div ng-hide="addAreaDisplay"></div>
+                                                                <div ng-show="addAreaDisplay">
+                                                                    <i class="glyphicon glyphicon-exclamation-sign" ng-click="RemoveSubTask($index)"></i>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div ng-hide="addAreaDisplay"></div>
+                                                                <div ng-show="addAreaDisplay">
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optionsRoleGroup" id="optionsRoleGruop1" value="UI" ng-model="Role" />UI
+                                                                    </label>
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optionsRoleGroup" id="optionsRoleGroup2" value="Service" ng-model="Role" />Service
+                                                                    </label>
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optionsRoleGroup" id="optionsRoleGroup3" value="Test" ng-model="Role" />Test
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div ng-hide="addAreaDisplay"></div>
+                                                                <div ng-show="addAreaDisplay">
+                                                                    <input class="form-control" maxlength="20" placeholder="" ng-model="Assignee" />
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <div ng-hide="addAreaDisplay"></div>
+                                                                <div ng-show="addAreaDisplay">
+                                                                    <button type="button" class="btn btn-default fa fa-plus-circle" ng-click="AddSubTask(b.Id, Role, Assignee, $index)" style="font-size:larger;"></button>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div ng-hide="addAreaDisplay"></div>
+                                                                <div ng-show="addAreaDisplay">
+                                                                    <i class="fa fa-times-circle" ng-click="addAreaDisplay=false;"></i>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <!-- /.SubTaskAddArea -->
                                                     </tbody>
                                                 </table>
                                             </div>
