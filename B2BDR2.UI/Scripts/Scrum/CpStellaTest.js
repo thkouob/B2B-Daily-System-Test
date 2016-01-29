@@ -126,6 +126,10 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                 }
             });
             tempData.splice(idx, 1);
+            //fix if remove first tag, content area will be disappear
+            if (idx === 0) {
+                tempData[0].Active = "active";
+            }
         };
         ////remove a subTask to pb ---------------------------------------------------------------////
         $scope.RemoveSubTask = function (pbId, idx) {
