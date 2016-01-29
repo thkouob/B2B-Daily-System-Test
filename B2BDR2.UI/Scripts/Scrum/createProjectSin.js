@@ -7,12 +7,12 @@ var BacklogInfo2 = (function () {
     }
     return BacklogInfo2;
 })();
-var SubTask = (function () {
-    function SubTask(role, assignee) {
+var SubTask2 = (function () {
+    function SubTask2(role, assignee) {
         this.Role = role;
         this.Assignee = assignee;
     }
-    return SubTask;
+    return SubTask2;
 })();
 var PersonInfo = (function () {
     function PersonInfo(uid, name, groupID, membertype, memberTypeDesc) {
@@ -70,9 +70,9 @@ angular.module('scrumModule', [])
             { text: 'Tag3' }
         ];
         var defaultSubTask = [];
-        defaultSubTask.push(new SubTask("Dev-UI", ["Stella.W.Chen", "Sean.Z.Chen"]));
-        defaultSubTask.push(new SubTask("Dev-Service", ["Sin.C.Lin"]));
-        defaultSubTask.push(new SubTask("Test", ["Tina.Y.Lee"]));
+        defaultSubTask.push(new SubTask2("Dev-UI", ["Stella.W.Chen", "Sean.Z.Chen"]));
+        defaultSubTask.push(new SubTask2("Dev-Service", ["Sin.C.Lin"]));
+        defaultSubTask.push(new SubTask2("Test", ["Tina.Y.Lee"]));
         $scope.AddedProjectPBInfo = [];
         var projectPBInfoList = [];
         //Test data for added project PB infos

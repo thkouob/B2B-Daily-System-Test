@@ -2,8 +2,8 @@
     JiraNumber: string;
     JiraLink: string;
     Description: string;
-    SubTaskList: Array<SubTask>;
-    constructor(jNumber: string, jLink: string, desc: string, stList: Array<SubTask>) {
+    SubTaskList: Array<SubTask2>;
+    constructor(jNumber: string, jLink: string, desc: string, stList: Array<SubTask2>) {
         this.JiraNumber = jNumber;
         this.JiraLink = jLink;
         this.Description = desc;
@@ -11,7 +11,7 @@
     }
 }
 
-class SubTask {
+class SubTask2 {
     Role: string;
     Assignee: Array<string>;
     constructor(role: string, assignee: Array<string>) {
@@ -86,10 +86,10 @@ angular.module('scrumModule', [])
             { text: 'Tag2' },
             { text: 'Tag3' }
         ];
-        var defaultSubTask: Array<SubTask> = [];
-        defaultSubTask.push(new SubTask("Dev-UI", ["Stella.W.Chen","Sean.Z.Chen"]));
-        defaultSubTask.push(new SubTask("Dev-Service", ["Sin.C.Lin"]));
-        defaultSubTask.push(new SubTask("Test", ["Tina.Y.Lee"]));
+        var defaultSubTask: Array<SubTask2> = [];
+        defaultSubTask.push(new SubTask2("Dev-UI", ["Stella.W.Chen","Sean.Z.Chen"]));
+        defaultSubTask.push(new SubTask2("Dev-Service", ["Sin.C.Lin"]));
+        defaultSubTask.push(new SubTask2("Test", ["Tina.Y.Lee"]));
 
         $scope.AddedProjectPBInfo = [];
         var projectPBInfoList: Array<BacklogInfo2> = [];
