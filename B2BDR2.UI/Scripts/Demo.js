@@ -47,6 +47,11 @@ var DR2Person = (function () {
     }
     return DR2Person;
 })();
+var DR2Service = (function () {
+    function DR2Service() {
+    }
+    return DR2Service;
+})();
 angular.module('mvcapp', [])
     .constant('DR2Config', {
     PersonSessionKey: "personList"
@@ -136,7 +141,7 @@ angular.module('mvcapp', [])
     };
 })
     .factory('DR2Service', ['$http', '$q', 'DR2Config', 'storageHelper', function ($http, $q, DR2Config, storageHelper) {
-        var url = 'http://10.16.133.102:52332/prj/v1';
+        var url = '/base/GetPersonInfo';
         function GetOriginPersonData(url) {
             return $http.get(url + "/Person", { cache: true });
         }
