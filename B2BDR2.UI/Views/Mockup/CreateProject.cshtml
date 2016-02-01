@@ -225,6 +225,20 @@
     <option>Stella.W.Chen</option>
 </datalist>
 
+
+<script>
+    // !! js 為 mockup 示意暫時使用 !!
+    $(document).ready(function () {
+
+        $('#t_BackLog tr').on('click', SelectBackLogPB)
+
+        setTimeout(loading5Second, 3000);
+
+        fromStyle();
+    })
+</script>
+
+
 @section Modal{
     <div class="modal fade" id="modalCreateProjectConfirm" tabindex="-1" role="dialog" aria-labelledby="modalCreateProjectConfirmLabel">
         @Html.Partial("_CreateProjectConfirm")
