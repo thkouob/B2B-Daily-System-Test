@@ -1,6 +1,10 @@
-﻿function fromStyle() {
-    $('form label').addClass("animated fadeInUp");
-    $('form input').addClass("animated pulse");
+﻿function setAnimated() {
+    $('form label').addClass('animated fadeInUp');
+    $('form input').addClass('animated pulse');
+    //$('.btn-danger').addClass('animated rubberBand');
+    //$('.btn-primary').addClass('animated bounceIn');
+    //$('.btn-default').addClass('animated bounceIn');
+    $('.btn').addClass('animated bounceIn');
 }
 
 function loading5Second() {

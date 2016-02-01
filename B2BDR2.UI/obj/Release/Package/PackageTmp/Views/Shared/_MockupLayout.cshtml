@@ -19,6 +19,7 @@
     <link href="@Url.Content("~/bower_components/font-awesome/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/bower_components/ngTagsInput/ng-tags-input.bootstrap.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/bower_components/ngTagsInput/ng-tags-input.min.css")" rel="stylesheet" />
+    @RenderSection("styles", required: false)
 
     <!-- jQuery -->
     @Scripts.Render("~/bundles/jquery")
@@ -27,6 +28,10 @@
     <script src="@Url.Content("~/Scripts/angular.min.js")"></script>
     <script src="@Url.Content("~/bower_components/metisMenu/dist/metisMenu.min.js")"></script>
     <script src="@Url.Content("~/bower_components/ngTagsInput/ng-tags-input.js")"></script>
+    <script src="@Url.Content("~/Scripts/angular-ui/ui-bootstrap.js")"></script>
+    <script src="@Url.Content("~/Scripts/angular-ui/ui-bootstrap-tpls.js")"></script>
+    <script src="@Url.Content("~/Scripts/angular-animate.min.js")"></script>
+
 </head>
 <body>
     <div id="wrapper">
