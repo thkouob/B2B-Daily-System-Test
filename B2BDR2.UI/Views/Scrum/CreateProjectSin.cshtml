@@ -4,7 +4,6 @@
 }
 
 @section scripts{
-    <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/Scrum/createProjectSin.js"></script>
 }
 
@@ -114,7 +113,55 @@
                                 <!-- /.row -->
 
                                 <h2>Project {{projectNumber}} PBs</h2>
-          
+                                <div class="row" id="projectPBs">
+                                    <div class="col-lg-12">
+                                        <uib-tabset justtified="true">
+                                            <uib-tab ng-repeat="addedList in AddedProjectPBInfo" heading="{{addedList.JiraNumber}}">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <div class="btn-group pull-right">
+                                                            <button type="button" class="btn btn-danger" ng-click="RemovePB($index)"><span class="glyphicon glyphicon-remove"></span>&nbsp;Remove</button>
+                                                        </div>
+                                                        <h4>{{addedList.Description}}</h4>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Role</th>
+                                                                    <th>Assignee</th>
+                                                                    <th>AssigneeText</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="subTask in addedList.SubTaskList">
+                                                                    <td>{{subTask.Role}}</td>
+                                                                    <td>
+                                                                        <tags-input ng-model="subTask.Assignee"
+                                                                                    placeholder="Add a member"
+                                                                                    add-from-autocomplete-only="true"
+                                                                                    on-tag-added="tagAdded($tag)"
+                                                                                    on-tag-removed="tagRemoved($tag)"
+                                                                                    key-property="UID"
+                                                                                    display-property="Name">
+                                                                            <auto-complete source="LoadPersonData($query)"
+                                                                                           min-length="0"
+                                                                                           debounce-delay="0"
+                                                                                           max-results-to-show="10"></auto-complete>
+
+                                                                        </tags-input>
+                                                                    </td>
+                                                                    <td>{{subTask.Assignee}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </uib-tab>
+                                        </uib-tabset>
+                                    </div>
+                                </div>
+
                                 <div class="row" id="projectPBs">
                                     <div class="col-lg-12">
                                         <ul class="nav nav-tabs">
@@ -137,18 +184,28 @@
                                                                 <tr>
                                                                     <th>Role</th>
                                                                     <th>Assignee</th>
-                                                                    <th>AssigneeTag</th>
+                                                                    <th>AssigneeText</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <tr ng-repeat="subTask in addedList.SubTaskList">
                                                                     <td>{{subTask.Role}}</td>
-                                                                    <td>{{subTask.Assignee}}</td>
                                                                     <td>
-                                                                        <tags-input ng-model="subTask.Assignee" placeholder="Add a member">
+                                                                        <tags-input ng-model="subTask.Assignee"
+                                                                                    placeholder="Add a member"
+                                                                                    add-from-autocomplete-only="true"
+                                                                                    on-tag-added="tagAdded($tag)"
+                                                                                    on-tag-removed="tagRemoved($tag)"
+                                                                                    key-property="UID"
+                                                                                    display-property="Name">
+                                                                            <auto-complete source="LoadPersonData($query)"
+                                                                                           min-length="0"
+                                                                                           debounce-delay="0"
+                                                                                           max-results-to-show="10"></auto-complete>
 
                                                                         </tags-input>
                                                                     </td>
+                                                                    <td>{{subTask.Assignee}}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -160,7 +217,7 @@
                                 </div>
 
                                 <!-- /.row -->
-                                
+
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <button class="btn btn-primary btn-lg btn-block" onclick="window.document.body.onbeforeunload = null; return true;">Create</button>
@@ -177,6 +234,6 @@
             </div>
             <!-- /.row -->
         </div>
-        
+
     </div>
 </div>

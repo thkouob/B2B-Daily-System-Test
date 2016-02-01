@@ -3,12 +3,13 @@
     Layout = "~/Views/Shared/_MockupLayout.cshtml";
 }
 
-<style>
-    .nav-tabs li {
-        /*display: none;*/
-        transition: transform 1s;
-    }
-</style>
+@section styles{
+    <link href="~/Content/spinkit.css" rel="stylesheet" />
+}
+
+@section scripts{
+    <script src="~/Scripts/Mockup/CreateProject.js"></script>
+}
 
 <div class="container-fluid">
     <div class="row">
@@ -85,7 +86,23 @@
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
-                                        <table id="t_BackLog" class="table table-hover">
+                                        <!-- Loading... -->
+                                        <div class="sk-circle" id="iconLoading">
+                                            <div class="sk-circle1 sk-child"></div>
+                                            <div class="sk-circle2 sk-child"></div>
+                                            <div class="sk-circle3 sk-child"></div>
+                                            <div class="sk-circle4 sk-child"></div>
+                                            <div class="sk-circle5 sk-child"></div>
+                                            <div class="sk-circle6 sk-child"></div>
+                                            <div class="sk-circle7 sk-child"></div>
+                                            <div class="sk-circle8 sk-child"></div>
+                                            <div class="sk-circle9 sk-child"></div>
+                                            <div class="sk-circle10 sk-child"></div>
+                                            <div class="sk-circle11 sk-child"></div>
+                                            <div class="sk-circle12 sk-child"></div>
+                                        </div>
+                                        <!-- Loading... -->
+                                        <table id="t_BackLog" class="table table-hover" style="display:none">
                                             <tbody>
                                                 <tr>
                                                     <td><a href="http://jira/browse/TCBB-9679" target="_blank">TCBB-9679</a></td>
@@ -179,9 +196,9 @@
 
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="button" 
-                                        class="btn btn-primary btn-lg btn-block" 
-                                        data-toggle="modal" 
+                                <button type="button"
+                                        class="btn btn-primary btn-lg btn-block"
+                                        data-toggle="modal"
                                         data-target="#modalCreateProjectConfirm"
                                         onclick="ReciprocalAccept();">
                                     Create
@@ -208,44 +225,6 @@
     <option>Stella.W.Chen</option>
 </datalist>
 
-<script>
-    // !! js 為 mockup 示意暫時使用 !!
-    $(document).ready(function () {
-
-        $('#t_BackLog tr').on('click', function () {
-            var $this = $(this);
-            $this.fadeOut();
-
-            AddTabNav("54321");
-            AddTabContent("54321", "Add the pb into Project");
-
-            // 暫時判斷法
-            if ($('#t_BackLog tr:visible').length == 1) {
-                $('#t_BackLog').append("<div class=\"well text-center\"><h5>CLEAR!</h5></div>")
-            }
-        })
-    })
-
-    function AddTabNav(pbNumber) {
-        $('#projectPBs').find('.nav-tabs').append('<li><a href="#TCBB0001" data-toggle="tab">TCBB689</a></li>');
-    }
-
-    function ReciprocalAccept() {
-        var index = 5;
-        var myinterval = setInterval(function () {
-            index--;
-            var $btAccept = $('#bt_accept');
-            var countSpan = $('#bt_accept').find('span');
-            countSpan.text("(" + (index).toString() + ")");
-            if (index == 0) {
-                $btAccept.removeClass("disabled");
-                countSpan.remove();
-                clearInterval(myinterval);
-            }
-        }, 1000);
-    }
-</script>
-
 @section Modal{
     <div class="modal fade" id="modalCreateProjectConfirm" tabindex="-1" role="dialog" aria-labelledby="modalCreateProjectConfirmLabel">
         @Html.Partial("_CreateProjectConfirm")
@@ -254,7 +233,8 @@
 }
 
 @helper AssigneeTable()
-{  <table class="table">
+{
+    <table class="table">
         <thead>
             <tr>
                 <th>Role</th>
