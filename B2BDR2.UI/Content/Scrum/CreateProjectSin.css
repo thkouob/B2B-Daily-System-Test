@@ -1,7 +1,4 @@
-﻿body {
-}
-
-.nav-tabs li {
+﻿.nav-tabs li {
     /*display: none;*/
     transition: transform 1s;
 }

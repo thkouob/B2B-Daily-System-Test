@@ -36,7 +36,134 @@ var JIRAStatus;
     JIRAStatus[JIRAStatus["done"] = 2] = "done";
     JIRAStatus[JIRAStatus["error"] = 3] = "error";
 })(JIRAStatus || (JIRAStatus = {}));
+var DR2Person = (function () {
+    function DR2Person(firstName, groupId, memberTypeDesc, memberType, name, titile, uID) {
+        this.FirstName = firstName;
+        this.GroupId = groupId;
+        this.MemberType = memberType;
+        this.Name = name;
+        this.Titile = titile;
+        this.UID = uID;
+    }
+    return DR2Person;
+})();
 angular.module('mvcapp', [])
+    .constant('DR2Config', {
+    PersonSessionKey: "personList"
+})
+    .filter('fullToUidName', ['DR2Service', function (DR2Service) {
+        var data = null, serviceInvoked = false;
+        function logicData(input) {
+            if (data !== null) {
+                angular.forEach(data, function (value, key) {
+                    if (angular.isString(input) && input.toLowerCase() === value.Name.toLowerCase()) {
+                        return input = value.UID;
+                    }
+                });
+            }
+            return input;
+        }
+        var resultFn = function (input) {
+            if (data === null) {
+                if (!serviceInvoked) {
+                    serviceInvoked = true;
+                    DR2Service.GetPersonList.then(function (personList) {
+                        data = personList;
+                    }, function () {
+                        data = null;
+                    });
+                }
+                return input;
+            }
+            else {
+                return logicData(input);
+            }
+        };
+        //https://docs.angularjs.org/guide/filter
+        resultFn.$stateful = true;
+        return resultFn;
+    }])
+    .filter('uidToFullName', ['DR2Service', function (DR2Service) {
+        var data = null, serviceInvoked = false;
+        function logicData(input) {
+            if (data !== null) {
+                angular.forEach(data, function (value, key) {
+                    if (angular.isString(input) && input.toLocaleLowerCase() == value.UID.toLocaleLowerCase()) {
+                        return input = value.Name;
+                    }
+                });
+            }
+            return input;
+        }
+        var resultFn = function (input) {
+            if (data === null) {
+                if (!serviceInvoked) {
+                    serviceInvoked = true;
+                    DR2Service.GetPersonList.then(function (personList) {
+                        data = personList;
+                    }, function () {
+                        data = null;
+                    });
+                }
+                return input;
+            }
+            else {
+                return logicData(input);
+            }
+        };
+        //https://docs.angularjs.org/guide/filter
+        resultFn.$stateful = true;
+        return resultFn;
+    }])
+    .factory('storageHelper', function () {
+    function GetSessionStorageItem(key, isString) {
+        if (isString === void 0) { isString = false; }
+        var data = window.sessionStorage.getItem(key);
+        if (isString) {
+            return data;
+        }
+        return angular.fromJson(data);
+    }
+    function SetSessionStorageItem(key, data) {
+        if (!angular.isString(data)) {
+            data = angular.toJson(data);
+        }
+        window.sessionStorage.setItem(key, data);
+    }
+    return {
+        GetSessionStorageItem: GetSessionStorageItem,
+        SetSessionStorageItem: SetSessionStorageItem
+    };
+})
+    .factory('DR2Service', ['$http', '$q', 'DR2Config', 'storageHelper', function ($http, $q, DR2Config, storageHelper) {
+        var url = 'http://10.16.133.102:52332/prj/v1';
+        function GetOriginPersonData(url) {
+            return $http.get(url + "/Person", { cache: true });
+        }
+        function GetPersonList(url) {
+            var deffered = $q.defer();
+            var personInfo = storageHelper.GetSessionStorageItem(DR2Config.PersonSessionKey);
+            if (personInfo === undefined || personInfo === null) {
+                GetOriginPersonData(url).then(function (response) {
+                    var personList = [];
+                    angular.forEach(response.data, function (value, key) {
+                        personList.push(new DR2Person(value.FirstName, value.GroupId, value.MemberTypeDesc, value.MemberType, value.Name, value.Titile, value.UID));
+                    });
+                    storageHelper.SetSessionStorageItem(DR2Config.PersonSessionKey, personList);
+                    deffered.resolve(personList);
+                }, function (response) {
+                    deffered.reject(response);
+                });
+            }
+            else {
+                deffered.resolve(angular.fromJson(personInfo));
+            }
+            return deffered.promise;
+        }
+        return {
+            GetPersonList: GetPersonList(url)
+        };
+    }])
     .factory('JiraService', ['$http', '$q', function ($http, $q) {
         var url = '/Base/GetJIRABacklogInfo';
         var deferred = $q.defer();
@@ -61,12 +188,6 @@ angular.module('mvcapp', [])
         };
     }])
     .factory('projectService', ['$http', function ($http) {
-        //TODO Get API Data
-        //$http.get('Url')
-        //    .then(function (response) {
-        //    }, function (response) {
-        //
-        //    });
         var mockData = [];
         mockData.push(new ProjectStatus(12815, "B2B_WWW Newkit phase I", "Sean.Z.Chen", "2015/12/19", JIRAStatus.process, DRStatus.done));
         mockData.push(new ProjectStatus(12778, "B2B_WWW 2016 CW 2-4:BOM Phase III & Prodcut Fix", "Jac.T.Wang", "2015/12/18", JIRAStatus.done, DRStatus.done));
@@ -76,7 +197,7 @@ angular.module('mvcapp', [])
             DataList: mockData
         };
     }])
-    .controller('indexCtrl', ['$scope', '$sce', 'projectService', 'JiraService', function ($scope, $sce, projectService, JiraService) {
+    .controller('indexCtrl', ['$scope', '$sce', 'projectService', 'JiraService', '$filter', 'DR2Service', function ($scope, $sce, projectService, JiraService, $filter, DR2Service) {
         $scope.DataList = projectService.DataList;
         $scope.GetTdClass = function (value) {
             //https://docs.angularjs.org/api/ng/service/$sce
@@ -89,5 +210,6 @@ angular.module('mvcapp', [])
         JiraService.GetBacklog.then(function (data) {
             console.info(data);
         });
+        $scope.uid = 'll9v';
     }]);
 //# sourceMappingURL=Demo.js.map

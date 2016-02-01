@@ -57,6 +57,7 @@
                                 <th>Project#</th>
                                 <th>Project Name</th>
                                 <th>SM</th>
+                                <th>SMUID</th>
                                 <th>Created Date</th>
                                 <th>JIRA Status</th>
                                 <th>DR Status</th>
@@ -68,6 +69,7 @@
                                 <td>{{item.ProjectNumber}}</td>
                                 <td>{{item.ProjectName}}</td>
                                 <td>{{item.SMName}}</td>
+                                <td>{{item.SMName|fullToUidName}}</td>
                                 <td class="center">{{item.CreateDate}}</td>
                                 <td class="center" ng-bind-html="GetTdClass(item.JIRAStatus)"></td>
                                 <td class="center" ng-bind-html="GetTdClass(item.DRStatus)"></td>

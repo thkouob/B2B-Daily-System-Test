@@ -565,6 +565,7 @@
     <Content Include="bower_components\ngTagsInput\ng-tags-input.js" />
     <Content Include="bower_components\ngTagsInput\ng-tags-input.min.css" />
     <Content Include="bower_components\ngTagsInput\ng-tags-input.min.js" />
+    <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ProjectStatus.css" />
@@ -576,6 +577,8 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\angular-animate.js" />
+    <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-route.min.js" />
@@ -897,6 +900,7 @@
     <Content Include="Scripts\Demo.js.map">
       <DependentUpon>Demo.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\angular-animate.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Demo.js">
       <DependentUpon>Demo.ts</DependentUpon>
@@ -909,6 +913,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Mockup\CreateProject.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\morris-data.js" />
     <Content Include="Scripts\respond.js" />
