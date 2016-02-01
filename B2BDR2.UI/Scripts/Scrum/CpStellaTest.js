@@ -37,7 +37,7 @@ var SubTask = (function () {
     }
     return SubTask;
 })();
-var tpscpPractice = angular.module("jiraApp", []);
+var tpscpPractice = angular.module("jiraApp", ['ngTagsInput']);
 tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http, $q) {
         ////getBackLog
         var url = '/Base/GetJIRABacklogInfo';
@@ -92,7 +92,7 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                 $scope.BacklogList.splice(idx, 1);
             }
             else {
-                tempData.push(new ProjectB($scope.BacklogList[idx].Key, $scope.BacklogList[idx].Summary, "active", tempSubTask));
+                tempData.push(new ProjectB($scope.BacklogList[idx].Key, $scope.BacklogList[idx].Summary, "in active", tempSubTask));
                 tempBackLog.push($scope.BacklogList[idx]);
                 $scope.BacklogList.splice(idx, 1);
             }
@@ -100,7 +100,7 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
         };
         function GetBackLogWithSubTask(key) {
             var subTaskInfoList = [];
-            subTaskInfoList.push(new SubTask(key, "UI", "(Please use 'Edit' to add assignee!)"), new SubTask(key, "Service", null), new SubTask(key, "Test", null));
+            subTaskInfoList.push(new SubTask(key, "UI", null), new SubTask(key, "Service", null), new SubTask(key, "Test", null));
             return subTaskInfoList;
         }
         ////add a subTask to pb ---------------------------------------------------------------////
@@ -125,11 +125,23 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                     }
                 }
             });
+            debugger;
             tempData.splice(idx, 1);
             //fix if remove first tag, content area will be disappear
-            if (idx === 0) {
-                tempData[0].Active = "active";
+            if (tempData[0].Active === "") {
+                tempData[0].Active = "in active";
             }
+        };
+        //while click <li> update class active, then the tag will work correct when remove it. 
+        $scope.UpdateActiveClass = function (idx) {
+            angular.forEach($scope.ProjectList, function (value, key) {
+                if (value.Key === $scope.ProjectList[idx].Id) {
+                    value.Active = "in active";
+                }
+                else {
+                    value.Active = "";
+                }
+            });
         };
         ////remove a subTask to pb ---------------------------------------------------------------////
         $scope.RemoveSubTask = function (pbId, idx) {
@@ -141,6 +153,20 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                     }
                 }
             });
+        };
+        ////Assignee tags display ---------------------------------------------------------------////
+        $scope.loadAssigneeTag = function ($query) {
+            var countries = $scope.MembersList;
+            return countries.filter(function (country) {
+                return country.Name.toLowerCase().indexOf($query.toLowerCase()) != -1
+                    || country.UID.toLowerCase().indexOf($query.toLowerCase()) != -1;
+            });
+        };
+        $scope.tagAdded = function (tag) {
+            $scope.log.push('Added: ' + tag.text);
+        };
+        $scope.tagRemoved = function (tag) {
+            $scope.log.push('Removed: ' + tag.text);
         };
     }]);
 //# sourceMappingURL=CpStellaTest.js.map
