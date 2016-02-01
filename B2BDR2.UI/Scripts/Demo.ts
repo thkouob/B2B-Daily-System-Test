@@ -67,7 +67,150 @@ enum JIRAStatus {
     error = 3
 }
 
+interface StatefulFunction {
+    (): string;
+    $stateful: boolean;
+}
+
+interface IDR2Person {
+    FirstName: string,
+    GroupId: number,
+    MemberTypeDesc: string,
+    MemberType: number,
+    Name: string,
+    Titile: string,
+    UID: string
+}
+
+class DR2Person implements IDR2Person {
+    FirstName: string;
+    GroupId: number;
+    MemberTypeDesc: string;
+    MemberType: number;
+    Name: string;
+    Titile: string;
+    UID: string;
+    constructor(firstName: string,
+        groupId: number,
+        memberTypeDesc: string,
+        memberType: number,
+        name: string,
+        titile: string,
+        uID: string) {
+        this.FirstName = firstName;
+        this.GroupId = groupId;
+        this.MemberType = memberType;
+        this.Name = name;
+        this.Titile = titile;
+        this.UID = uID;
+    }
+}
+
 angular.module('mvcapp', [])
+    .constant('DR2Config', {
+        PersonSessionKey: "personList"
+    })
+    .filter('fullToUidName', ['DR2Service', function (DR2Service) {
+        var data = null, serviceInvoked = false;
+
+        function logicData(input) {
+            if (data !== null) {
+                angular.forEach(data, function (value: IDR2Person, key) {
+                    if (input.toLowerCase() === value.Name.toLowerCase()) {
+                        return input = value.UID;
+                    }
+                });
+            }
+            return input;
+        }
+
+        var resultFn = <StatefulFunction>function (input) {
+            if (data === null) {
+                if (!serviceInvoked) {
+                    serviceInvoked = true;
+                    DR2Service.GetPersonList.then(function (personList) {
+                        data = personList;
+                    }, function () {
+                        data = null;
+                    })
+                }
+                return input;
+            } else {
+                return logicData(input);
+            }
+        };
+        //https://docs.angularjs.org/guide/filter
+        resultFn.$stateful = true;
+        return resultFn;
+    }])
+    .filter('uidToFullName', ['DR2Service', function (DR2Service) {
+        var data = null, serviceInvoked = false;
+
+        function logicData(input) {
+            if (data !== null) {
+                angular.forEach(data, function (value: IDR2Person, key) {
+                    if (input.toLocaleLowerCase == value.UID.toLocaleLowerCase()) {
+                        return value.Name;
+                    }
+                });
+            }
+            return input;
+        }
+
+        var resultFn = <StatefulFunction>function (input) {
+            if (data === null) {
+                if (!serviceInvoked) {
+                    serviceInvoked = true;
+                    DR2Service.GetPersonList.then(function (personList) {
+                        data = personList;
+                    }, function () {
+                        data = null;
+                    })
+                }
+                return input;
+            } else {
+                return logicData(input);
+            }
+        };
+        //https://docs.angularjs.org/guide/filter
+        resultFn.$stateful = true;
+        return resultFn;
+    }])
+    .factory('DR2Service', ['$http', '$q', 'DR2Config', function ($http: ng.IHttpService, $q: ng.IQService, DR2Config) {
+        var url = 'http://10.16.133.102:52332/prj/v1';
+
+        var deffered = $q.defer();
+
+        function GetOriginPersonData(url) {
+            return $http.get(`${url}/Person`, { cache: true });
+        }
+
+        function GetPersonList(url) {
+            var personInfo = window.sessionStorage.getItem(DR2Config.PersonSessionKey);
+
+            if (personInfo === undefined || personInfo === null) {
+                GetOriginPersonData(url).then(function (response) {
+                    var personList = [];
+                    angular.forEach(response.data, function (value: IDR2Person, key) {
+                        personList.push(
+                            new DR2Person(value.FirstName, value.GroupId, value.MemberTypeDesc,
+                                value.MemberType, value.Name, value.Titile, value.UID));
+                    });
+                    window.sessionStorage.setItem(DR2Config.PersonSessionKey, angular.toJson(personList));
+                    deffered.resolve(personList);
+                }, function (response) {
+                    deffered.reject(response);
+                });
+            } else {
+                deffered.resolve(angular.fromJson(personInfo));
+            }
+
+            return deffered.promise;
+        }
+        return {
+            GetPersonList: GetPersonList(url)
+        }
+    }])
     .factory('JiraService', ['$http', '$q', function ($http: ng.IHttpService, $q: ng.IQService) {
         var url = '/Base/GetJIRABacklogInfo';
         var deferred = $q.defer();
@@ -134,4 +277,5 @@ angular.module('mvcapp', [])
         JiraService.GetBacklog.then(function (data) {
             console.info(data);
         });
+
     }]);
