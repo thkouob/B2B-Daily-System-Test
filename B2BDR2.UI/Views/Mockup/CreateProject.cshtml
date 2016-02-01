@@ -239,7 +239,13 @@
         })
 
         setTimeout(loading5Second, 5000);
+
+        fromStyle();
     })
+
+    function fromStyle() {
+        $('form .form-group').addClass("animated fadeInUp");
+    }
 
     function loading5Second() {
         $('#iconLoading').hide();
