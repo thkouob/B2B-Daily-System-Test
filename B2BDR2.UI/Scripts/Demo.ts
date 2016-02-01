@@ -176,17 +176,38 @@ angular.module('mvcapp', [])
         resultFn.$stateful = true;
         return resultFn;
     }])
-    .factory('DR2Service', ['$http', '$q', 'DR2Config', function ($http: ng.IHttpService, $q: ng.IQService, DR2Config) {
+    .factory('storageHelper', function () {
+        function GetSessionStorageItem(key, isString: boolean = false) {
+            var data = window.sessionStorage.getItem(key);
+            if (isString) {
+                return data;
+            }
+            return angular.fromJson(data);
+        }
+
+        function SetSessionStorageItem(key, data: any) {
+            if (!angular.isString(data)) {
+                data = angular.toJson(data)
+            }
+            window.sessionStorage.setItem(key, data);
+        }
+
+        return {
+            GetSessionStorageItem: GetSessionStorageItem,
+            SetSessionStorageItem: SetSessionStorageItem
+        }
+    })
+    .factory('DR2Service', ['$http', '$q', 'DR2Config', 'storageHelper', function ($http: ng.IHttpService, $q: ng.IQService, DR2Config, storageHelper) {
         var url = 'http://10.16.133.102:52332/prj/v1';
 
         var deffered = $q.defer();
-
+        
         function GetOriginPersonData(url) {
             return $http.get(`${url}/Person`, { cache: true });
         }
 
         function GetPersonList(url) {
-            var personInfo = window.sessionStorage.getItem(DR2Config.PersonSessionKey);
+            var personInfo = storageHelper.GetSessionStorageItem(DR2Config.PersonSessionKey);
 
             if (personInfo === undefined || personInfo === null) {
                 GetOriginPersonData(url).then(function (response) {
@@ -196,7 +217,7 @@ angular.module('mvcapp', [])
                             new DR2Person(value.FirstName, value.GroupId, value.MemberTypeDesc,
                                 value.MemberType, value.Name, value.Titile, value.UID));
                     });
-                    window.sessionStorage.setItem(DR2Config.PersonSessionKey, angular.toJson(personList));
+                    storageHelper.SetSessionStorageItem(DR2Config.PersonSessionKey, personList);
                     deffered.resolve(personList);
                 }, function (response) {
                     deffered.reject(response);
@@ -207,6 +228,7 @@ angular.module('mvcapp', [])
 
             return deffered.promise;
         }
+
         return {
             GetPersonList: GetPersonList(url)
         }
@@ -241,13 +263,6 @@ angular.module('mvcapp', [])
     }])
     .factory('projectService', ['$http', function ($http: ng.IHttpService) {
 
-        //TODO Get API Data
-        //$http.get('Url')
-        //    .then(function (response) {
-        //    }, function (response) {
-        //
-        //    });
-
         var mockData: Array<ProjectStatus> = [];
 
         mockData.push(new ProjectStatus(12815, "B2B_WWW Newkit phase I", "Sean.Z.Chen", "2015/12/19", JIRAStatus.process, DRStatus.done));
@@ -259,7 +274,7 @@ angular.module('mvcapp', [])
             DataList: mockData
         }
     }])
-    .controller('indexCtrl', ['$scope', '$sce', 'projectService', 'JiraService', function ($scope, $sce: ng.ISCEService, projectService, JiraService) {
+    .controller('indexCtrl', ['$scope', '$sce', 'projectService', 'JiraService', '$filter', function ($scope, $sce: ng.ISCEService, projectService, JiraService, $filter) {
 
         $scope.DataList = projectService.DataList;
 
