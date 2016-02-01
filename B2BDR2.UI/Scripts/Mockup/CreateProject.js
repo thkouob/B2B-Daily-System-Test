@@ -1,26 +1,6 @@
-﻿// !! js 為 mockup 示意暫時使用 !!
-$(document).ready(function () {
-
-    $('#t_BackLog tr').on('click', function () {
-        var $this = $(this);
-        $this.fadeOut();
-
-        AddTabNav("54321");
-        AddTabContent("54321", "Add the pb into Project");
-
-        // 暫時判斷法
-        if ($('#t_BackLog tr:visible').length == 1) {
-            $('#t_BackLog').append("<div class=\"well text-center\"><h5>CLEAR!</h5></div>")
-        }
-    })
-
-    setTimeout(loading5Second, 5000);
-
-    fromStyle();
-})
-
-function fromStyle() {
-    $('form .form-group').addClass("animated fadeInUp");
+﻿function fromStyle() {
+    $('form label').addClass("animated fadeInUp");
+    $('form input').addClass("animated pulse");
 }
 
 function loading5Second() {
@@ -45,4 +25,16 @@ function ReciprocalAccept() {
             clearInterval(myinterval);
         }
     }, 1000);
+}
+
+function SelectBackLogPB() {
+    var $this = $(this);
+    $this.addClass('animated zoomOutDown');
+    $this.delay(350).fadeOut();
+    AddTabNav();
+
+    // 暫時判斷法
+    if ($('#t_BackLog tr:visible').length == 1) {
+        $('#t_BackLog').append("<div class=\"well text-center\"><h5>CLEAR!</h5></div>")
+    }
 }

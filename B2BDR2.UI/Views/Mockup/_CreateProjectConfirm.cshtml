@@ -2,18 +2,44 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="createSubTaskLabel">Project ##19999## ##Project Name##</h4>
+            <h4 class="modal-title" id="createSubTaskLabel">Project 19999</h4>
+            <p>Fix the deadlock issue of Sciquest order process app.</p>
         </div>
         <div class="modal-body">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    ##Group## - ##SM##
+                    SSL - Carboon.C.Wu
                 </div>
                 <div class="panel-body">
-                    <p>##TCBB-9682## ##PB Name ## (Leo, Stella, Tina)</p>
-                    <p>##TCBB-9232## ##PB Name ## (Sin, Howard, Jarvis)</p>
-                    <p>##TCBB-9643## ##PB Name ## (Jarvis, Sean, Jonathan)</p>
-                    <p>##TCBB-9612## ##PB Name ## (Jarvis, Jarvis)</p>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>PB</th>
+                                <th>Name</th>
+                                <th>Assignee</th>
+                            </tr>
+                            <tr>
+                                <td>TCBB-9682</td>
+                                <td>TEST the Project create</td>
+                                <td>Leo, Stella, Tina</td>
+                            </tr>
+                            <tr>
+                                <td>TCBB-9232</td>
+                                <td>Fix the deadlock issue of Sciquest order process app</td>
+                                <td>Sin, Howard, Jarvis</td>
+                            </tr>
+                            <tr>
+                                <td>TCBB-9643</td>
+                                <td>TEST the Project create</td>
+                                <td>Jarvis, Sean, Jonathan</td>
+                            </tr>
+                            <tr>
+                                <td>TCBB-9612</td>
+                                <td>SSL - Re-structure API URL (phase 2)</td>
+                                <td>Jarvis, Jarvis</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -24,3 +50,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('.modal .modal-title').addClass('animated zoomIn');
+    $('.modal .modal-header p').addClass('animated zoomIn');
+    $('.modal .modal-body .panel-heading').addClass('animated slideInDown');
+    $('.modal .table tr').addClass('animated slideInDown');
+</script>
