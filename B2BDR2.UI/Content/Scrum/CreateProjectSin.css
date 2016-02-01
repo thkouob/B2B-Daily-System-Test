@@ -1,4 +1,9 @@
 ﻿.nav-tabs li {
-    /*display: none;*/
-    transition: transform 1s;
+    cursor:pointer;
 }
+
+.thwid1{width:20%;}
+
+.thwid2{width:60%;}
+
+.thwid3{width:20%;}
