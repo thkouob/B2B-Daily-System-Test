@@ -7,6 +7,11 @@
     <script src="~/Scripts/Scrum/createProjectSin.js"></script>
 }
 
+@section styles{
+    <link href="~/Content/spinkit.css" rel="stylesheet" />
+    <link href="~/Content/Scrum/CreateProjectSin.css" rel="stylesheet" />
+}
+
 <div ng-app="scrumModule">
     <div ng-controller="createProjectCtrl">
         <div class="container-fluid">
@@ -87,7 +92,23 @@
                                     <div class="col-lg-12">
                                         <div class="panel panel-default">
                                             <div class="panel-body">
-                                                <table class="table table-hover">
+                                                <!-- Loading animation -->
+                                                <div class="sk-circle" id="iconLoading">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
+                                                </div>
+                                                <!-- Data display -->
+                                                <table id="t_BackLog" class="table table-hover" style="display:none">
                                                     <thead>
                                                         <tr>
                                                             <th></th>
@@ -111,17 +132,19 @@
                                     <!-- /.col-lg-12 -->
                                 </div>
                                 <!-- /.row -->
-
                                 <h2>Project {{projectNumber}} PBs</h2>
+
                                 <div class="row" id="projectPBs">
                                     <div class="col-lg-12">
                                         <uib-tabset justtified="true">
-                                            <uib-tab ng-repeat="addedList in AddedProjectPBInfo" heading="{{addedList.JiraNumber}}">
+                                            <uib-tab ng-repeat="addedList in AddedProjectPBInfo" active="tab.active" disable="tab.disabled">
+                                                <uib-tab-heading>
+                                                    <div>
+                                                        {{addedList.JiraNumber}}&nbsp;<a ng-click="RemovePB($index)"><i class="fa fa-remove text-danger"></i></a>
+                                                    </div>
+                                                </uib-tab-heading>
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading">
-                                                        <div class="btn-group pull-right">
-                                                            <button type="button" class="btn btn-danger" ng-click="RemovePB($index)"><span class="glyphicon glyphicon-remove"></span>&nbsp;Remove</button>
-                                                        </div>
                                                         <h4>{{addedList.Description}}</h4>
                                                     </div>
                                                     <div class="panel-body">
@@ -130,13 +153,13 @@
                                                                 <tr>
                                                                     <th>Role</th>
                                                                     <th>Assignee</th>
-                                                                    <th>AssigneeText</th>
+                                                                    <th>&nbsp;</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <tr ng-repeat="subTask in addedList.SubTaskList">
-                                                                    <td>{{subTask.Role}}</td>
-                                                                    <td>
+                                                                    <td class="thwid1">{{subTask.Role}}</td>
+                                                                    <td class="thwid2">
                                                                         <tags-input ng-model="subTask.Assignee"
                                                                                     placeholder="Add a member"
                                                                                     add-from-autocomplete-only="true"
@@ -151,7 +174,7 @@
 
                                                                         </tags-input>
                                                                     </td>
-                                                                    <td>{{subTask.Assignee}}</td>
+                                                                    <td class="thwid3">&nbsp;</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -159,60 +182,6 @@
                                                 </div>
                                             </uib-tab>
                                         </uib-tabset>
-                                    </div>
-                                </div>
-
-                                <div class="row" id="projectPBs">
-                                    <div class="col-lg-12">
-                                        <ul class="nav nav-tabs">
-                                            <li ng-repeat="addedList in AddedProjectPBInfo" ng-class="{active: $index == 0}">
-                                                <a href="#tab{{$index + 1}}" data-toggle="tab">{{addedList.JiraNumber}}</a>
-                                            </li>
-                                        </ul>
-                                        <div class="tab-content">
-                                            <div class="tab-pane fade in" id="tab{{$index + 1}}" ng-repeat="addedList in AddedProjectPBInfo" ng-class="{active: $index == 0}">
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading">
-                                                        <div class="btn-group pull-right">
-                                                            <button type="button" class="btn btn-danger" ng-click="RemovePB($index)"><span class="glyphicon glyphicon-remove"></span>&nbsp;Remove</button>
-                                                        </div>
-                                                        <h4>{{addedList.Description}}</h4>
-                                                    </div>
-                                                    <div class="panel-body">
-                                                        <table class="table table-hover">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Role</th>
-                                                                    <th>Assignee</th>
-                                                                    <th>AssigneeText</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr ng-repeat="subTask in addedList.SubTaskList">
-                                                                    <td>{{subTask.Role}}</td>
-                                                                    <td>
-                                                                        <tags-input ng-model="subTask.Assignee"
-                                                                                    placeholder="Add a member"
-                                                                                    add-from-autocomplete-only="true"
-                                                                                    on-tag-added="tagAdded($tag)"
-                                                                                    on-tag-removed="tagRemoved($tag)"
-                                                                                    key-property="UID"
-                                                                                    display-property="Name">
-                                                                            <auto-complete source="LoadPersonData($query)"
-                                                                                           min-length="0"
-                                                                                           debounce-delay="0"
-                                                                                           max-results-to-show="10"></auto-complete>
-
-                                                                        </tags-input>
-                                                                    </td>
-                                                                    <td>{{subTask.Assignee}}</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
 

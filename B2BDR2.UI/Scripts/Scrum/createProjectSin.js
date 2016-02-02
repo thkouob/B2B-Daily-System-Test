@@ -3,16 +3,16 @@ var BacklogInfo2 = (function () {
         this.JiraNumber = jNumber;
         this.JiraLink = jLink;
         this.Description = desc;
-        this.SubTaskList = [new SubTask2("Dev-UI", []), new SubTask2("Dev-Service", []), new SubTask2("Test", [])];
+        this.SubTaskList = [new SubTaskInfo("Dev-UI", []), new SubTaskInfo("Dev-Service", []), new SubTaskInfo("Test", [])];
     }
     return BacklogInfo2;
 })();
-var SubTask2 = (function () {
-    function SubTask2(role, assignee) {
+var SubTaskInfo = (function () {
+    function SubTaskInfo(role, assignee) {
         this.Role = role;
         this.Assignee = assignee;
     }
-    return SubTask2;
+    return SubTaskInfo;
 })();
 var PersonInfo = (function () {
     function PersonInfo(uid, name, title, firstName, groupID, membertype, memberTypeDesc) {
@@ -44,6 +44,7 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate'])
     }])
     .factory('JIRAService', ['$http', function ($http) {
         var getPersonUrl = 'http://10.16.133.102:52332/prj/v1/Person';
+        var getBackLogUrl = 'http://10.16.133.102:3000/jiraapi/issues';
         function GetPersonData(url) {
             var personInfoList = [];
             $http.get(url)
@@ -53,12 +54,30 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate'])
                     personInfoList.push(new PersonInfo(value.UID, value.Name, value.Title, value.FirstName, value.GroupID, value.MemberType, value.MemberTypeDesc));
                 });
             }, function (error) {
+                //// write log / show error alert.
                 console.log(error);
             });
             return personInfoList;
         }
+        function GetBackLogList(url) {
+            var backLogList = [];
+            $http.get(url)
+                .then(function (response) {
+                var result = response.data;
+                angular.forEach(result.data, function (value, key) {
+                    backLogList.push(new BacklogInfo2(value.key, "http://jira/browse/" + value.key, value.summary));
+                });
+                $('#iconLoading').hide();
+                $('#t_BackLog').fadeIn();
+            }, function (error) {
+                //// write log / show error alert.
+                console.log(error);
+            });
+            return backLogList;
+        }
         return {
-            GetPersonData: GetPersonData(getPersonUrl)
+            GetPersonData: GetPersonData(getPersonUrl),
+            GetBackLogList: GetBackLogList(getBackLogUrl)
         };
     }])
     .filter('personData', function () {
@@ -77,7 +96,7 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate'])
     function ($scope, $sce, $filter, DRService, JIRAService) {
         $scope.projectNumber;
         $scope.projectName;
-        $scope.BackLogList = DRService.BackLogList;
+        $scope.BackLogList = JIRAService.GetBackLogList;
         $scope.PersonData = JIRAService.GetPersonData;
         $scope.LoadPersonData = function (query) {
             return $filter('personData')($scope.PersonData, query);
@@ -85,19 +104,18 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate'])
         $scope.AddedProjectPBInfo = [];
         var projectPBInfoList = [];
         //Test data for added project PB infos
-        projectPBInfoList.push(new BacklogInfo2("TCBB-9397", "http://jira/browse/TCBB-9397", "facase to api phase I (Landing, Product)"));
-        projectPBInfoList.push(new BacklogInfo2("TCBB-9220", "http://jira/browse/TCBB-9220", "Support MS, MW, Stand alone sent in SciQuest app"));
+        //projectPBInfoList.push(new BacklogInfo2("TCBB-9397", "http://jira/browse/TCBB-9397", "facase to api phase I (Landing, Product)"));
+        //projectPBInfoList.push(new BacklogInfo2("TCBB-9220", "http://jira/browse/TCBB-9220", "Support MS, MW, Stand alone sent in SciQuest app"));
         $scope.AddedProjectPBInfo = projectPBInfoList;
         $scope.AddPB = function ($index) {
             var selectedPB = $scope.BackLogList[$index];
-            selectedPB.SubTaskList = [new SubTask2("Dev-UI", []), new SubTask2("Dev-Service", []), new SubTask2("Test", [])];
-            $scope.BackLogList.splice($index, 1);
+            selectedPB.SubTaskList = [new SubTaskInfo("Dev-UI", []), new SubTaskInfo("Dev-Service", []), new SubTaskInfo("Test", [])];
             $scope.AddedProjectPBInfo.push(selectedPB);
+            $scope.BackLogList.splice($index, 1);
         };
         $scope.RemovePB = function ($index) {
-            var removedPB = $scope.AddedProjectPBInfo[$index];
+            $scope.BackLogList.push($scope.AddedProjectPBInfo[$index]);
             $scope.AddedProjectPBInfo.splice($index, 1);
-            $scope.BackLogList.push(removedPB);
         };
     }]);
 //# sourceMappingURL=createProjectSin.js.map

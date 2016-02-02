@@ -106,6 +106,10 @@ class DR2Person implements IDR2Person {
     }
 }
 
+class DR2Service {
+    GetPersonList: Function;
+}
+
 angular.module('mvcapp', [])
     .constant('DR2Config', {
         PersonSessionKey: "personList"
@@ -116,7 +120,7 @@ angular.module('mvcapp', [])
         function logicData(input) {
             if (data !== null) {
                 angular.forEach(data, function (value: IDR2Person, key) {
-                    if (input.toLowerCase() === value.Name.toLowerCase()) {
+                    if (angular.isString(input) && input.toLowerCase() === value.Name.toLowerCase()) {
                         return input = value.UID;
                     }
                 });
@@ -144,13 +148,14 @@ angular.module('mvcapp', [])
         return resultFn;
     }])
     .filter('uidToFullName', ['DR2Service', function (DR2Service) {
+
         var data = null, serviceInvoked = false;
 
         function logicData(input) {
             if (data !== null) {
                 angular.forEach(data, function (value: IDR2Person, key) {
-                    if (input.toLocaleLowerCase == value.UID.toLocaleLowerCase()) {
-                        return value.Name;
+                    if (angular.isString(input) && input.toLocaleLowerCase() == value.UID.toLocaleLowerCase()) {
+                        return input = value.Name;
                     }
                 });
             }
@@ -198,15 +203,14 @@ angular.module('mvcapp', [])
         }
     })
     .factory('DR2Service', ['$http', '$q', 'DR2Config', 'storageHelper', function ($http: ng.IHttpService, $q: ng.IQService, DR2Config, storageHelper) {
-        var url = 'http://10.16.133.102:52332/prj/v1';
+        var url = '/base/GetPersonInfo';
 
-        var deffered = $q.defer();
-        
         function GetOriginPersonData(url) {
             return $http.get(`${url}/Person`, { cache: true });
         }
 
         function GetPersonList(url) {
+            var deffered = $q.defer();
             var personInfo = storageHelper.GetSessionStorageItem(DR2Config.PersonSessionKey);
 
             if (personInfo === undefined || personInfo === null) {
@@ -274,7 +278,7 @@ angular.module('mvcapp', [])
             DataList: mockData
         }
     }])
-    .controller('indexCtrl', ['$scope', '$sce', 'projectService', 'JiraService', '$filter', function ($scope, $sce: ng.ISCEService, projectService, JiraService, $filter) {
+    .controller('indexCtrl', ['$scope', '$sce', 'projectService', 'JiraService', '$filter', 'DR2Service', function ($scope, $sce: ng.ISCEService, projectService, JiraService, $filter, DR2Service) {
 
         $scope.DataList = projectService.DataList;
 
@@ -293,4 +297,5 @@ angular.module('mvcapp', [])
             console.info(data);
         });
 
+        $scope.uid = 'll9v';
     }]);
