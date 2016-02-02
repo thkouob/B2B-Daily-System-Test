@@ -16,7 +16,7 @@ function AddTabNav(pbNumber) {
     $('#projectPBs').find('.nav-tabs').append('<li><a href="#TCBB0001" data-toggle="tab">TCBB689</a></li>');
 }
 
-function ReciprocalAccept() {
+function CountdownToAccept() {
     var index = 5;
     var myinterval = setInterval(function () {
         index--;
