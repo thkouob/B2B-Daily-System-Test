@@ -106,6 +106,10 @@ class DR2Person implements IDR2Person {
     }
 }
 
+class DR2Service {
+    GetPersonList: Function;
+}
+
 angular.module('mvcapp', [])
     .constant('DR2Config', {
         PersonSessionKey: "personList"
@@ -199,7 +203,7 @@ angular.module('mvcapp', [])
         }
     })
     .factory('DR2Service', ['$http', '$q', 'DR2Config', 'storageHelper', function ($http: ng.IHttpService, $q: ng.IQService, DR2Config, storageHelper) {
-        var url = 'http://10.16.133.102:52332/prj/v1';
+        var url = '/base/GetPersonInfo';
 
         function GetOriginPersonData(url) {
             return $http.get(`${url}/Person`, { cache: true });

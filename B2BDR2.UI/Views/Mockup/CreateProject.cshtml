@@ -5,13 +5,55 @@
 
 @section styles{
     <link href="~/Content/spinkit.css" rel="stylesheet" />
+    @* required tip icon *@
+    @*<style>
+        input:required:invalid, input:focus:invalid, textarea:required:invalid, textarea:focus:invalid {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAT1JREFUeNpi/P//PwMpgImBRMACY/x7/uDX39sXt/67cMoDyOVgMjBjYFbV/8kkqcCBrIER5KS/967s+rmkXxzI5wJiRSBm/v8P7NTfHHFFl5mVdIzhGv4+u///x+xmuAlcdXPB9KeqeLgYd3bDU2ZpRRmwH4DOeAI07QXIRKipYPD35184/nn17CO4p/+cOfjl76+/X4GYAYThGn7/g+Mfh/ZZwjUA/aABpJVhpv6+dQUjZP78Z0YEK7OezS2gwltg64GmfTu6i+HL+mUMP34wgvGvL78ZOEysf8M1sGgZvQIqfA1SDAL8iUUMPIFRQLf+AmMQ4DQ0vYYSrL9vXDz2sq9LFsiX4dLRA0t8OX0SHKzi5bXf2HUMBVA0gN356N7p7xdOS3w5fAgcfNxWtn+BJi9gVVBOQfYPQIABABvRq3BwGT3OAAAAAElFTkSuQmCC');
+            background-position: right top;
+            background-repeat: no-repeat;
+            box-shadow: none;
+        }
+
+        input:required:valid, textarea:required:valid {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAZZJREFUeNpi/P//PwMpgImBRMAy58QshrNPTzP8+vOLIUInisFQyYjhz98/DB9/fmT48/+35v7H+8KNhE2+WclZd+G0gZmJmYGThUNz1fUVMZtvbWT59eUXG9wGZIWMUPj993eJ5VeWxuy8veM/CzPL3yfvH/9H0QBSBDYZyOVm4mGYfn6q4cory5lYmFh+MrEwM/76/YsR7mk2ZjbWP///WP37/y8cqIDhx58fjvtu7XV6//ndT34G/v8FasUsDjKO/+A2PP3wpGLd+TVsfOz8XH6KAT+nHpokcu7h6d9q/BoMxToVbBYqlt9///+1GO4/WVdpXqY/zMqXn13/+vTjI9mj94/y//v9/3e9ZRObvYbDT0Y2xnm///x+wsfHB3GSGLf41jb3rv0O8nbcR66d+HPvxf2/+YZFTHaqjl8YWBnm/vv37yly5LL8+vuLgYuVa3uf/4T/Kd8SnSTZpb6FGUXwcvJxbAPKP2VkZESNOBDx8+9PBm4OwR1TwmYwcfzjsBUQFLjOxs52A2YyKysrXANAgAEA7buhysQuIREAAAAASUVORK5CYII=');
+            background-position: right top;
+            background-repeat: no-repeat;
+        }
+    </style>*@
 }
 
 @section scripts{
     <script src="~/Scripts/Mockup/CreateProject.js"></script>
+    <script type="text/javascript">
+        angular.module('myApp', ['ngTagsInput'])
+            .controller('myCtrl', function ($scope, $http) {
+            $scope.tagsS = [
+              { name: 'leo' },
+              { name: 'sin' },
+              { name: 'perry' },
+              { name: 'stella' }
+            ];
+            $scope.tagsU = [
+                  { name: 'sin' },
+                  { name: 'perry' },
+                  { name: 'stella' }
+            ];
+            $scope.tagsT = [
+                  { name: 'leo' },
+                  { name: 'sin' },
+                  { name: 'perry' }
+            ];
+            $scope.loadTags = function ($query) {
+                var data = [{name:'sean'}];
+                return data.filter(function (item) {
+                    return item.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
+                });
+            };
+        });
+    </script>
 }
 
-<div class="container-fluid">
+<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Create Project</h1>
@@ -32,27 +74,27 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Project No</label>
-                                    <input class="form-control" maxlength="5" placeholder="19999" />
+                                    <input class="form-control" maxlength="5" placeholder="19999" required />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Project Name</label>
-                                    <input class="form-control" maxlength="200" placeholder="" />
+                                    <input class="form-control" maxlength="200" placeholder="" required />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Dev Gruop</label>
                                     <div></div>
-                                    <label class="radio-inline"><input type="radio" name="optionsDevGroup" id="optionsDevGruop1" value="1" />WWW</label>
-                                    <label class="radio-inline"><input type="radio" name="optionsDevGroup" id="optionsDevGruop2" value="2" />SSL</label>
+                                    <label class="radio-inline"><input type="radio" name="optionsDevGroup" id="optionsDevGruop1" value="1" required />WWW</label>
+                                    <label class="radio-inline"><input type="radio" name="optionsDevGroup" id="optionsDevGruop2" value="2" required />SSL</label>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Scrum Master</label>
-                                    <input class="form-control" list="listMembers" maxlength="20" placeholder="" />
+                                    <input class="form-control" list="listMembers" maxlength="20" placeholder="" required />
                                 </div>
                             </div>
                         </div>
@@ -62,19 +104,19 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Start Day</label>
-                                    <input class="form-control" type="date" maxlength="10" />
+                                    <input class="form-control" type="date" maxlength="10" required />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Release Day</label>
-                                    <input class="form-control" type="date" maxlength="10" />
+                                    <input class="form-control" type="date" maxlength="10" required />
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Launch Day</label>
-                                    <input class="form-control" type="date" maxlength="10" />
+                                    <input class="form-control" type="date" maxlength="10" required />
                                 </div>
                             </div>
                         </div>
@@ -200,7 +242,7 @@
                                         class="btn btn-primary btn-lg btn-block"
                                         data-toggle="modal"
                                         data-target="#modalCreateProjectConfirm"
-                                        onclick="ReciprocalAccept();">
+                                        onclick="CountdownToAccept();">
                                     Create
                                 </button>
                             </div>
@@ -259,33 +301,46 @@
             <tr>
                 <td>Dev-Service</td>
                 <td>
-                    <tags-input id="tags_Service" class="tags-input-home ng-valid ng-isolate-scope ng-valid-max-tags ng-valid-min-tags ng-valid-leftover-text ng-touched ng-dirty" ng-model="tags" placeholder="Add a superhero" replace-spaces-with-dashes="false" display-property="name">
-                        <div class="host" tabindex="-1" ng-click="eventHandlers.host.click()" ti-transclude-append="">
-                            <div class="tags" ng-class="{focused: hasFocus}"><ul class="tag-list"><!-- ngRepeat: tag in tagList.items track by track(tag) --><li class="tag-item ng-scope" ng-repeat="tag in tagList.items track by track(tag)" ng-class="{ selected: tag == tagList.selected }" ng-click="eventHandlers.tag.click(tag)"><ti-tag-item data="::tag" class="ng-isolate-scope"><!-- ngInclude: undefined --><ng-include src="$$template" class="ng-scope"><span ng-bind="$getDisplayText()" class="ng-binding ng-scope">Batman</span> <a class="remove-button ng-binding ng-scope" ng-click="$removeTag()" ng-bind="::$$removeTagSymbol">×</a></ng-include></ti-tag-item></li><!-- end ngRepeat: tag in tagList.items track by track(tag) --><li class="tag-item ng-scope" ng-repeat="tag in tagList.items track by track(tag)" ng-class="{ selected: tag == tagList.selected }" ng-click="eventHandlers.tag.click(tag)"><ti-tag-item data="::tag" class="ng-isolate-scope"><!-- ngInclude: undefined --><ng-include src="$$template" class="ng-scope"><span ng-bind="$getDisplayText()" class="ng-binding ng-scope">Superman</span> <a class="remove-button ng-binding ng-scope" ng-click="$removeTag()" ng-bind="::$$removeTagSymbol">×</a></ng-include></ti-tag-item></li><!-- end ngRepeat: tag in tagList.items track by track(tag) --><li class="tag-item ng-scope" ng-repeat="tag in tagList.items track by track(tag)" ng-class="{ selected: tag == tagList.selected }" ng-click="eventHandlers.tag.click(tag)"><ti-tag-item data="::tag" class="ng-isolate-scope"><!-- ngInclude: undefined --><ng-include src="$$template" class="ng-scope"><span ng-bind="$getDisplayText()" class="ng-binding ng-scope">kjf</span> <a class="remove-button ng-binding ng-scope" ng-click="$removeTag()" ng-bind="::$$removeTagSymbol">×</a></ng-include></ti-tag-item></li><!-- end ngRepeat: tag in tagList.items track by track(tag) --></ul><input class="input ng-valid ng-touched ng-dirty" autocomplete="off" ng-model="newTag.text" ng-model-options="{getterSetter: true}" ng-keydown="eventHandlers.input.keydown($event)" ng-focus="eventHandlers.input.focus($event)" ng-blur="eventHandlers.input.blur($event)" ng-paste="eventHandlers.input.paste($event)" ng-trim="false" ng-class="{'invalid-tag': newTag.invalid}" ng-disabled="disabled" ti-bind-attrs="{type: options.type, placeholder: options.placeholder, tabindex: options.tabindex, spellcheck: options.spellcheck}" ti-autosize="" type="text" placeholder="Add a superhero" spellcheck="true" style="width: 114px;"><span class="input" style="visibility: hidden; width: auto; white-space: pre; display: none;">Add a superhero</span></div>
-                            <auto-complete source="loadItems($query)" min-length="1" debounce-delay="0" load-on-down-arrow="true" max-results-to-show="50" template="home-template" class="ng-scope ng-isolate-scope"><!-- ngIf: suggestionList.visible --></auto-complete>
-                        </div>
+                    <tags-input id="tags_Service" ng-model="tagsS" display-property="name" placeholder="Add a country" replace-spaces-with-dashes="false">
+                        <auto-complete source="loadTags($query)"
+                                       min-length="0"
+                                       load-on-focus="true"
+                                       load-on-empty="true"
+                                       max-results-to-show="32"
+                                       template="my-custom-template"></auto-complete>
                     </tags-input>
+
+                    <script type="text/ng-template" id="my-custom-template">
+                        <div class="right-panel">
+                            <span ng-bind-html="$highlight($getDisplayText())"></span>
+                            <span>({{data.name}})</span>
+                        </div>
+                    </script>
                 </td>
             </tr>
             <tr>
                 <td>Dev-UI</td>
                 <td>
-                    <tags-input id="tags_UI" class="tags-input-home ng-valid ng-isolate-scope ng-valid-max-tags ng-valid-min-tags ng-valid-leftover-text ng-touched ng-dirty" ng-model="tags" placeholder="Add a superhero" replace-spaces-with-dashes="false" display-property="name">
-                        <div class="host" tabindex="-1" ng-click="eventHandlers.host.click()" ti-transclude-append="">
-                            <div class="tags" ng-class="{focused: hasFocus}"><ul class="tag-list"><!-- ngRepeat: tag in tagList.items track by track(tag) --><li class="tag-item ng-scope" ng-repeat="tag in tagList.items track by track(tag)" ng-class="{ selected: tag == tagList.selected }" ng-click="eventHandlers.tag.click(tag)"><ti-tag-item data="::tag" class="ng-isolate-scope"><!-- ngInclude: undefined --><ng-include src="$$template" class="ng-scope"><span ng-bind="$getDisplayText()" class="ng-binding ng-scope">Batman</span> <a class="remove-button ng-binding ng-scope" ng-click="$removeTag()" ng-bind="::$$removeTagSymbol">×</a></ng-include></ti-tag-item></li><!-- end ngRepeat: tag in tagList.items track by track(tag) --><li class="tag-item ng-scope" ng-repeat="tag in tagList.items track by track(tag)" ng-class="{ selected: tag == tagList.selected }" ng-click="eventHandlers.tag.click(tag)"><ti-tag-item data="::tag" class="ng-isolate-scope"><!-- ngInclude: undefined --><ng-include src="$$template" class="ng-scope"><span ng-bind="$getDisplayText()" class="ng-binding ng-scope">Superman</span> <a class="remove-button ng-binding ng-scope" ng-click="$removeTag()" ng-bind="::$$removeTagSymbol">×</a></ng-include></ti-tag-item></li><!-- end ngRepeat: tag in tagList.items track by track(tag) --><li class="tag-item ng-scope" ng-repeat="tag in tagList.items track by track(tag)" ng-class="{ selected: tag == tagList.selected }" ng-click="eventHandlers.tag.click(tag)"><ti-tag-item data="::tag" class="ng-isolate-scope"><!-- ngInclude: undefined --><ng-include src="$$template" class="ng-scope"><span ng-bind="$getDisplayText()" class="ng-binding ng-scope">kjf</span> <a class="remove-button ng-binding ng-scope" ng-click="$removeTag()" ng-bind="::$$removeTagSymbol">×</a></ng-include></ti-tag-item></li><!-- end ngRepeat: tag in tagList.items track by track(tag) --></ul><input class="input ng-valid ng-touched ng-dirty" autocomplete="off" ng-model="newTag.text" ng-model-options="{getterSetter: true}" ng-keydown="eventHandlers.input.keydown($event)" ng-focus="eventHandlers.input.focus($event)" ng-blur="eventHandlers.input.blur($event)" ng-paste="eventHandlers.input.paste($event)" ng-trim="false" ng-class="{'invalid-tag': newTag.invalid}" ng-disabled="disabled" ti-bind-attrs="{type: options.type, placeholder: options.placeholder, tabindex: options.tabindex, spellcheck: options.spellcheck}" ti-autosize="" type="text" placeholder="Add a superhero" spellcheck="true" style="width: 114px;"><span class="input" style="visibility: hidden; width: auto; white-space: pre; display: none;">Add a superhero</span></div>
-                            <auto-complete source="loadItems($query)" min-length="1" debounce-delay="0" load-on-down-arrow="true" max-results-to-show="50" template="home-template" class="ng-scope ng-isolate-scope"><!-- ngIf: suggestionList.visible --></auto-complete>
-                        </div>
+                    <tags-input id="tags_UI" ng-model="tagsU" display-property="name" placeholder="Add a country" replace-spaces-with-dashes="false">
+                        <auto-complete source="loadTags($query)"
+                                       min-length="0"
+                                       load-on-focus="true"
+                                       load-on-empty="true"
+                                       max-results-to-show="32"
+                                       template="my-custom-template"></auto-complete>
                     </tags-input>
                 </td>
             </tr>
             <tr>
                 <td>Tester</td>
                 <td>
-                    <tags-input id="tags_Tester" class="tags-input-home ng-valid ng-isolate-scope ng-valid-max-tags ng-valid-min-tags ng-valid-leftover-text ng-touched ng-dirty" ng-model="tags" placeholder="Add a superhero" replace-spaces-with-dashes="false" display-property="name">
-                        <div class="host" tabindex="-1" ng-click="eventHandlers.host.click()" ti-transclude-append="">
-                            <div class="tags" ng-class="{focused: hasFocus}"><ul class="tag-list"><!-- ngRepeat: tag in tagList.items track by track(tag) --><li class="tag-item ng-scope" ng-repeat="tag in tagList.items track by track(tag)" ng-class="{ selected: tag == tagList.selected }" ng-click="eventHandlers.tag.click(tag)"><ti-tag-item data="::tag" class="ng-isolate-scope"><!-- ngInclude: undefined --><ng-include src="$$template" class="ng-scope"><span ng-bind="$getDisplayText()" class="ng-binding ng-scope">Batman</span> <a class="remove-button ng-binding ng-scope" ng-click="$removeTag()" ng-bind="::$$removeTagSymbol">×</a></ng-include></ti-tag-item></li><!-- end ngRepeat: tag in tagList.items track by track(tag) --><li class="tag-item ng-scope" ng-repeat="tag in tagList.items track by track(tag)" ng-class="{ selected: tag == tagList.selected }" ng-click="eventHandlers.tag.click(tag)"><ti-tag-item data="::tag" class="ng-isolate-scope"><!-- ngInclude: undefined --><ng-include src="$$template" class="ng-scope"><span ng-bind="$getDisplayText()" class="ng-binding ng-scope">Superman</span> <a class="remove-button ng-binding ng-scope" ng-click="$removeTag()" ng-bind="::$$removeTagSymbol">×</a></ng-include></ti-tag-item></li><!-- end ngRepeat: tag in tagList.items track by track(tag) --><li class="tag-item ng-scope" ng-repeat="tag in tagList.items track by track(tag)" ng-class="{ selected: tag == tagList.selected }" ng-click="eventHandlers.tag.click(tag)"><ti-tag-item data="::tag" class="ng-isolate-scope"><!-- ngInclude: undefined --><ng-include src="$$template" class="ng-scope"><span ng-bind="$getDisplayText()" class="ng-binding ng-scope">kjf</span> <a class="remove-button ng-binding ng-scope" ng-click="$removeTag()" ng-bind="::$$removeTagSymbol">×</a></ng-include></ti-tag-item></li><!-- end ngRepeat: tag in tagList.items track by track(tag) --></ul><input class="input ng-valid ng-touched ng-dirty" autocomplete="off" ng-model="newTag.text" ng-model-options="{getterSetter: true}" ng-keydown="eventHandlers.input.keydown($event)" ng-focus="eventHandlers.input.focus($event)" ng-blur="eventHandlers.input.blur($event)" ng-paste="eventHandlers.input.paste($event)" ng-trim="false" ng-class="{'invalid-tag': newTag.invalid}" ng-disabled="disabled" ti-bind-attrs="{type: options.type, placeholder: options.placeholder, tabindex: options.tabindex, spellcheck: options.spellcheck}" ti-autosize="" type="text" placeholder="Add a superhero" spellcheck="true" style="width: 114px;"><span class="input" style="visibility: hidden; width: auto; white-space: pre; display: none;">Add a superhero</span></div>
-                            <auto-complete source="loadItems($query)" min-length="1" debounce-delay="0" load-on-down-arrow="true" max-results-to-show="50" template="home-template" class="ng-scope ng-isolate-scope"><!-- ngIf: suggestionList.visible --></auto-complete>
-                        </div>
+                    <tags-input id="tags_Tester" ng-model="tagsT" display-property="name" placeholder="Add a country" replace-spaces-with-dashes="false">
+                        <auto-complete source="loadTags($query)"
+                                       min-length="0"
+                                       load-on-focus="true"
+                                       load-on-empty="true"
+                                       max-results-to-show="32"
+                                       template="my-custom-template"></auto-complete>
                     </tags-input>
                 </td>
             </tr>
