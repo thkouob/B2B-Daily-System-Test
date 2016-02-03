@@ -972,7 +972,6 @@
       <DependentUpon>CpStellaTest.ts</DependentUpon>
     </Content>
     <Content Include="Views\Mockup\_CreateProjectConfirm.cshtml" />
-    <Content Include="Views\Mockup\CreateProjectLoading.cshtml" />
     <Content Include="Views\Scrum\_CreateProjectConfirmSin.cshtml" />
   </ItemGroup>
   <ItemGroup>
