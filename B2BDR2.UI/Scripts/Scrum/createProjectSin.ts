@@ -1,12 +1,12 @@
 ﻿class BacklogInfo2 {
     JiraNumber: string;
     JiraLink: string;
-    Description: string;
+    Summary: string;
     SubTaskList: Array<SubTaskInfo>;
-    constructor(jNumber: string, jLink: string, desc: string) {
+    constructor(jNumber: string, jLink: string, summary: string) {
         this.JiraNumber = jNumber;
         this.JiraLink = jLink;
-        this.Description = desc;
+        this.Summary = summary;
         this.SubTaskList = [new SubTaskInfo("Dev-UI", []), new SubTaskInfo("Dev-Service", []), new SubTaskInfo("Test", [])];
     }
 }
@@ -41,13 +41,6 @@ class PersonInfo {
 
 angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate'])
     .factory('DRService', ['$http', function ($http: ng.IHttpService) {
-        //TODO Get API Data
-        //$http.get('Url')
-        //    .then(function (response) {
-        //    }, function (response) {
-        //
-        //    });
-
         var backLogData: Array<BacklogInfo2> = [];
 
         backLogData.push(new BacklogInfo2("TCBB-9679", "http://jira/browse/TCBB-9679", "Fix the deadlock issue of Sciquest order process app."));
@@ -112,24 +105,58 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate'])
             return result;
         }
     })
+    .filter('unique', function () {
+        return function (items, filterOn) {
+            if (filterOn === false) {
+                return items;
+            }
+
+            if ((filterOn || angular.isUndefined(filterOn)) && angular.isArray(items)) {
+                var hashCheck = {},
+                    newItems = [];
+
+                var extractValueToCompare = function (item) {
+                    if (angular.isObject(item) && angular.isString(filterOn)) {
+                        return item[filterOn];
+                    } else {
+                        return item;
+                    }
+                };
+
+                angular.forEach(items, function (item) {
+                    var valueToCheck, isDuplicate = false;
+
+                    for (var i = 0; i < newItems.length; i++) {
+                        if (angular.equals(extractValueToCompare(newItems[i]), extractValueToCompare(item))) {
+                            isDuplicate = true;
+                            break;
+                        }
+                    }
+                    if (!isDuplicate) {
+                        newItems.push(item);
+                    }
+
+                });
+                items = newItems;
+            }
+            return items;
+        };
+    })
     .controller('createProjectCtrl', ['$scope', '$sce', '$filter', 'DRService', 'JIRAService',
         function ($scope, $sce: ng.ISCEService, $filter, DRService, JIRAService) {
-
+            // Init
             $scope.projectNumber;
             $scope.projectName;
+            $scope.scrumMaster;
+            $scope.scrumMasterObj;
+            $scope.AddedProjectPBInfo = [];
             $scope.BackLogList = JIRAService.GetBackLogList;
             $scope.PersonData = JIRAService.GetPersonData;
+
+            // Function
             $scope.LoadPersonData = function (query) {
                 return $filter('personData')($scope.PersonData, query);
             }
-
-            $scope.AddedProjectPBInfo = [];
-            var projectPBInfoList: Array<BacklogInfo2> = [];
-            //Test data for added project PB infos
-            //projectPBInfoList.push(new BacklogInfo2("TCBB-9397", "http://jira/browse/TCBB-9397", "facase to api phase I (Landing, Product)"));
-            //projectPBInfoList.push(new BacklogInfo2("TCBB-9220", "http://jira/browse/TCBB-9220", "Support MS, MW, Stand alone sent in SciQuest app"));
-
-            $scope.AddedProjectPBInfo = projectPBInfoList;
 
             $scope.AddPB = function ($index) {
                 var selectedPB: BacklogInfo2 = $scope.BackLogList[$index];
@@ -138,8 +165,23 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate'])
                 $scope.BackLogList.splice($index, 1);
             }
 
-            $scope.RemovePB = function ($index) {
-                $scope.BackLogList.push($scope.AddedProjectPBInfo[$index]);
-                $scope.AddedProjectPBInfo.splice($index, 1);
+            $scope.RemovePB = function ($index, JiraName) {
+                var answer = confirm("Remove " + JiraName + " from added list?");
+                if (answer) {
+                    $scope.BackLogList.push($scope.AddedProjectPBInfo[$index]);
+                    $scope.AddedProjectPBInfo.splice($index, 1);
+                }
+            }
+
+            $scope.GetPBAssignees = function (pb: BacklogInfo2) {
+                var allAssignees = [];
+
+                pb.SubTaskList.forEach(function (sub) {
+                    sub.Assignee.forEach(function (p) {
+                        allAssignees.push(p.FirstName);
+                    });
+                });
+                var pbAssignees = $filter('unique')(allAssignees);
+                return pbAssignees.join(", ");
             }
         }]);

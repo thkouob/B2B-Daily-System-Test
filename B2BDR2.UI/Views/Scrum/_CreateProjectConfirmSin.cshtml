@@ -1,0 +1,39 @@
+﻿<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="createSubTaskLabel">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                Project {{projectNumber}}
+            </h4>            
+            <p>{{projectName}}</p>
+        </div>
+        <div class="modal-body">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    SSL - {{scrumMaster}}
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>PB</th>
+                                <th>Name</th>
+                                <th>Assignee</th>
+                            </tr>
+                            <tr ng-repeat="addedList in AddedProjectPBInfo">
+                                <td>{{addedList.JiraNumber}}</td>
+                                <td>{{addedList.Summary}}</td>
+                                <td>{{GetPBAssignees(addedList)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button id="bt_accept" type="button" class="btn btn-primary">&nbsp;Create</button>
+        </div>
+    </div>
+</div>

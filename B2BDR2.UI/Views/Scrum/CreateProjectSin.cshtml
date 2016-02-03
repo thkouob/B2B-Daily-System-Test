@@ -55,10 +55,13 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Scrum Master</label>
-                                            <input class="form-control" list="memberlist" maxlength="20" placeholder="" />
+                                            <input class="form-control" list="memberlist" ng-model="scrumMaster" />
                                             <datalist id="memberlist">
-                                                <option ng-repeat="p in PersonData" value="{{p.Name}}"></option>
+                                                <select>
+                                                    <option data-ng-repeat="p in PersonData" value="{{p.Name}}"></option>
+                                                </select>
                                             </datalist>
+                                            <p>{{scrumMaster}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -113,14 +116,14 @@
                                                         <tr>
                                                             <th></th>
                                                             <th>Jira Number</th>
-                                                            <th>Description</th>
+                                                            <th>Summary</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <tr ng-repeat="backlog in BackLogList">
                                                             <td><button class="btn btn-default" type="button" ng-click="AddPB($index)"><i class="fa fa-plus"></i></button></td>
                                                             <td><a href="{{backlog.JiraLink}}" target="_blank">{{backlog.JiraNumber}}</a></td>
-                                                            <td>{{backlog.Description}}</td>
+                                                            <td>{{backlog.Summary}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -140,12 +143,12 @@
                                             <uib-tab ng-repeat="addedList in AddedProjectPBInfo" active="tab.active" disable="tab.disabled">
                                                 <uib-tab-heading>
                                                     <div>
-                                                        {{addedList.JiraNumber}}&nbsp;<a ng-click="RemovePB($index)"><i class="fa fa-remove text-danger"></i></a>
+                                                        {{addedList.JiraNumber}}&nbsp;<a ng-click="RemovePB($index,addedList.JiraNumber)"><i class="fa fa-remove text-danger"></i></a>
                                                     </div>
                                                 </uib-tab-heading>
                                                 <div class="panel panel-default">
                                                     <div class="panel-heading">
-                                                        <h4>{{addedList.Description}}</h4>
+                                                        <h4>{{addedList.Summary}}</h4>
                                                     </div>
                                                     <div class="panel-body">
                                                         <table class="table table-hover">
@@ -189,7 +192,13 @@
 
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <button class="btn btn-primary btn-lg btn-block" onclick="window.document.body.onbeforeunload = null; return true;">Create</button>
+                                        <button type="button"
+                                                class="btn btn-primary btn-lg btn-block"
+                                                data-toggle="modal"
+                                                data-target="#modalCreateProjectConfirm"
+                                                ng-click="ReciprocalAccept();">
+                                            Confirm
+                                        </button>
                                     </div>
                                 </div>
                                 <!-- /.row -->
@@ -204,5 +213,9 @@
             <!-- /.row -->
         </div>
 
+        <!-- Confirm Modal-->
+        <div class="modal fade" id="modalCreateProjectConfirm" tabindex="-1" role="dialog" aria-labelledby="modalCreateProjectConfirmLabel">
+            @Html.Partial("_CreateProjectConfirmSin")
+        </div>
     </div>
 </div>
