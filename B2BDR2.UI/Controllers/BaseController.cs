@@ -199,8 +199,8 @@ namespace B2BDR2.UI.Controllers
                     assigneeName = item["fields"]["assignee"]["displayName"],
                     assigneeUrl = item["fields"]["assignee"]["avatarUrls"]["48x48"],
                     color = "",//不知道對應哪裡
-                    estimateStatistic = "",//不知道對應哪裡
-                    trackingStatistic = "",//不知道對應哪裡
+                    estimateStatistic = "",//好像要抓 customfield_10002
+                    trackingStatistic = "",//好像要抓 timeestimate
                     statusId = item["fields"]["status"]["id"],
                     statusName = item["fields"]["status"]["name"],
                     statusUrl = item["fields"]["status"]["iconUrl"],
