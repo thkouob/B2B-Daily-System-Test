@@ -974,6 +974,7 @@
     </Content>
     <Content Include="Views\Mockup\_CreateProjectConfirm.cshtml" />
     <Content Include="Views\Mockup\CreateProjectLoading.cshtml" />
+    <Content Include="Views\Scrum\_CpconfirmStellaTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

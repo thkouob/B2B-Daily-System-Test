@@ -93,11 +93,11 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
 
     function GetBackLog(url) {
         var backlogInfoList = [];
-      
+
         $http.get(`${url}`)
             .then(function (response) {
                 var resultData: any = response.data;
-                angular.forEach(resultData.issues, function (value, key) {    
+                angular.forEach(resultData.issues, function (value, key) {
                     backlogInfoList.push(
                         new BackLog(value.id, value.key,
                             value.fields.summary, value.fields.description,
@@ -114,27 +114,42 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
     return {
         DataList: GetBackLog(url)
     }
-}]).factory('getMemberList', ['$http', function ($http: ng.IHttpService) {
+}]).factory('getMemberList', ['$http', '$q', function ($http: ng.IHttpService, $q: ng.IQService) {
     ////getMember
     var apiurl = 'http://10.16.133.102:52332/prj/v1/Person';
+    var deferred = $q.defer();
+
+    function GetMembersList(apiurl) {
+        var b2bMembers = [];
+
+        $http.get(`${apiurl}`)
+            .then(function (response) {
+                var resultData: any = response.data;
+                angular.forEach(resultData.issues, function (value, key) {
+                    b2bMembers.push(
+                        new B2bMember(value.UID, value.Name));
+                });
+                deferred.resolve(b2bMembers);
+            }, function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+    }
 
     return {
-        getMembers: function () {
-            return $http({
-                url: apiurl,
-                method: 'GET'
-            })
-        }
+        GetMembers: GetMembersList(apiurl)
     }
 }]);
 
-tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList',
-    function ($scope, getBackLogList, getMemberList) {
+tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http',
+    function ($scope, getBackLogList, getMemberList, $http) {
         
         ////display lists info ---------------------------------------------------------------////
-        getMemberList.getMembers().success(function (result) {
+        getMemberList.GetMembers.then(function (result) {
             $scope.MembersList = result;
         });
+
         getBackLogList.DataList.then(function (data) {
             $scope.BacklogList = data;
         });
@@ -155,15 +170,15 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                 $scope.BacklogList.splice(idx, 1);
             } else {
                 tempData.push(new ProjectB($scope.BacklogList[idx].Id, $scope.BacklogList[idx].Key,
-                        $scope.BacklogList[idx].Summary,
-                        "in active",
-                        tempSubTask));
+                    $scope.BacklogList[idx].Summary,
+                    "in active",
+                    tempSubTask));
                 tempBackLog.push($scope.BacklogList[idx]);
                 $scope.BacklogList.splice(idx, 1);
             }
 
             $scope.ProjectList = tempData;
-         
+
         };
 
         function GetBackLogWithSubTask(key) {
@@ -177,8 +192,7 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
         }
 
         function RoleToNumber(role) {
-            switch (role)
-            {
+            switch (role) {
                 case "Test":
                     return 1;
                 case "Service":
@@ -230,7 +244,7 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                     value.Active = "";
                 }
             });
-            
+
         };
         
         ////remove a subTask to pb ---------------------------------------------------------------////
@@ -247,26 +261,44 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
 
         ////Assignee tags display ---------------------------------------------------------------////
         $scope.LoadAssigneeTag = function ($query) {
-            var b2bMembers = [];
-            
-            angular.forEach($scope.MembersList, function (value, key) {
-                b2bMembers.push(
-                    new B2bMember(value.UID, value.Name));
-            });
-
-            return b2bMembers.filter(function (member) {
+            return $scope.MembersList.filter(function (member) {
                 return member.Name.toLowerCase().indexOf($query.toLowerCase()) != -1
                     || member.UID.toLowerCase().indexOf($query.toLowerCase()) != -1;
             });
         };
 
-        $scope.AllFormData = {
-            PBList: GetPbList()
-        };
+        ////PopUp window ---------------------------------------------------------------////
+        $scope.OpenPopUp = function () {
+            $scope.$watchCollection('ProjectList', function (newNames, oldNames) {
+                $scope.AllFormData = {
+                    PBList: GetPbList()
+                };
+            });
+            var index = 5;
+            var myinterval = setInterval(function () {
+                index--;
+                var $btAccept = $('#bt_accept');
+                var countSpan = $('#bt_accept').find('span');
+                countSpan.text("(" + (index).toString() + ")");
+                if (index == 0) {
+                    $btAccept.removeClass("disabled");
+                    countSpan.remove();
+                    clearInterval(myinterval);
+                }
+            }, 1000);
+        }
 
-        //$scope.$watchCollection('ProjectList', function (newNames, oldNames) {
-            //debugger
-        //});
+        ////Submit to creat project ---------------------------------------------------------------////
+        $scope.Save = function () {
+            var request
+            request = angular.copy($scope.AllFormData);
+            var postapiurl = 'http://10.16.133.102:3000/jiraapi/project';
+
+            $http.post(postapiurl, request)
+                .then(function (response) {
+                    alert("success!!")
+                });
+        };
 
         function GetPbList() {
             var pbInfo = [];
@@ -291,4 +323,4 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
 
             return pbInfo;
         }
-}]);
+    }]);
