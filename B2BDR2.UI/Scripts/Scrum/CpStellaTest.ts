@@ -1,10 +1,7 @@
 ﻿interface IBackLog {
     Id: string,
     Key: string,
-    Summary: string,
-    Description: string,
-    Assignee: any,
-    Reporter: any
+    Summary: string
 }
 //interface ISubTask2 extends IBackLog {
 //    SubTaskList: any;
@@ -32,19 +29,10 @@ class BackLog implements IBackLog {
     Id: string;
     Key: string;
     Summary: string;
-    Description: string;
-    Assignee: any;
-    Reporter: any;
-    constructor(id: string, key: string,
-        summary: string, description: string,
-        assignee: any, reporter: any
-    ) {
+    constructor(id: string, key: string, summary: string) {
         this.Id = id;
         this.Key = key;
         this.Summary = summary;
-        this.Description = description;
-        this.Assignee = assignee;
-        this.Reporter = reporter;
     }
 }
 
@@ -88,7 +76,7 @@ class SubTask implements ISubTask {
 var tpscpPractice = angular.module("jiraApp", ['ngTagsInput']);
 tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHttpService, $q: ng.IQService) {
     ////getBackLog
-    var url = '/Base/GetJIRABacklogInfo';
+    var url = '/base/GetMockNodeBacklogInfo';
     var deferred = $q.defer();
 
     function GetBackLog(url) {
@@ -97,11 +85,9 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
         $http.get(`${url}`)
             .then(function (response) {
                 var resultData: any = response.data;
-                angular.forEach(resultData.issues, function (value, key) {
+                angular.forEach(resultData.data, function (value, key) {
                     backlogInfoList.push(
-                        new BackLog(value.id, value.key,
-                            value.fields.summary, value.fields.description,
-                            value.fields.assignee, value.fields.reporter));
+                        new BackLog(value.id, value.key, value.summary));
                 });
                 deferred.resolve(backlogInfoList);
             }, function (response) {
@@ -125,7 +111,7 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
         $http.get(`${apiurl}`)
             .then(function (response) {
                 var resultData: any = response.data;
-                angular.forEach(resultData.issues, function (value, key) {
+                angular.forEach(resultData, function (value, key) {
                     b2bMembers.push(
                         new B2bMember(value.UID, value.Name));
                 });
@@ -191,18 +177,6 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
             return subTaskInfoList;
         }
 
-        function RoleToNumber(role) {
-            switch (role) {
-                case "Test":
-                    return 1;
-                case "Service":
-                    return 2;
-                case "UI":
-                    return 3;
-
-            }
-        }
-
         ////add a subTask to pb ---------------------------------------------------------------////
         $scope.AddSubTask = function (pbId, role, asign, idx) {
             var keepGoing = true;
@@ -221,9 +195,7 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
             angular.forEach(tempBackLog, function (value, key) {
                 if (keepGoing) {
                     if (value.Key === $scope.ProjectList[idx].Key) {
-                        $scope.BacklogList.push(new BackLog(value.Id, value.Key,
-                            value.Summary, value.Description,
-                            value.Assignee, value.Reporter));
+                        $scope.BacklogList.push(new BackLog(value.Id, value.Key, value.Summary));
                         keepGoing = false;
                     }
                 }
@@ -266,14 +238,17 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                     || member.UID.toLowerCase().indexOf($query.toLowerCase()) != -1;
             });
         };
+    
+       
 
         ////PopUp window ---------------------------------------------------------------////
         $scope.OpenPopUp = function () {
             $scope.$watchCollection('ProjectList', function (newNames, oldNames) {
-                $scope.AllFormData = {
-                    PBList: GetPbList()
-                };
+                $scope.AllFormData.SMUID = NameToUID();
+                $scope.AllFormData.PBList = GetPbList();
             });
+            $scope.DevGroup = GetDevGroup();
+
             var index = 5;
             var myinterval = setInterval(function () {
                 index--;
@@ -288,17 +263,25 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
             }, 1000);
         }
 
-        ////Submit to creat project ---------------------------------------------------------------////
-        $scope.Save = function () {
-            var request
-            request = angular.copy($scope.AllFormData);
-            var postapiurl = 'http://10.16.133.102:3000/jiraapi/project';
+        function GetDevGroup() {
+            switch ($scope.AllFormData.DevGruop) {
+                case "1":
+                    return "WWW";
+                case "2":
+                    return "SSL";
+            }
+        }
 
-            $http.post(postapiurl, request)
-                .then(function (response) {
-                    alert("success!!")
-                });
-        };
+        function NameToUID() {
+            var keepGoing = true;
+            angular.forEach($scope.MembersList, function (value, key) {
+                if (keepGoing) {
+                    if (value.Name === $scope.SmName) {
+                        $scope.AllFormData.SMUID = value.UID;
+                    }
+                }
+            });
+        }
 
         function GetPbList() {
             var pbInfo = [];
@@ -308,7 +291,7 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                     angular.forEach(sval.Assign, function (val, key) {
                         slist.push({
                             AssigneeUID: val.UID,
-                            Role: sval.Role
+                            Role: RoleToNumber(sval.Role)
                         });
                     });
                 });
@@ -323,4 +306,28 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
 
             return pbInfo;
         }
+
+        function RoleToNumber(role) {
+            switch (role) {
+                case "Test":
+                    return 1;
+                case "Service":
+                    return 2;
+                case "UI":
+                    return 3;
+
+            }
+        }
+
+        ////Submit to creat project ---------------------------------------------------------------////
+        $scope.Save = function () {
+            var request
+            request = angular.copy($scope.AllFormData);
+            var postapiurl = 'http://10.16.133.102:3000/jiraapi/project';
+
+            $http.post(postapiurl, request)
+                .then(function (response) {
+                    alert("success!!")
+                });
+        };
     }]);

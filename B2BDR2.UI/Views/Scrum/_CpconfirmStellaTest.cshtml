@@ -10,7 +10,7 @@
         <div class="modal-body">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {{GetDevGroup}} - Carboon.C.Wu
+                    {{DevGroup}} - {{SmName}}
                 </div>
                 <div class="panel-body">
                     <table class="table">
@@ -20,11 +20,12 @@
                                 <th>Name</th>
                                 <th>Assignee</th>
                             </tr>
-                            <tr ng-repeat="p in AllFormData.PBList">
-                                <td>TCBB-9682</td>
-                                <td>TEST the Project create</td>
-                                <td>Leo, Stella, Tina</td>
+                            <tr ng-repeat="p in ProjectList">
+                                <td>{{p.Key}}</td>
+                                <td>{{p.Title}}</td>
+                                <td>{{}}</td>
                             </tr>
+                            <tr>{{AllFormData}}</tr>
                         </tbody>
                     </table>
                 </div>
@@ -33,7 +34,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button id="bt_accept" type="button" class="btn btn-primary disabled"><span>(5)</span>&nbsp;Accept</button>
+            <button id="bt_accept" type="submit" class="btn btn-primary disabled"><span>(5)</span>&nbsp;Accept</button>
         </div>
     </div>
 </div>

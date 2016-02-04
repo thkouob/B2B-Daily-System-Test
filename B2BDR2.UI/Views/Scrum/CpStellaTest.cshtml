@@ -41,6 +41,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Dev Gruop</label>
+                                    <div></div>
                                     <label class="radio-inline">
                                         <input type="radio" name="optionsDevGroup" id="optionsDevGruop1" value="1" ng-model="AllFormData.DevGruop" />WWW
                                     </label>
@@ -52,10 +53,10 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label>Scrum Master</label>
-                                    <input class="form-control" list="listMembers" maxlength="20" placeholder="" ng-model="AllFormData.SMUID" />
+                                    <input class="form-control" list="listMembers" maxlength="20" placeholder="" ng-model="SmName" />
                                     <!-- List Data -->
                                     <datalist id="listMembers">
-                                        <option ng-repeat="m in MembersList" value="{{m.UID}}">{{m.Name}}</option>
+                                        <option ng-repeat="m in MembersList" value="{{m.Name}}">{{m.UID}}</option>
                                     </datalist>
                                 </div>
                             </div>
@@ -229,7 +230,7 @@
 
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#modalCreateProjectConfirm" ng-click="OpenPopUp">
+                                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#modalCreateProjectConfirm" ng-click="OpenPopUp()">
                                     Create
                                 </button>
                             </div>
