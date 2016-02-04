@@ -185,10 +185,27 @@ namespace B2BDR2.UI.Controllers
             {
                 var f = d.Select(item => new
                 {
-                    id = (string)item["id"],
-                    key = (string)item["key"],
-                    summary = (string)item["fields"]["summary"],
-                    name = (string)item["fields"]["assignee"]["name"]
+                    id = item["id"],
+                    key = item["key"],
+                    hidden = "",//不知道對應哪裡
+                    typeName = item["fields"]["issuetype"]["name"],
+                    typeId = item["fields"]["issuetype"]["id"],
+                    summary = item["fields"]["summary"],
+                    typeUrl = item["fields"]["issuetype"]["iconUrl"],
+                    priorityUrl = item["fields"]["priority"]["iconUrl"],
+                    priorityName = item["fields"]["priority"]["name"],
+                    done = "",//不知道對應哪裡
+                    assignee = item["fields"]["assignee"]["name"],
+                    assigneeName = item["fields"]["assignee"]["displayName"],
+                    assigneeUrl = item["fields"]["assignee"]["avatarUrls"]["48x48"],
+                    color = "",//不知道對應哪裡
+                    estimateStatistic = "",//不知道對應哪裡
+                    trackingStatistic = "",//不知道對應哪裡
+                    statusId = item["fields"]["status"]["id"],
+                    statusName = item["fields"]["status"]["name"],
+                    statusUrl = item["fields"]["status"]["iconUrl"],
+                    fixVersions = item["fields"]["fixVersions"],//array
+                    projectId = item["fields"]["project"]["id"],
                 });
                 string errorMsg = null;
                 data = JsonConvert.SerializeObject(new { status = "success", data = f, errorMsg = errorMsg });
