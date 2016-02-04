@@ -56,22 +56,32 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http, $q) {
         return {
             DataList: GetBackLog(url)
         };
-    }]).factory('getMemberList', ['$http', function ($http) {
+    }]).factory('getMemberList', ['$http', '$q', function ($http, $q) {
         ////getMember
         var apiurl = 'http://10.16.133.102:52332/prj/v1/Person';
-        return {
-            getMembers: function () {
-                return $http({
-                    url: apiurl,
-                    method: 'GET'
+        var deferred = $q.defer();
+        function GetMembersList(apiurl) {
+            var b2bMembers = [];
+            $http.get("" + apiurl)
+                .then(function (response) {
+                var resultData = response.data;
+                angular.forEach(resultData.issues, function (value, key) {
+                    b2bMembers.push(new B2bMember(value.UID, value.Name));
                 });
-            }
+                deferred.resolve(b2bMembers);
+            }, function (response) {
+                deferred.reject(response);
+            });
+            return deferred.promise;
+        }
+        return {
+            GetMembers: GetMembersList(apiurl)
         };
     }]);
-tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList',
-    function ($scope, getBackLogList, getMemberList) {
+tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http',
+    function ($scope, getBackLogList, getMemberList, $http) {
         ////display lists info ---------------------------------------------------------------////
-        getMemberList.getMembers().success(function (result) {
+        getMemberList.GetMembers.then(function (result) {
             $scope.MembersList = result;
         });
         getBackLogList.DataList.then(function (data) {
@@ -162,21 +172,41 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
         };
         ////Assignee tags display ---------------------------------------------------------------////
         $scope.LoadAssigneeTag = function ($query) {
-            var b2bMembers = [];
-            angular.forEach($scope.MembersList, function (value, key) {
-                b2bMembers.push(new B2bMember(value.UID, value.Name));
-            });
-            return b2bMembers.filter(function (member) {
+            return $scope.MembersList.filter(function (member) {
                 return member.Name.toLowerCase().indexOf($query.toLowerCase()) != -1
                     || member.UID.toLowerCase().indexOf($query.toLowerCase()) != -1;
             });
         };
-        $scope.AllFormData = {
-            PBList: GetPbList()
+        ////PopUp window ---------------------------------------------------------------////
+        $scope.OpenPopUp = function () {
+            $scope.$watchCollection('ProjectList', function (newNames, oldNames) {
+                $scope.AllFormData = {
+                    PBList: GetPbList()
+                };
+            });
+            var index = 5;
+            var myinterval = setInterval(function () {
+                index--;
+                var $btAccept = $('#bt_accept');
+                var countSpan = $('#bt_accept').find('span');
+                countSpan.text("(" + (index).toString() + ")");
+                if (index == 0) {
+                    $btAccept.removeClass("disabled");
+                    countSpan.remove();
+                    clearInterval(myinterval);
+                }
+            }, 1000);
         };
-        //$scope.$watchCollection('ProjectList', function (newNames, oldNames) {
-        //debugger
-        //});
+        ////Submit to creat project ---------------------------------------------------------------////
+        $scope.Save = function () {
+            var request;
+            request = angular.copy($scope.AllFormData);
+            var postapiurl = 'http://10.16.133.102:3000/jiraapi/project';
+            $http.post(postapiurl, request)
+                .then(function (response) {
+                alert("success!!");
+            });
+        };
         function GetPbList() {
             var pbInfo = [];
             angular.forEach($scope.ProjectList, function (value, key) {

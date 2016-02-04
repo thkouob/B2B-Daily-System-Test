@@ -1,8 +1,8 @@
 var BacklogInfo2 = (function () {
-    function BacklogInfo2(jNumber, jLink, desc) {
+    function BacklogInfo2(jNumber, jLink, summary) {
         this.JiraNumber = jNumber;
         this.JiraLink = jLink;
-        this.Description = desc;
+        this.Summary = summary;
         this.SubTaskList = [new SubTaskInfo("Dev-UI", []), new SubTaskInfo("Dev-Service", []), new SubTaskInfo("Test", [])];
     }
     return BacklogInfo2;
@@ -26,25 +26,9 @@ var PersonInfo = (function () {
     }
     return PersonInfo;
 })();
-angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate'])
+angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate', 'ngMessages'])
     .factory('DRService', ['$http', function ($http) {
-        //TODO Get API Data
-        //$http.get('Url')
-        //    .then(function (response) {
-        //    }, function (response) {
-        //
-        //    });
-        var backLogData = [];
-        backLogData.push(new BacklogInfo2("TCBB-9679", "http://jira/browse/TCBB-9679", "Fix the deadlock issue of Sciquest order process app."));
-        backLogData.push(new BacklogInfo2("TCBB-9634", "http://jira/browse/TCBB-9634", "Export order results"));
-        backLogData.push(new BacklogInfo2("TCBB-9623", "http://jira/browse/TCBB-9623", "support multiple fixed discount promo code for multiple warehouse order"));
-        return {
-            BackLogList: backLogData
-        };
-    }])
-    .factory('JIRAService', ['$http', function ($http) {
         var getPersonUrl = 'http://10.16.133.102:52332/prj/v1/Person';
-        var getBackLogUrl = 'http://10.16.133.102:3000/jiraapi/issues';
         function GetPersonData(url) {
             var personInfoList = [];
             $http.get(url)
@@ -59,6 +43,13 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate'])
             });
             return personInfoList;
         }
+        return {
+            GetPersonData: GetPersonData(getPersonUrl)
+        };
+    }])
+    .factory('NodeService', ['$http', function ($http) {
+        //var getBackLogUrl = 'http://10.16.133.102:3000/jiraapi/issues';
+        var getBackLogUrl = '/base/GetMockNodeBacklogInfo';
         function GetBackLogList(url) {
             var backLogList = [];
             $http.get(url)
@@ -76,8 +67,28 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate'])
             return backLogList;
         }
         return {
-            GetPersonData: GetPersonData(getPersonUrl),
             GetBackLogList: GetBackLogList(getBackLogUrl)
+        };
+    }])
+    .directive('checksmname', ['$filter', function ($filter) {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function ($scope, elm, attrs, ngModel) {
+                return ngModel.$validators.json = function (modelValue, viewValue) {
+                    if (ngModel.$isEmpty(modelValue)) {
+                        ngModel.$setValidity("checksmname", true);
+                        return true;
+                    }
+                    var uid = $filter('nameToUid')(modelValue, $scope.PersonData);
+                    if (!ngModel.$isEmpty(uid)) {
+                        ngModel.$setValidity("checksmname", true);
+                        return true;
+                    }
+                    ngModel.$setValidity("checksmname", false);
+                    return false;
+                };
+            }
         };
     }])
     .filter('personData', function () {
@@ -92,30 +103,153 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate'])
         return result;
     };
 })
-    .controller('createProjectCtrl', ['$scope', '$sce', '$filter', 'DRService', 'JIRAService',
-    function ($scope, $sce, $filter, DRService, JIRAService) {
+    .filter('unique', function () {
+    return function (items, filterOn) {
+        if (filterOn === false) {
+            return items;
+        }
+        if ((filterOn || angular.isUndefined(filterOn)) && angular.isArray(items)) {
+            var hashCheck = {}, newItems = [];
+            var extractValueToCompare = function (item) {
+                if (angular.isObject(item) && angular.isString(filterOn)) {
+                    return item[filterOn];
+                }
+                else {
+                    return item;
+                }
+            };
+            angular.forEach(items, function (item) {
+                var valueToCheck, isDuplicate = false;
+                for (var i = 0; i < newItems.length; i++) {
+                    if (angular.equals(extractValueToCompare(newItems[i]), extractValueToCompare(item))) {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+                if (!isDuplicate) {
+                    newItems.push(item);
+                }
+            });
+            items = newItems;
+        }
+        return items;
+    };
+})
+    .filter('nameToUid', function () {
+    return function (inputName, datalist) {
+        if (inputName === void 0) { inputName = null; }
+        if (datalist === void 0) { datalist = null; }
+        var result;
+        if (inputName !== null && datalist !== null && angular.isString(inputName) && angular.isArray(datalist)) {
+            angular.forEach(datalist, function (value, key) {
+                if (inputName.toLocaleLowerCase() === value.Name.toLowerCase()) {
+                    return result = value.UID;
+                }
+            });
+        }
+        return result;
+    };
+})
+    .filter('fullToUidName', ['DRService', function (DRService) {
+        var data = null, serviceInvoked = false;
+        function logicData(input, datasource) {
+            if (datasource === void 0) { datasource = null; }
+            if (datasource !== null) {
+                angular.forEach(datasource, function (value, key) {
+                    if (angular.isString(input) && input.toLowerCase() === value.Name.toLowerCase()) {
+                        return input = value.UID;
+                    }
+                });
+            }
+            else if (data !== null) {
+                angular.forEach(data, function (value, key) {
+                    if (angular.isString(input) && input.toLowerCase() === value.Name.toLowerCase()) {
+                        return input = value.UID;
+                    }
+                });
+            }
+            return input;
+        }
+        var resultFn = function (input, datasource) {
+            if (datasource === void 0) { datasource = null; }
+            if (data === null && datasource === null) {
+                if (!serviceInvoked) {
+                    serviceInvoked = true;
+                    DRService.GetPersonData.then(function (personList) {
+                        data = personList;
+                    }, function () {
+                        data = null;
+                    });
+                }
+                return input;
+            }
+            else {
+                return logicData(input, datasource);
+            }
+        };
+        //https://docs.angularjs.org/guide/filter
+        resultFn.$stateful = true;
+        return resultFn;
+    }])
+    .controller('createProjectCtrl', ['$scope', '$sce', '$filter', 'DRService', 'NodeService',
+    function ($scope, $sce, $filter, DRService, NodeService) {
+        // Init
         $scope.projectNumber;
         $scope.projectName;
-        $scope.BackLogList = JIRAService.GetBackLogList;
-        $scope.PersonData = JIRAService.GetPersonData;
+        $scope.scrumMasterName; //TODO: use localStorage to get init
+        $scope.scrumMasterUID = function () {
+            var result = $filter('nameToUid')($scope.scrumMasterName, $scope.PersonData);
+            return result;
+        };
+        $scope.devGroup; //TODO: use localStorage to get init
+        $scope.startDate;
+        $scope.startDateFormat = function () {
+            return $filter('date')($scope.startDate, 'd/MMM/yy');
+        };
+        $scope.releaseDate;
+        $scope.launchDate;
+        $scope.AddedProjectPBInfo = [];
+        $scope.BackLogList = NodeService.GetBackLogList;
+        $scope.PersonData = DRService.GetPersonData;
+        $scope.format = 'yyyy/MM/dd';
+        // Function
+        $scope.openSDateCalander = function () {
+            $scope.popupSDataCalander.opened = true;
+        };
+        $scope.popupSDataCalander = {
+            opened: false
+        };
+        $scope.openRDateCalander = function () {
+            $scope.popupRDataCalander.opened = true;
+        };
+        $scope.popupRDataCalander = {
+            opened: false
+        };
         $scope.LoadPersonData = function (query) {
             return $filter('personData')($scope.PersonData, query);
         };
-        $scope.AddedProjectPBInfo = [];
-        var projectPBInfoList = [];
-        //Test data for added project PB infos
-        //projectPBInfoList.push(new BacklogInfo2("TCBB-9397", "http://jira/browse/TCBB-9397", "facase to api phase I (Landing, Product)"));
-        //projectPBInfoList.push(new BacklogInfo2("TCBB-9220", "http://jira/browse/TCBB-9220", "Support MS, MW, Stand alone sent in SciQuest app"));
-        $scope.AddedProjectPBInfo = projectPBInfoList;
         $scope.AddPB = function ($index) {
             var selectedPB = $scope.BackLogList[$index];
             selectedPB.SubTaskList = [new SubTaskInfo("Dev-UI", []), new SubTaskInfo("Dev-Service", []), new SubTaskInfo("Test", [])];
             $scope.AddedProjectPBInfo.push(selectedPB);
             $scope.BackLogList.splice($index, 1);
         };
-        $scope.RemovePB = function ($index) {
-            $scope.BackLogList.push($scope.AddedProjectPBInfo[$index]);
-            $scope.AddedProjectPBInfo.splice($index, 1);
+        $scope.RemovePB = function ($index, JiraName) {
+            var answer = confirm("Remove " + JiraName + " from added list?");
+            if (answer) {
+                $scope.BackLogList.push($scope.AddedProjectPBInfo[$index]);
+                $scope.AddedProjectPBInfo.splice($index, 1);
+            }
+        };
+        $scope.GetPBAssignees = function (pb) {
+            var allAssignees = [];
+            pb.SubTaskList.forEach(function (sub) {
+                sub.Assignee.forEach(function (p) {
+                    allAssignees.push(p.FirstName);
+                });
+            });
+            var pbAssignees = $filter('unique')(allAssignees);
+            return pbAssignees.join(", ");
         };
     }]);
 //# sourceMappingURL=createProjectSin.js.map

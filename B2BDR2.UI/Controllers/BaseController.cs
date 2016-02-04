@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -166,10 +168,71 @@ namespace B2BDR2.UI.Controllers
 
         private string GetJsonData(Dictionary<string, string> dct)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(dct);
+            return JsonConvert.SerializeObject(dct);
         }
 
         public ActionResult GetJIRABacklogInfo()
+        {
+            return Content(this.GetJIRABackLogData(), "application/json; charset=utf-8");
+        }
+
+        public ActionResult GetMockNodeBacklogInfo()
+        {
+            var data = this.GetJIRABackLogData();
+            var result = JObject.Parse(data);
+            var d = result["issues"];
+            if (d.HasValues)
+            {
+                var f = d.Select(item => new
+                {
+                    id = item["id"],
+                    key = item["key"],
+                    hidden = "",//不知道對應哪裡
+                    typeName = item["fields"]["issuetype"]["name"],
+                    typeId = item["fields"]["issuetype"]["id"],
+                    summary = item["fields"]["summary"],
+                    typeUrl = item["fields"]["issuetype"]["iconUrl"],
+                    priorityUrl = item["fields"]["priority"]["iconUrl"],
+                    priorityName = item["fields"]["priority"]["name"],
+                    done = "",//不知道對應哪裡
+                    assignee = item["fields"]["assignee"]["name"],
+                    assigneeName = item["fields"]["assignee"]["displayName"],
+                    assigneeUrl = item["fields"]["assignee"]["avatarUrls"]["48x48"],
+                    color = "",//不知道對應哪裡
+                    estimateStatistic = "",//好像要抓 customfield_10002
+                    trackingStatistic = "",//好像要抓 timeestimate
+                    statusId = item["fields"]["status"]["id"],
+                    statusName = item["fields"]["status"]["name"],
+                    statusUrl = item["fields"]["status"]["iconUrl"],
+                    fixVersions = item["fields"]["fixVersions"],//array
+                    projectId = item["fields"]["project"]["id"],
+                });
+                string errorMsg = null;
+                data = JsonConvert.SerializeObject(new { status = "success", data = f, errorMsg = errorMsg });
+                return Content(data, "application/json; charset=utf-8");
+            }
+
+            return Content(data, "application/json; charset=utf-8");
+        }
+
+        public ActionResult GetPersonInfo()
+        {
+            string result = string.Empty;
+            var req = (HttpWebRequest)HttpWebRequest.Create("http://10.16.133.102:52332/prj/v1/Person");
+            req.Method = "GET";
+
+            using (WebResponse res = req.GetResponse())
+            {
+                using (StreamReader reader = new StreamReader(res.GetResponseStream()))
+                {
+                    result = reader.ReadToEnd();
+                }
+            }
+
+            return Content(result, "application/json; charset=utf-8");
+        }
+
+        private string GetJIRABackLogData()
         {
             string result = string.Empty;
             var req = (HttpWebRequest)HttpWebRequest.Create("http://jira/rest/api/2/search");
@@ -197,24 +260,7 @@ namespace B2BDR2.UI.Controllers
                 }
             }
 
-            return Content(result, "application/json; charset=utf-8");
-        }
-
-        public ActionResult GetPersonInfo()
-        {
-            string result = string.Empty;
-            var req = (HttpWebRequest)HttpWebRequest.Create("http://10.16.133.102:52332/prj/v1/Person");
-            req.Method = "GET";
-
-            using (WebResponse res = req.GetResponse())
-            {
-                using (StreamReader reader = new StreamReader(res.GetResponseStream()))
-                {
-                    result = reader.ReadToEnd();
-                }
-            }
-
-            return Content(result, "application/json; charset=utf-8");
+            return result;
         }
     }
 }
