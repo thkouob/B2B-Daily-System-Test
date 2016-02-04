@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
@@ -166,10 +168,54 @@ namespace B2BDR2.UI.Controllers
 
         private string GetJsonData(Dictionary<string, string> dct)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(dct);
+            return JsonConvert.SerializeObject(dct);
         }
 
         public ActionResult GetJIRABacklogInfo()
+        {
+            return Content(this.GetJIRABackLogData(), "application/json; charset=utf-8");
+        }
+
+        public ActionResult GetMockNodeBacklogInfo()
+        {
+            var data = this.GetJIRABackLogData();
+            var result = JObject.Parse(data);
+            var d = result["issues"];
+            if (d.HasValues)
+            {
+                var f = d.Select(item => new
+                {
+                    id = (string)item["id"],
+                    key = (string)item["key"],
+                    summary = (string)item["fields"]["summary"],
+                    name = (string)item["fields"]["assignee"]["name"]
+                });
+                string errorMsg = null;
+                data = JsonConvert.SerializeObject(new { status = "success", data = f, errorMsg = errorMsg });
+                return Content(data, "application/json; charset=utf-8");
+            }
+
+            return Content(data, "application/json; charset=utf-8");
+        }
+
+        public ActionResult GetPersonInfo()
+        {
+            string result = string.Empty;
+            var req = (HttpWebRequest)HttpWebRequest.Create("http://10.16.133.102:52332/prj/v1/Person");
+            req.Method = "GET";
+
+            using (WebResponse res = req.GetResponse())
+            {
+                using (StreamReader reader = new StreamReader(res.GetResponseStream()))
+                {
+                    result = reader.ReadToEnd();
+                }
+            }
+
+            return Content(result, "application/json; charset=utf-8");
+        }
+
+        private string GetJIRABackLogData()
         {
             string result = string.Empty;
             var req = (HttpWebRequest)HttpWebRequest.Create("http://jira/rest/api/2/search");
@@ -197,24 +243,7 @@ namespace B2BDR2.UI.Controllers
                 }
             }
 
-            return Content(result, "application/json; charset=utf-8");
-        }
-
-        public ActionResult GetPersonInfo()
-        {
-            string result = string.Empty;
-            var req = (HttpWebRequest)HttpWebRequest.Create("http://10.16.133.102:52332/prj/v1/Person");
-            req.Method = "GET";
-
-            using (WebResponse res = req.GetResponse())
-            {
-                using (StreamReader reader = new StreamReader(res.GetResponseStream()))
-                {
-                    result = reader.ReadToEnd();
-                }
-            }
-
-            return Content(result, "application/json; charset=utf-8");
+            return result;
         }
     }
 }
