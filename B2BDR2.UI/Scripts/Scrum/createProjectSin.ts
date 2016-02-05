@@ -137,6 +137,30 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate', 'ngMe
             }
         };
     }])
+    .directive('drcalander', function () {
+        var tpl = '<div class="input-group">' +
+            '<input type="text" class="form-control" placeholder= "yyyy/MM/dd" uib-datepicker-popup="{{format}}"' +
+            'ng-model="datemodel" is-open="popupDateCalander.opened" close-text="Close" ng-click="openDateCalander()" readonly />' +
+            '<span class="input-group-btn" >' +
+            '<button type="button" class="btn btn-default" ng-click="openDateCalander()" ><i class="glyphicon glyphicon-calendar" ></i></button>' +
+            '</span>' +
+            '</div>';
+        return {
+            restrict: 'E',
+            template: tpl,
+            replace: true,
+            scope: { format: '@', datemodel: '=' },
+            link: function (scope: any) {
+                scope.openDateCalander = function () {
+                    scope.popupDateCalander.opened = true;
+                };
+
+                scope.popupDateCalander = {
+                    opened: false
+                };
+            }
+        };
+    })
     .filter('personData', function () {
         return function (data, query) {
             query = query.toLowerCase();
@@ -251,37 +275,21 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate', 'ngMe
                 var result = $filter('nameToUid')($scope.scrumMasterName, $scope.PersonData);
                 return result;
             };
+
             $scope.devGroup; //TODO: use localStorage to get init
             $scope.startDate;
             $scope.startDateFormat = function () {
                 return $filter('date')($scope.startDate, 'd/MMM/yy');
             }
+
             $scope.releaseDate;
             $scope.launchDate;
             $scope.AddedProjectPBInfo = [];
             $scope.BackLogList = NodeService.GetBackLogList;
             $scope.PersonData = DRService.GetPersonData;
-
-            
             $scope.format = 'yyyy/MM/dd';
 
             // Function
-            $scope.openSDateCalander = function () {
-                $scope.popupSDataCalander.opened = true;
-            };
-
-            $scope.popupSDataCalander = {
-                opened: false
-            };
-
-            $scope.openRDateCalander = function () {
-                $scope.popupRDataCalander.opened = true;
-            };
-
-            $scope.popupRDataCalander = {
-                opened: false
-            };
-
             $scope.LoadPersonData = function (query) {
                 return $filter('personData')($scope.PersonData, query);
             }
