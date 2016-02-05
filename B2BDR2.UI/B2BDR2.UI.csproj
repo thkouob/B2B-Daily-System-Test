@@ -978,7 +978,6 @@
     </Content>
     <Content Include="Views\Mockup\_CreateProjectConfirm.cshtml" />
     <Content Include="Views\Scrum\_CreateProjectConfirmSin.cshtml" />
-    <Content Include="Views\Mockup\CreateProjectLoading.cshtml" />
     <Content Include="Views\Scrum\_CpconfirmStellaTest.cshtml" />
     <Content Include="Views\Scrum\CreateProjectSean.cshtml" />
     <Content Include="Scripts\Scrum\CreateProject_Sean.js.map" />
