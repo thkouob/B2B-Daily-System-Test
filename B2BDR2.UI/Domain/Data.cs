@@ -44,6 +44,7 @@ namespace B2BDR2.UI.Domain
             menu.Add(new Navbar { Id = 41, nameOption = "Create Project", controller = "Scrum", action = "CreateProjectTest", status = true, isParent = false, parentId = 40 });
             menu.Add(new Navbar { Id = 42, nameOption = "Create Project - Sin", controller = "Scrum", action = "CreateProjectSin", status = true, isParent = false, parentId = 40 });
             menu.Add(new Navbar { Id = 43, nameOption = "Create Project - StellaTestPage", controller = "Scrum", action = "CpStellaTest", status = true, isParent = false, parentId = 40 });
+            menu.Add(new Navbar { Id = 44, nameOption = "Create Project - Sean", controller = "Scrum", action = "CreateProjectSean", status = true, isParent = false, parentId = 40 });
 
             // Mockup
             menu.Add(new Navbar { Id = 19, nameOption = "Mockup", imageClass = "fa fa-magic fa-fw", status = true, isParent = true, parentId = 0 });
