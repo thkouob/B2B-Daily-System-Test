@@ -23,10 +23,10 @@
 }
 
 @section scripts{
-
+    <script src="~/Scripts/Scrum/CreateProject_Sean.js"></script>
 }
 
-<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+<div class="container-fluid" ng-app="CreateProjectModule" ng-controller="CreateProjectCtr">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Create Project</h1>
@@ -138,54 +138,52 @@
                         <h2>Projrct {{ProjectNumber}} PBs</h2>
                         <div class="row" id="projectPBs">
                             <div class="col-lg-12">
-                                <ul class="nav nav-tabs">
-                                    <li class="active">
-                                        <a href="#TCBB9527" data-toggle="tab">TCBB9527</a>
-                                    </li>
-                                    <li><a href="#TCBB689" data-toggle="tab">TCBB689</a></li>
-                                    <li><a href="#TCBB0001" data-toggle="tab">TCBB0001</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div class="tab-pane fade in active" id="TCBB9527">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <div class="btn-group pull-right">
-                                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Remove</button>
+                                <uib-tabset justtified="true">
+                                    <uib-tab ng-repeat="selectList in AddedProjectPBInfo" active="tab.active" disable="tab.disabled">
+                                            <uib-tab-heading>
+                                                <div>
+                                                    {{selectList.JiraNumber}}&nbsp;<a ng-click="RemovePB($index, selectList.JiraNumber)"><i class="fa fa-remove text-danger"></i></a>
                                                 </div>
-                                                <h4>Fix the deadlock issue of Sciquest order process app</h4>
-                                            </div>
-                                            <div class="panel-body">
-                                                @AssigneeTable()
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="TCBB689">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <div class="btn-group pull-right">
-                                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Remove</button>
+                                            </uib-tab-heading>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4>{{selectList.Summary}}</h4>
                                                 </div>
-                                                <h4>Export order results</h4>
-                                            </div>
-                                            <div class="panel-body">
-                                                @AssigneeTable()
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="TCBB0001">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <div class="btn-group pull-right">
-                                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Remove</button>
+                                                <div class="panel-body">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Role</th>
+                                                                <th>Assignee</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="subTask in selectList.SubTaskList">
+                                                                <td>
+                                                                    {{subTask.Role}}
+                                                                </td>
+                                                                <td>
+                                                                    <tags-input ng-model="subTask.Assignee"
+                                                                                placeholder="Add a assignee"
+                                                                                add-from-autocomplete-only="true"
+                                                                                on-tag-added="tagAdded($tag)"
+                                                                                on-tag-removed="tagRemoved($tag)"
+                                                                                key-property="UID"
+                                                                                display-property="Name">
+                                                                        <auto-complete source="LoadPersonData($query)"
+                                                                                       min-length="0"
+                                                                                       debounce-delay="0"
+                                                                                       max-results-to-show="10"></auto-complete>
+                                                                        @*<auto-complete source="FilterPersonData($query)"></auto-complete>*@
+                                                                    </tags-input>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                                <h4>TEST the Project create</h4>
                                             </div>
-                                            <div class="panel-body">
-                                                @AssigneeTable()
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                        </uib-tab>
+                                </uib-tabset>
                             </div>
                         </div>
                         <!-- /.row -->
@@ -227,7 +225,7 @@
 
         //setTimeout(loading5Second, 3000);
 
-        setAnimated();
+        //setAnimated();
 
         $('.nav-tabs li').on('click', function () {
             $(this).addClass('animated tada')
@@ -261,26 +259,15 @@
                                         <th>Name</th>
                                         <th>Assignee</th>
                                     </tr>
-                                    <tr>
-                                        <td>TCBB-9682</td>
-                                        <td>TEST the Project create</td>
-                                        <td>Leo, Stella, Tina</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TCBB-9232</td>
-                                        <td>Fix the deadlock issue of Sciquest order process app</td>
-                                        <td>Sin, Howard, Jarvis</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TCBB-9643</td>
-                                        <td>TEST the Project create</td>
-                                        <td>Jarvis, Sean, Jonathan</td>
-                                    </tr>
-                                    <tr>
-                                        <td>TCBB-9612</td>
-                                        <td>SSL - Re-structure API URL (phase 2)</td>
-                                        <td>Jarvis, Jarvis</td>
-                                    </tr>
+                                    @*<tr ng-repeat="selectPB in AddedProjectPBInfo">
+                                        <td>{{selectPB.JiraNumber}}</td>
+                                        <td>{{selectPB.Description}}</td>
+                                        <td>
+                                            <span ng-repeat="subTask in selectPB.SubTaskList">
+                                                <span ng-repeat="assignee in subTask.AssigneeList">{{assignee.FirstName}}, </span>
+                                            </span>
+                                        </td>
+                                    </tr>*@
                                 </tbody>
                             </table>
                         </div>
@@ -302,64 +289,4 @@
         </script>
     </div>
 
-}
-
-@helper AssigneeTable()
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Role</th>
-                <th>Assignee</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Dev-Service</td>
-                <td>
-                    <tags-input id="tags_Service" ng-model="tagsS" display-property="name" placeholder="Add a country" replace-spaces-with-dashes="false">
-                        <auto-complete source="loadTags($query)"
-                                       min-length="0"
-                                       load-on-focus="true"
-                                       load-on-empty="true"
-                                       max-results-to-show="32"
-                                       template="my-custom-template"></auto-complete>
-                    </tags-input>
-
-                    <script type="text/ng-template" id="my-custom-template">
-                        <div class="right-panel">
-                            <span ng-bind-html="$highlight($getDisplayText())"></span>
-                            <span>({{data.name}})</span>
-                        </div>
-                    </script>
-                </td>
-            </tr>
-            <tr>
-                <td>Dev-UI</td>
-                <td>
-                    <tags-input id="tags_UI" ng-model="tagsU" display-property="name" placeholder="Add a country" replace-spaces-with-dashes="false">
-                        <auto-complete source="loadTags($query)"
-                                       min-length="0"
-                                       load-on-focus="true"
-                                       load-on-empty="true"
-                                       max-results-to-show="32"
-                                       template="my-custom-template"></auto-complete>
-                    </tags-input>
-                </td>
-            </tr>
-            <tr>
-                <td>Tester</td>
-                <td>
-                    <tags-input id="tags_Tester" ng-model="tagsT" display-property="name" placeholder="Add a country" replace-spaces-with-dashes="false">
-                        <auto-complete source="loadTags($query)"
-                                       min-length="0"
-                                       load-on-focus="true"
-                                       load-on-empty="true"
-                                       max-results-to-show="32"
-                                       template="my-custom-template"></auto-complete>
-                    </tags-input>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 }

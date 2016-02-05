@@ -27,7 +27,7 @@
     export class SubTaskInfo {
         constructor(
             public Role: string,
-            public Assignee: Array<PersonInfo>
+            public AssigneeList: Array<PersonInfo>
         ) {
 
         }
@@ -67,19 +67,22 @@
     export function GetBackLogList($http: ng.IHttpService): Array<BackLog> {
         var backLogList: Array<BackLog> = [];
         var requestUrl = CreateProject.JiraServiceHost + CreateProject.GetBackLogUri;
+        //var requestUrl = '/base/GetMockNodeBacklogInfo';
         $http.get(requestUrl)
             .then(function (response) {
-                var responseData: any = response.data;
-                $('#iconLoading').hide();
-                $('#t_BackLog').fadeIn();
-                for (var backLog of responseData) {
-                    backLogList.push(
-                        new BackLog(
-                            backLog.key,
-                            CreateProject.JiraSiteHost + backLog.key,
-                            backLog.summary,
-                            null
-                        ));
+                var responseObj: any = response.data;
+                if (responseObj) {
+                    $('#iconLoading').hide();
+                    $('#t_BackLog').fadeIn();
+                    for (var backLog of responseObj.data) {
+                        backLogList.push(
+                            new BackLog(
+                                backLog.key,
+                                CreateProject.JiraSiteHost + backLog.key,
+                                backLog.summary,
+                                null
+                            ));
+                    }
                 }
             }, function (error) {
                 //// write log / show error alert.
@@ -90,20 +93,39 @@
     }
 }
 
-angular.module('CreateProjectModule', [])
-    .factory('Service', ['$http', function ($http: ng.IHttpService) {
+angular.module('CreateProjectModule', ['ngTagsInput', 'ui.bootstrap'])
+    .factory('DRService', ['$http', function ($http: ng.IHttpService) {
         return {
             GetPersonData: CreateProject.GetPersonData($http),
+        }
+    }])
+
+    .factory('JiraService', ['$http', function ($http: ng.IHttpService) {
+        return {
             GetBackLogList: CreateProject.GetBackLogList($http)
         }
     }])
 
-    .controller('CreateProjectCtr', ['$scope', 'Service', '', function ($scope, service) {
+    .filter('FilterPersonData', function () {
+        return function (data, query) {
+            query = query.toLowerCase();
+            var result = [];
+            for (var person of data) {
+                if (person.UID.toLowerCase().startsWith(query) || person.Name.toLowerCase().startsWith(query)) {
+                    result.push(person);
+                }
+            }
+
+            return result;
+        }
+    })
+
+    .controller('CreateProjectCtr', ['$scope', '$filter', 'DRService', 'JiraService', function ($scope, $filter, drService, jiraService) {
         //model
         $scope.ProjectNumber;
         $scope.ProjectName;
-        $scope.BackLogList = service.GetBackLogList;
-        $scope.PersonData = service.GetPersonData;
+        $scope.PersonData = drService.GetPersonData;
+        $scope.BackLogList = jiraService.GetBackLogList;
         $scope.AddedProjectPBInfo = [];
         $scope.SM;
         $scope.DevGroup;
@@ -127,5 +149,9 @@ angular.module('CreateProjectModule', [])
         $scope.RemovePB = function ($index) {
             $scope.BackLogList.push($scope.AddedProjectPBInfo[$index]);
             $scope.AddedProjectPBInfo.splice($index, 1);
+        }
+
+        $scope.LoadPersonData = function (query) {
+            return $filter('FilterPersonData')($scope.PersonData, query);
         }
     }])

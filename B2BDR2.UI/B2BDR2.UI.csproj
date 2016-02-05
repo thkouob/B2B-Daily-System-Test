@@ -929,6 +929,7 @@
     <Content Include="Scripts\Scrum\CpStellaTest.js">
       <DependentUpon>CpStellaTest.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\Scrum\CreateProject_Sean.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -980,6 +981,7 @@
     <Content Include="Views\Mockup\CreateProjectLoading.cshtml" />
     <Content Include="Views\Scrum\_CpconfirmStellaTest.cshtml" />
     <Content Include="Views\Scrum\CreateProjectSean.cshtml" />
+    <Content Include="Scripts\Scrum\CreateProject_Sean.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
