@@ -23,7 +23,7 @@
                             <tr ng-repeat="p in ProjectList">
                                 <td>{{p.Key}}</td>
                                 <td>{{p.Title}}</td>
-                                <td>{{}}</td>
+                                <td>{{GetAssigneeGroup(p.Subtask)}}</td>
                             </tr>
                             <tr>{{AllFormData}}</tr>
                         </tbody>
