@@ -979,6 +979,7 @@
     <Content Include="Views\Scrum\_CreateProjectConfirmSin.cshtml" />
     <Content Include="Views\Mockup\CreateProjectLoading.cshtml" />
     <Content Include="Views\Scrum\_CpconfirmStellaTest.cshtml" />
+    <Content Include="Views\Scrum\CreateProjectSean.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -995,6 +996,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\Demo.ts" />
+    <TypeScriptCompile Include="Scripts\Scrum\CreateProject_Sean.ts" />
     <TypeScriptCompile Include="Scripts\Scrum\createProjectSin.ts" />
     <TypeScriptCompile Include="Scripts\Scrum\CpStellaTest.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
