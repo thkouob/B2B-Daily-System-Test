@@ -275,36 +275,21 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate', 'ngMe
                 var result = $filter('nameToUid')($scope.scrumMasterName, $scope.PersonData);
                 return result;
             };
+
             $scope.devGroup; //TODO: use localStorage to get init
             $scope.startDate;
             $scope.startDateFormat = function () {
                 return $filter('date')($scope.startDate, 'd/MMM/yy');
             }
+
             $scope.releaseDate;
             $scope.launchDate;
             $scope.AddedProjectPBInfo = [];
             $scope.BackLogList = NodeService.GetBackLogList;
             $scope.PersonData = DRService.GetPersonData;
-
             $scope.format = 'yyyy/MM/dd';
 
             // Function
-            $scope.openSDateCalander = function () {
-                $scope.popupSDataCalander.opened = true;
-            };
-
-            $scope.popupSDataCalander = {
-                opened: false
-            };
-
-            $scope.openRDateCalander = function () {
-                $scope.popupRDataCalander.opened = true;
-            };
-
-            $scope.popupRDataCalander = {
-                opened: false
-            };
-
             $scope.LoadPersonData = function (query) {
                 return $filter('personData')($scope.PersonData, query);
             }
