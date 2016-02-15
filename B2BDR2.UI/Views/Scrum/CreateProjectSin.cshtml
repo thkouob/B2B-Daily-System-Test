@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group" ng-class="{ 'has-error' : drform.smname.$dirty && (drform.smname.$error.required || drform.smname.$error.checksmname) }">
-                                            <label>Scrum Master</label>
+                                            <label>Scrum Master</label> {{scrumMasterUID()}}
                                             <ng-messages for="drform.smname.$error" ng-if="drform.smname.$dirty">
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                                 <ng-message class="text-danger pull-right" when="checksmname">not in B2B member list.</ng-message>
@@ -156,8 +156,13 @@
                                         <uib-tabset justtified="true">
                                             <uib-tab ng-repeat="addedList in AddedProjectPBInfo" active="tab.active" disable="tab.disabled">
                                                 <uib-tab-heading>
-                                                    <div>
-                                                        {{addedList.JiraNumber}}&nbsp;<a ng-click="RemovePB($index,addedList.JiraNumber)"><i class="fa fa-remove text-danger"></i></a>
+                                                    <div class="pbtab">
+                                                        {{addedList.JiraNumber}}
+                                                        <a ng-click="RemovePB($index,addedList.JiraNumber)">
+                                                            <span class="fa-stack fa-1x">
+                                                                <i class="fa fa-times fa-stack-1x"></i>
+                                                            </span>
+                                                        </a>
                                                     </div>
                                                 </uib-tab-heading>
                                                 <div class="panel panel-default">

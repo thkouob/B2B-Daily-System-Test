@@ -124,7 +124,6 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate', 'ngMe
                         ngModel.$setValidity("checksmname", true);
                         return true;
                     }
-
                     var uid = $filter('nameToUid')(modelValue, $scope.PersonData);
                     if (!ngModel.$isEmpty(uid)) {
                         ngModel.$setValidity("checksmname", true);
