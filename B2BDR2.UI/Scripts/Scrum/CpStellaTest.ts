@@ -84,7 +84,6 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
 
     function GetBackLog(url) {
         var backlogInfoList = [];
-
         $http.get(`${url}`)
             .then(function (response) {
                 var resultData: any = response.data;
@@ -112,7 +111,6 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
 
     function GetMembersList(apiurl) {
         var b2bMembers = [];
-        debugger
         $http.get(`${apiurl}`)
             .then(function (response) {
                 var resultData: any = response.data;
@@ -171,11 +169,19 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
     };
 });
 
-tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http', '$filter', '$location', '$timeout',
-    function ($scope, getBackLogList, getMemberList, $http, $filter, $location, $timeout) {
-        ////Init $scope.AllFormData ---------------------------------------------------------------////
+tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http', '$filter', '$window', '$timeout', '$location',
+    function ($scope, getBackLogList, getMemberList, $http, $filter, $window, $timeout, $location) {
+        ////Init ---------------------------------------------------------------////
         $scope.AllFormData = {
             DevGruop: null
+        }
+
+        $scope.ShowEditTitle = function () {
+            if ($scope.ProjectList == undefined || $scope.ProjectList.length == 0) {
+                return false;
+            }
+
+            return true;
         }
 
         ////display lists info ---------------------------------------------------------------////
@@ -295,8 +301,6 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
             });
         };
     
-       
-
         ////PopUp window ---------------------------------------------------------------////
         $scope.OpenPopUp = function () {
             $scope.$watchCollection('$scope.AllFormData', function (newNames, oldNames) {
@@ -342,12 +346,17 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
             $http.post(postapiurl, request)
                 .then(function (response) {
                     function redirectedPage1() {
-                        debugger
-                        $location.path('/Mockup/Index');
+                        var url = "http://" + $window.location.host + "/Mockup/Index";
+                        $window.location.href = url;
                     };
                     $timeout(redirectedPage1, 500);
                 });
         };
+
+        $scope.RedirectTest = function () {
+              //$location.path(url);
+   
+        }
 
         ////Private function ---------------------------------------------------------------////
         function GetBackLogWithSubTask(key) {
