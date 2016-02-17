@@ -88,6 +88,8 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
         $http.get(`${url}`)
             .then(function (response) {
                 var resultData: any = response.data;
+                $('.sk-circle').hide();
+                $('.pbArea').fadeIn();
                 angular.forEach(resultData.data, function (value, key) {
                     backlogInfoList.push(
                         new BackLog(value.id, value.key, value.summary));
@@ -110,7 +112,7 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
 
     function GetMembersList(apiurl) {
         var b2bMembers = [];
-
+        debugger
         $http.get(`${apiurl}`)
             .then(function (response) {
                 var resultData: any = response.data;
@@ -119,6 +121,7 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
                         new B2bMember(value.UID, value.Name, value.FirstName));
                 });
                 deferred.resolve(b2bMembers);
+
             }, function (response) {
                 deferred.reject(response);
             });
@@ -168,8 +171,8 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
     };
 });
 
-tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http', '$filter',
-    function ($scope, getBackLogList, getMemberList, $http, $filter) {
+tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http', '$filter', '$location', '$timeout',
+    function ($scope, getBackLogList, getMemberList, $http, $filter, $location, $timeout) {
         ////Init $scope.AllFormData ---------------------------------------------------------------////
         $scope.AllFormData = {
             DevGruop: null
@@ -299,7 +302,7 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
             $scope.$watchCollection('$scope.AllFormData', function (newNames, oldNames) {
                 $scope.AllFormData.SMUID = NameToUID();
                 $scope.AllFormData.PBList = GetPbList();
-                $scope.AllFormData.StartDate = GetFormatDate($scope.StartDate); 
+                $scope.AllFormData.StartDate = GetFormatDate($scope.StartDate);
                 $scope.AllFormData.ReleaseDate = GetFormatDate($scope.ReleaseDate);
                 $scope.AllFormData.LaunchDate = GetFormatDate($scope.LaunchDate);
             });
@@ -338,7 +341,11 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
 
             $http.post(postapiurl, request)
                 .then(function (response) {
-                    alert("success!!")
+                    function redirectedPage1() {
+                        debugger
+                        $location.path('/Mockup/Index');
+                    };
+                    $timeout(redirectedPage1, 500);
                 });
         };
 
@@ -354,7 +361,7 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
         }
 
         function GetFormatDate(date) {
-            return $filter('date')(date, 'dd/MM/yy');
+            return $filter('date')(date, 'dd/MMM/yy');
         }
 
         function GetDevGroup() {
@@ -368,13 +375,17 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
 
         function NameToUID() {
             var keepGoing = true;
+            var uid
             angular.forEach($scope.MembersList, function (value, key) {
                 if (keepGoing) {
                     if (value.Name === $scope.SmName) {
-                        $scope.AllFormData.SMUID = value.UID;
+                        uid = value.UID;
+                        keepGoing = false;
                     }
                 }
             });
+
+            return uid;
         }
 
         function GetPbList() {

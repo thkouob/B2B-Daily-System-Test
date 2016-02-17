@@ -50,4 +50,13 @@
   background-color: #ffff00;
 }
 
+.has-error .form-control {
+    border-color: #d50d19;
+}
+
+.has-error span {
+    color: #b0040e;
+    font-weight:bold;
+}
+
                 

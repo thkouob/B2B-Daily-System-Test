@@ -42,6 +42,8 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http, $q) {
             $http.get("" + url)
                 .then(function (response) {
                 var resultData = response.data;
+                $('.sk-circle').hide();
+                $('.pbArea').fadeIn();
                 angular.forEach(resultData.data, function (value, key) {
                     backlogInfoList.push(new BackLog(value.id, value.key, value.summary));
                 });
@@ -60,6 +62,7 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http, $q) {
         var deferred = $q.defer();
         function GetMembersList(apiurl) {
             var b2bMembers = [];
+            debugger;
             $http.get("" + apiurl)
                 .then(function (response) {
                 var resultData = response.data;
@@ -107,8 +110,8 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http, $q) {
         return items;
     };
 });
-tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http', '$filter',
-    function ($scope, getBackLogList, getMemberList, $http, $filter) {
+tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http', '$filter', '$location', '$timeout',
+    function ($scope, getBackLogList, getMemberList, $http, $filter, $location, $timeout) {
         ////Init $scope.AllFormData ---------------------------------------------------------------////
         $scope.AllFormData = {
             DevGruop: null
@@ -250,7 +253,12 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
             var postapiurl = 'http://10.16.133.102:3000/jiraapi/project';
             $http.post(postapiurl, request)
                 .then(function (response) {
-                alert("success!!");
+                function redirectedPage1() {
+                    debugger;
+                    $location.path('/Mockup/Index');
+                }
+                ;
+                $timeout(redirectedPage1, 500);
             });
         };
         ////Private function ---------------------------------------------------------------////
@@ -260,7 +268,7 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
             return subTaskInfoList;
         }
         function GetFormatDate(date) {
-            return $filter('date')(date, 'dd/MM/yy');
+            return $filter('date')(date, 'dd/MMM/yy');
         }
         function GetDevGroup() {
             switch ($scope.AllFormData.DevGruop) {
@@ -272,13 +280,16 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
         }
         function NameToUID() {
             var keepGoing = true;
+            var uid;
             angular.forEach($scope.MembersList, function (value, key) {
                 if (keepGoing) {
                     if (value.Name === $scope.SmName) {
-                        $scope.AllFormData.SMUID = value.UID;
+                        uid = value.UID;
+                        keepGoing = false;
                     }
                 }
             });
+            return uid;
         }
         function GetPbList() {
             var pbInfo = [];
