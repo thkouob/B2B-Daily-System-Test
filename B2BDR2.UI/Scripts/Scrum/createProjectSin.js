@@ -43,7 +43,7 @@ var CreateProjectRequest = (function () {
     }
     return CreateProjectRequest;
 })();
-angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate', 'ngMessages'])
+angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngMessages'])
     .factory('DRService', ['$http', function ($http) {
         var getPersonUrl = 'http://10.16.133.102:52332/prj/v1/Person';
         function GetMemberData(url) {

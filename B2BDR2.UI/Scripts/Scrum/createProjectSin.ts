@@ -106,7 +106,7 @@ class CreateProjectRequest {
     }
 }
 
-angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate', 'ngMessages'])
+angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngMessages'])
     .factory('DRService', ['$http', function ($http: ng.IHttpService) {
         var getPersonUrl = 'http://10.16.133.102:52332/prj/v1/Person';
 
