@@ -100,53 +100,6 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate', 'ngMe
             PostCreateProject: PostCreateProject
         };
     }])
-    .directive('myAlert', function ($modal, $log) {
-    return {
-        restrict: 'E',
-        scope: {
-            mode: '@',
-            boldTextTitle: '@',
-            textAlert: '@'
-        },
-        link: function (scope, elm, attrs) {
-            scope.data = {
-                mode: scope.mode || 'info',
-                boldTextTitle: scope.boldTextTitle || 'title',
-                textAlert: scope.textAlert || 'text'
-            };
-            var ModalInstanceCtrl = function ($scope, $modalInstance, data) {
-                console.log(data);
-                $scope.data = data;
-                $scope.close = function () {
-                    $modalInstance.close($scope.data);
-                };
-            };
-            elm.parent().bind("click", function (e) {
-                scope.open();
-            });
-            scope.open = function () {
-                var modalInstance = $modal.open({
-                    templateUrl: 'myModalContent.html',
-                    controller: ModalInstanceCtrl,
-                    backdrop: true,
-                    keyboard: true,
-                    backdropClick: true,
-                    size: 'lg',
-                    resolve: {
-                        data: function () {
-                            return scope.data;
-                        }
-                    }
-                });
-                modalInstance.result.then(function (selectedItem) {
-                    scope.selected = selectedItem;
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
-                });
-            };
-        }
-    };
-})
     .directive('checksmname', ['$filter', function ($filter) {
         return {
             restrict: 'A',
@@ -399,7 +352,6 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngAnimate', 'ngMe
             NodeService.PostCreateProject($scope.GetCreateProjectRequest());
         };
         $scope.GetCreateProjectRequest = function () {
-            // use angular.copy() to copy by value, so we can change content without change original data.
             $scope.reuqestAddedPBList = angular.copy($scope.addedProjectPBInfo);
             $scope.reuqestAddedPBList.forEach(function (pb) {
                 var requestSubTaskList = [];

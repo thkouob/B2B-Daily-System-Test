@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group" ng-class="{ 'has-error' : (drform.smname.$touched || drform.$submitted) && drform.smname.$invalid }">
-                                            <label>Scrum Master</label> {{scrumMasterUID()}}
+                                            <label>Scrum Master</label>
                                             <ng-messages for="drform.smname.$error" ng-if="drform.smname.$touched || drform.$submitted">
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                                 <ng-message class="text-danger pull-right" when="checksmname">not in B2B member list.</ng-message>
@@ -85,8 +85,6 @@
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                             </ng-messages>
                                             <drcalander name="startdaycal" format="{{format}}" datemodel="startDate"></drcalander>
-                                            startDate = {{startDate}}<br />
-                                            startDateFormat = {{FormatDate(startDate)}}
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -96,8 +94,6 @@
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                             </ng-messages>
                                             <drcalander name="releasedaycal" format="{{format}}" datemodel="releaseDate" required></drcalander>
-                                            releaseDate = {{releaseDate}}<br />
-                                            releaseDateFormat = {{FormatDate(releaseDate)}}
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -107,8 +103,6 @@
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                             </ng-messages>
                                             <drcalander name="launchdaycal" format="{{format}}" datemodel="launchDate" required></drcalander>
-                                            launchDate = {{launchDate}}<br />
-                                            launchdateFormat = {{FormatDate(launchDate)}}
                                         </div>
                                     </div>
                                 </div>
@@ -217,8 +211,6 @@
                                         </uib-tabset>
                                     </div>
                                 </div>
-                                Request Json Info: <br />
-                                {{GetCreateProjectRequest()}}
 
                                 <!-- /.row -->
                                 <div class="row">
