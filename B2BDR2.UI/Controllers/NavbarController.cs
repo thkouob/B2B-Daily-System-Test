@@ -22,5 +22,11 @@ namespace B2BDR2.UI.Controllers
             var data = new Data();
             return PartialView("_B2BNavbar", data.GetB2BNavbarItems().ToList());
         }
+
+        public ActionResult B2BMockupIndex()
+        {
+            var data = new Data();
+            return PartialView("_B2BMockupNavbar", data.GetB2BMockupNavbarItems().ToList());
+        }
     }
 }

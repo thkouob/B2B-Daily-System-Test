@@ -118,6 +118,7 @@
     <Compile Include="Controllers\ScrumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NavbarController.cs" />
+    <Compile Include="Controllers\UtilityController.cs" />
     <Compile Include="Domain\Data.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -978,6 +979,10 @@
     <Content Include="Views\Scrum\_CpconfirmStellaTest.cshtml" />
     <Content Include="Views\Scrum\CreateProjectSean.cshtml" />
     <Content Include="Scripts\Scrum\CreateProject_Sean.js.map" />
+    <Content Include="Views\Shared\_B2BLayout.cshtml" />
+    <Content Include="Views\Utility\CreateProject.cshtml" />
+    <Content Include="Views\Utility\ProjectStatus.cshtml" />
+    <Content Include="Views\Shared\_B2BMockupNavbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

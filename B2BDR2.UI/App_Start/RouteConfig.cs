@@ -13,11 +13,22 @@ namespace B2BDR2.UI
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+#if(DEBUG)
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Mockup", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Mockup", action = "CreateProject", id = UrlParameter.Optional }
             );
+#else
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Utility", action = "CreateProject", id = UrlParameter.Optional }
+            );
+#endif
+
+
+
         }
     }
 }

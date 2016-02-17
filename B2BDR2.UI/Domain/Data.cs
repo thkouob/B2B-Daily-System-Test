@@ -33,7 +33,7 @@ namespace B2BDR2.UI.Domain
             return menu.ToList();
         }
 
-        public IEnumerable<Navbar> GetB2BNavbarItems()
+        public IEnumerable<Navbar> GetB2BMockupNavbarItems()
         {
             var menu = new List<Navbar>();
             // Default index page
@@ -50,6 +50,19 @@ namespace B2BDR2.UI.Domain
             menu.Add(new Navbar { Id = 19, nameOption = "Mockup", imageClass = "fa fa-magic fa-fw", status = true, isParent = true, parentId = 0 });
             menu.Add(new Navbar { Id = 20, nameOption = "Project Status", controller = "Mockup", action = "ProjectStatus", status = true, isParent = false, parentId = 19 });
             menu.Add(new Navbar { Id = 21, nameOption = "Create Project", controller = "Mockup", action = "CreateProject", status = true, isParent = false, parentId = 19 });
+
+            return menu.ToList();
+        }
+
+        public IEnumerable<Navbar> GetB2BNavbarItems()
+        {
+            var menu = new List<Navbar>();
+
+            menu.Add(new Navbar { Id = 001, nameOption = "Utility", controller = "Utility", imageClass = "fa fa-dashboard fa-fw", status = true, isParent = true, parentId = 0 });
+
+            // Project
+            menu.Add(new Navbar { Id = 0001, nameOption = "Create Project", controller = "Utility", action = "CreateProject", status = true, isParent = false, parentId = 001 });
+            menu.Add(new Navbar { Id = 0002, nameOption = "Project Status", controller = "Utility", action = "ProjectStatus", status = true, isParent = false, parentId = 001 });
 
             return menu.ToList();
         }
