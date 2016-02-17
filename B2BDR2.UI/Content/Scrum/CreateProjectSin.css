@@ -19,3 +19,19 @@ input[type=number]::-webkit-outer-spin-button {
     background-color:white;
     color:#555
 }
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, 
+.table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    vertical-align: middle;
+}
+
+/* CSS used here will be applied after bootstrap.css */
+.pbtab .fa-stack .fa-times{
+    color: #808080;
+	font-size: larger;
+}
+.pbtab .fa-times:hover:before{
+	content: "\f057";
+    color: #c33;
+    font-size: x-large;
+}
