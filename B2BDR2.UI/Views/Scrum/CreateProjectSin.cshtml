@@ -33,9 +33,9 @@
                                 <!-- Basic Info -->
                                 <div class="row">
                                     <div class="col-lg-3">
-                                        <div class="form-group" ng-class="{ 'has-error' : drform.prjnumber.$dirty && drform.prjnumber.$error.required  }">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.prjnumber.$touched || drform.$submitted) && drform.prjnumber.$invalid }">
                                             <label>Project No.</label>
-                                            <ng-messages for="drform.prjnumber.$error" ng-if="drform.prjnumber.$dirty">
+                                            <ng-messages for="drform.prjnumber.$error" ng-if="drform.prjnumber.$touched || drform.$submitted">
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                             </ng-messages>
                                             <input type="number" class="form-control" name="prjnumber" ng-model="projectNumber" required
@@ -43,12 +43,27 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <div class="form-group" ng-class="{ 'has-error' : drform.prjname.$dirty && drform.prjname.$error.required  }">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.prjname.$touched || drform.$submitted) && drform.prjname.$invalid }">
                                             <label>Project Name</label>
-                                            <ng-messages for="drform.prjname.$error" ng-if="drform.prjname.$dirty">
+                                            <ng-messages for="drform.prjname.$error" ng-if="drform.prjname.$touched || drform.$submitted">
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                             </ng-messages>
-                                            <input class="form-control" name="prjname" maxlength="200" placeholder="" ng-model="projectName" />
+                                            <input class="form-control" name="prjname" maxlength="200" placeholder="" ng-model="projectName" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.smname.$touched || drform.$submitted) && drform.smname.$invalid }">
+                                            <label>Scrum Master</label> {{scrumMasterUID()}}
+                                            <ng-messages for="drform.smname.$error" ng-if="drform.smname.$touched || drform.$submitted">
+                                                <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
+                                                <ng-message class="text-danger pull-right" when="checksmname">not in B2B member list.</ng-message>
+                                            </ng-messages>
+                                            <input name="smname" class="form-control" ng-maxlength="30" list="memberlist" ng-model="scrumMasterName" required checksmname />
+                                            <datalist id="memberlist">
+                                                <select>
+                                                    <option data-ng-repeat="p in memberData" value="{{p.Name}}"></option>
+                                                </select>
+                                            </datalist>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -59,45 +74,41 @@
                                             <label class="radio-inline"><input type="radio" ng-model="devGroup" name="optionsDevGroup" id="optionsDevGruop2" value="2" />SSL</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group" ng-class="{ 'has-error' : drform.smname.$dirty && (drform.smname.$error.required || drform.smname.$error.checksmname) }">
-                                            <label>Scrum Master</label> {{scrumMasterUID()}}
-                                            <ng-messages for="drform.smname.$error" ng-if="drform.smname.$dirty">
-                                                <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
-                                                <ng-message class="text-danger pull-right" when="checksmname">not in B2B member list.</ng-message>
-                                            </ng-messages>
-                                            <input name="smname" class="form-control" ng-maxlength="30" list="memberlist" ng-model="scrumMasterName" required checksmname />
-                                            <datalist id="memberlist">
-                                                <select>
-                                                    <option data-ng-repeat="p in PersonData" value="{{p.Name}}"></option>
-                                                </select>
-                                            </datalist>
-                                        </div>
-                                    </div>
                                 </div>
                                 <!-- /.row -->
                                 <!-- Date -->
                                 <div class="row">
                                     <div class="col-lg-3">
-                                        <div class="form-group">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.startdaycal.$touched || drform.$submitted) && drform.startdaycal.$invalid }">
                                             <label>Start Day</label>
-                                            <drcalander format="{{format}}" datemodel="startDate"></drcalander>
+                                            <ng-messages for="drform.startdaycal.$error" ng-if="drform.startdaycal.$touched || drform.$submitted">
+                                                <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
+                                            </ng-messages>
+                                            <drcalander name="startdaycal" format="{{format}}" datemodel="startDate"></drcalander>
                                             startDate = {{startDate}}<br />
-                                            startDateFormat = {{startDateFormat()}}
+                                            startDateFormat = {{FormatDate(startDate)}}
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <div class="form-group">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.releasedaycal.$touched || drform.$submitted) && drform.releasedaycal.$invalid }">
                                             <label>Release Day</label>
-                                            <drcalander format="{{format}}" datemodel="releaseDate"></drcalander>
-                                            releaseDate = {{releaseDate}}
+                                            <ng-messages for="drform.releasedaycal.$error" ng-if="drform.releasedaycal.$touched || drform.$submitted">
+                                                <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
+                                            </ng-messages>
+                                            <drcalander name="releasedaycal" format="{{format}}" datemodel="releaseDate" required></drcalander>
+                                            releaseDate = {{releaseDate}}<br />
+                                            releaseDateFormat = {{FormatDate(releaseDate)}}
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <div class="form-group">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.launchdaycal.$touched || drform.$submitted) && drform.launchdaycal.$invalid }">
                                             <label>Launch Day</label>
-                                            <drcalander format="{{format}}" datemodel="launchdate"></drcalander>
-                                            launchdate = {{launchdate}}
+                                            <ng-messages for="drform.launchdaycal.$error" ng-if="drform.launchdaycal.$touched || drform.$submitted">
+                                                <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
+                                            </ng-messages>
+                                            <drcalander name="launchdaycal" format="{{format}}" datemodel="launchDate" required></drcalander>
+                                            launchDate = {{launchDate}}<br />
+                                            launchdateFormat = {{FormatDate(launchDate)}}
                                         </div>
                                     </div>
                                 </div>
@@ -134,9 +145,9 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr ng-repeat="backlog in BackLogList">
+                                                        <tr ng-repeat="backlog in backLogList">
                                                             <td><button class="btn btn-default" type="button" ng-click="AddPB($index)"><i class="fa fa-plus"></i></button></td>
-                                                            <td><a href="{{backlog.JiraLink}}" target="_blank">{{backlog.JiraNumber}}</a></td>
+                                                            <td><a href="{{backlog.JiraLink}}" target="_blank">{{backlog.IssueKey}}</a></td>
                                                             <td>{{backlog.Summary}}</td>
                                                         </tr>
                                                     </tbody>
@@ -154,11 +165,11 @@
                                 <div class="row" id="projectPBs">
                                     <div class="col-lg-12">
                                         <uib-tabset justtified="true">
-                                            <uib-tab ng-repeat="addedList in AddedProjectPBInfo" active="tab.active" disable="tab.disabled">
+                                            <uib-tab ng-repeat="addedList in addedProjectPBInfo" active="tab.active" disable="tab.disabled">
                                                 <uib-tab-heading>
                                                     <div class="pbtab">
-                                                        {{addedList.JiraNumber}}
-                                                        <a ng-click="RemovePB($index,addedList.JiraNumber)">
+                                                        {{addedList.IssueKey}}
+                                                        <a ng-click="RemovePB($index,addedList.IssueKey)">
                                                             <span class="fa-stack fa-1x">
                                                                 <i class="fa fa-times fa-stack-1x"></i>
                                                             </span>
@@ -180,7 +191,7 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr ng-repeat="subTask in addedList.SubTaskList">
-                                                                    <td class="thwid1">{{subTask.Role}}</td>
+                                                                    <td class="thwid1">{{subTask.RoleName}}</td>
                                                                     <td class="thwid2">
                                                                         <tags-input ng-model="subTask.Assignee"
                                                                                     placeholder="Add a member"
@@ -189,14 +200,14 @@
                                                                                     on-tag-removed="tagRemoved($tag)"
                                                                                     key-property="UID"
                                                                                     display-property="Name">
-                                                                            <auto-complete source="LoadPersonData($query)"
+                                                                            <auto-complete source="LoadMemberData($query)"
                                                                                            min-length="0"
                                                                                            debounce-delay="0"
                                                                                            max-results-to-show="10"></auto-complete>
 
                                                                         </tags-input>
                                                                     </td>
-                                                                    <td class="thwid3">&nbsp;</td>
+                                                                    <td class="thwid3">{{subTask.Assignee}}&nbsp;</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -206,16 +217,13 @@
                                         </uib-tabset>
                                     </div>
                                 </div>
+                                Request Json Info: <br />
+                                {{GetCreateProjectRequest()}}
 
                                 <!-- /.row -->
-
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <button type="button"
-                                                class="btn btn-primary btn-lg btn-block"
-                                                data-toggle="modal"
-                                                data-target="#modalCreateProjectConfirm"
-                                                ng-click="ReciprocalAccept();">
+                                        <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="OpenModal()">
                                             Confirm
                                         </button>
                                     </div>
@@ -233,8 +241,7 @@
         </div>
 
         <!-- Confirm Modal-->
-        <div class="modal fade" id="modalCreateProjectConfirm" tabindex="-1" role="dialog" aria-labelledby="modalCreateProjectConfirmLabel">
+        <div class="modal fade" modal-show modal-visible="showDialog">
             @Html.Partial("_CreateProjectConfirmSin")
         </div>
     </div>
-</div>
