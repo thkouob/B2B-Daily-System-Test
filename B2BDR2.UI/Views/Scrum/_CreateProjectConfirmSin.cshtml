@@ -20,8 +20,8 @@
                                 <th>Name</th>
                                 <th>Assignee</th>
                             </tr>
-                            <tr ng-repeat="addedList in AddedProjectPBInfo">
-                                <td>{{addedList.JiraNumber}}</td>
+                            <tr ng-repeat="addedList in addedProjectPBInfo">
+                                <td>{{addedList.IssueKey}}</td>
                                 <td>{{addedList.Summary}}</td>
                                 <td>{{GetPBAssignees(addedList)}}</td>
                             </tr>
@@ -33,7 +33,16 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button id="bt_accept" type="button" class="btn btn-primary">&nbsp;Create</button>
+            <button id="bt_create" type="button" ng-click="CreateProject()" class="btn btn-primary">&nbsp;Create</button>
         </div>
+    </div>
+</div>
+
+<div class="modal-body" style="padding:0">
+    <div class="alert alert-{{data.mode}}" style="margin-bottom:0">
+        <button type="button" class="close" data-ng-click="close()">
+            <span class="glyphicon glyphicon-remove-circle"></span>
+        </button>
+        <strong>{{data.boldTextTitle}}</strong> {{data.textAlert}}
     </div>
 </div>
