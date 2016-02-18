@@ -1,8 +1,9 @@
 var BackLog = (function () {
-    function BackLog(id, key, summary) {
+    function BackLog(id, key, summary, url) {
         this.Id = id;
         this.Key = key;
         this.Summary = summary;
+        this.Pburl = url;
     }
     return BackLog;
 })();
@@ -32,7 +33,7 @@ var SubTask = (function () {
     }
     return SubTask;
 })();
-var tpscpPractice = angular.module("jiraApp", ['ngTagsInput']);
+var tpscpPractice = angular.module("jiraApp", ['ngTagsInput', 'mgcrea.ngStrap.datepicker']);
 tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http, $q) {
         ////getBackLog
         var url = '/base/GetMockNodeBacklogInfo';
@@ -45,7 +46,8 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http, $q) {
                 $('.sk-circle').hide();
                 $('.pbArea').fadeIn();
                 angular.forEach(resultData.data, function (value, key) {
-                    backlogInfoList.push(new BackLog(value.id, value.key, value.summary));
+                    var url = "http://jira/browse/" + value.key;
+                    backlogInfoList.push(new BackLog(value.id, value.key, value.summary, url));
                 });
                 deferred.resolve(backlogInfoList);
             }, function (response) {
@@ -179,7 +181,8 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
             angular.forEach(tempBackLog, function (value, key) {
                 if (keepGoing) {
                     if (value.Key === $scope.ProjectList[idx].Key) {
-                        $scope.BacklogList.push(new BackLog(value.Id, value.Key, value.Summary));
+                        var url = "http://jira/browse/" + value.Key;
+                        $scope.BacklogList.push(new BackLog(value.Id, value.Key, value.Summary, url));
                         keepGoing = false;
                     }
                 }
@@ -265,9 +268,6 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                 ;
                 $timeout(redirectedPage1, 500);
             });
-        };
-        $scope.RedirectTest = function () {
-            //$location.path(url);
         };
         ////Private function ---------------------------------------------------------------////
         function GetBackLogWithSubTask(key) {
