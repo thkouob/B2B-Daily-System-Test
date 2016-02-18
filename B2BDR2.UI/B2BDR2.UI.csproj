@@ -120,6 +120,7 @@
     <Compile Include="Controllers\NavbarController.cs" />
     <Compile Include="Controllers\UtilityController.cs" />
     <Compile Include="Domain\Data.cs" />
+    <Compile Include="Enums\EnvironmentType.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -127,6 +128,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\NavbarHelper.cshtml" />
     <None Include="bower_components\bootstrap-social\.gitignore" />
     <None Include="bower_components\bootstrap-social\bootstrap-social.css" />
     <None Include="bower_components\bootstrap\dist\css\bootstrap-theme.css" />
@@ -961,9 +963,9 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Mockup\Index.cshtml" />
-    <Content Include="Views\Shared\_MockupLayout.cshtml" />
+    <Content Include="Views\Shared\_LayoutMockup.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_B2BNavbar.cshtml" />
+    <Content Include="Views\Shared\_NavbarB2B.cshtml" />
     <Content Include="Views\Scrum\CreateProjectTest.cshtml" />
     <Content Include="Views\Mockup\_CreateSubTask.cshtml" />
     <Content Include="Views\Scrum\CreateProjectSin.cshtml" />
@@ -979,10 +981,9 @@
     <Content Include="Views\Scrum\_CpconfirmStellaTest.cshtml" />
     <Content Include="Views\Scrum\CreateProjectSean.cshtml" />
     <Content Include="Scripts\Scrum\CreateProject_Sean.js.map" />
-    <Content Include="Views\Shared\_B2BLayout.cshtml" />
+    <Content Include="Views\Shared\_LayoutB2B.cshtml" />
     <Content Include="Views\Utility\CreateProject.cshtml" />
     <Content Include="Views\Utility\ProjectStatus.cshtml" />
-    <Content Include="Views\Shared\_B2BMockupNavbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

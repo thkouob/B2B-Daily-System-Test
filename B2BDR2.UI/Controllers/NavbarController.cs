@@ -19,14 +19,12 @@ namespace B2BDR2.UI.Controllers
 
         public ActionResult B2BIndex()
         {
-            var data = new Data();
-            return PartialView("_B2BNavbar", data.GetB2BNavbarItems().ToList());
+            return PartialView("_NavbarB2B", EnvironmentType.B2BProduction);
         }
 
         public ActionResult B2BMockupIndex()
         {
-            var data = new Data();
-            return PartialView("_B2BMockupNavbar", data.GetB2BMockupNavbarItems().ToList());
+            return PartialView("_NavbarB2B", EnvironmentType.B2BMockup);
         }
     }
 }

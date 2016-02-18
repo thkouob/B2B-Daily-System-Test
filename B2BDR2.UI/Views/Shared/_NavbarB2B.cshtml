@@ -1,4 +1,7 @@
-﻿@model IEnumerable<B2BDR2.UI.Models.Navbar>
+﻿@model EnvironmentType
+@{
+    IEnumerable<Navbar> data = null;
+}
 
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -9,11 +12,25 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        @Html.ActionLink("Daily Report 2", "Index", new { controller = "Home" }, new { @class = "navbar-brand" })
+        @switch (Model)
+        {
+            case EnvironmentType.B2BMockup:
+                data = NavbarHelper.GetB2BMockupNavbarItems();
+                @Html.ActionLink("Daily Report 2 (Mockup)", "Index", new { controller = "Home" }, new { @class = "navbar-brand" })
+                break;
+            case EnvironmentType.B2BProduction:
+                data = NavbarHelper.GetB2BNavbarItems();
+                @Html.ActionLink("Daily Report 2", "Createproject", new { controller = "Utility" }, new { @class = "navbar-brand" })
+                break;
+            case EnvironmentType.SBDemo:
+            default:
+            @Html.ActionLink("SB Admin v2.0", "Index", new { controller = "Home" }, new { @class = "navbar-brand" })
+                break;
+        }
     </div>
     <!-- /.navbar-header -->
     <ul class="nav navbar-top-links navbar-right">
-        
+
         <!-- /.dropdown -->
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -48,33 +65,37 @@
                             </button>
                         </span>
                     </div>
+                    <!-- /input-group -->
                 </li>
-                @foreach (var item in Model)
+                @if (data != null)
                 {
-                    if (item.isParent == false && item.parentId == 0)
+                    foreach (var item in data)
                     {
-                        <li><a href="@Url.Action(item.action, item.controller)"><i class="@item.imageClass"></i> @item.nameOption</a></li>
-                    }
-                    else
-                    {
-                        if (item.isParent == true)
+                        if (item.isParent == false && item.parentId == 0)
                         {
-                            <li>
-                                <a href="#"><i class="@item.imageClass"></i> @item.nameOption<span class="fa arrow"></span></a>                          
-                                <ul class="nav nav-second-level">
-                                    @foreach (var child in Model.Where(p => p.parentId == item.Id))
-                                    {
-                                        if (child.controller == null)
+                            <li><a href="@Url.Action(item.action, item.controller)"><i class="@item.imageClass"></i> @item.nameOption</a></li>
+                        }
+                        else
+                        {
+                            if (item.isParent == true)
+                            {
+                                <li>
+                                    <a href="#"><i class="@item.imageClass"></i> @item.nameOption<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level">
+                                        @foreach (var child in data.Where(p => p.parentId == item.Id))
                                         {
-                                            <li><a href="#">@child.nameOption</a></li>
+                                            if (child.controller == null)
+                                            {
+                                                <li><a href="#">@child.nameOption</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a href="@Url.Action(child.action, child.controller)">@child.nameOption</a></li>
+                                            }
                                         }
-                                        else
-                                        {
-                                        <li><a href="@Url.Action(child.action, child.controller)">@child.nameOption</a></li>
-                                        }
-                                    }
-                                </ul>
-                            </li>
+                                    </ul>
+                                </li>
+                            }
                         }
                     }
                 }
