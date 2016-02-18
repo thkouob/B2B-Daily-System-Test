@@ -130,5 +130,7 @@ angular.module('CreateProjectModule', ['ngTagsInput', 'ui.bootstrap'])
         $scope.LoadPersonData = function (query) {
             return $filter('FilterPersonData')($scope.PersonData, query);
         };
+        $scope.CountdownToAccept = function () {
+        };
     }]);
 //# sourceMappingURL=CreateProject_Sean.js.map

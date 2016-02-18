@@ -28,8 +28,11 @@ $.extend( true, DataTable.defaults, {
 
 /* Default class modification */
 $.extend( DataTable.ext.classes, {
-	sWrapper:      "dataTables_wrapper form-inline dt-bootstrap",
-	sFilterInput:  "form-control input-sm",
+    sWrapper:      "dataTables_wrapper form-inline dt-bootstrap",
+    /* Leo 暫時拿掉 form-control class
+    sFilterInput:  "form-control input-sm",
+    */
+	sFilterInput: "input-sm",
 	sLengthSelect: "form-control input-sm"
 } );
 

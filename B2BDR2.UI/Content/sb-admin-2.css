@@ -352,3 +352,9 @@ table.dataTable thead .sorting:after {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+.fixSearch {
+    padding-top:0;
+    padding-bottom:10px;
+    padding-right:0;
+}
