@@ -217,6 +217,9 @@
     <None Include="bower_components\datatables-plugins\integration\bootstrap\3\dataTables.bootstrap.css" />
     <None Include="bower_components\datatables-plugins\integration\bootstrap\3\dataTables.bootstrap.js" />
     <None Include="bower_components\datatables-plugins\integration\bootstrap\3\dataTables.bootstrap.min.js" />
+    <Content Include="bower_components\datatables-plugins\integration\bootstrap\3\dataTables.bootstrap.min.js.map">
+      <DependentUpon>dataTables.bootstrap.min.js</DependentUpon>
+    </Content>
     <None Include="bower_components\datatables-plugins\integration\bootstrap\3\index.html" />
     <None Include="bower_components\datatables-plugins\integration\bootstrap\images\sort_asc.png" />
     <None Include="bower_components\datatables-plugins\integration\bootstrap\images\sort_asc_disabled.png" />
@@ -941,7 +944,9 @@
     <Content Include="Scripts\Scrum\CpStellaTest.js">
       <DependentUpon>CpStellaTest.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\Scrum\CreateProject_Sean.js" />
+    <Content Include="Scripts\Scrum\CreateProject_Sean.js">
+      <DependentUpon>CreateProject_Sean.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -992,7 +997,9 @@
     <Content Include="Views\Scrum\_CreateProjectConfirmSin.cshtml" />
     <Content Include="Views\Scrum\_CpconfirmStellaTest.cshtml" />
     <Content Include="Views\Scrum\CreateProjectSean.cshtml" />
-    <Content Include="Scripts\Scrum\CreateProject_Sean.js.map" />
+    <Content Include="Scripts\Scrum\CreateProject_Sean.js.map">
+      <DependentUpon>CreateProject_Sean.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\_LayoutB2B.cshtml" />
     <Content Include="Views\Utility\CreateProject.cshtml" />
     <Content Include="Views\Utility\ProjectStatus.cshtml" />
