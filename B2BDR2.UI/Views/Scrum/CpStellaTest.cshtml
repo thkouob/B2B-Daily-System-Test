@@ -104,7 +104,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-default" ng-click="RedirectTest()">redirect</button>
                         </div>
                         <!-- /.row -->
 
@@ -139,9 +138,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr id="{{u.Id}}" ng-click="SelectedProjectLog($index)" ng-repeat="u in BacklogList">
+                                                <tr id="{{u.Id}}" ng-repeat="u in BacklogList">
                                                     <td>{{u.Key}}</td>
-                                                    <td>{{u.Summary}}</td>
+                                                    <td ng-click="SelectedProjectLog($index)">{{u.Summary}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

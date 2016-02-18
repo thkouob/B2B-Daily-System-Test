@@ -266,9 +266,6 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                 $timeout(redirectedPage1, 500);
             });
         };
-        $scope.RedirectTest = function () {
-            //$location.path(url);
-        };
         ////Private function ---------------------------------------------------------------////
         function GetBackLogWithSubTask(key) {
             var subTaskInfoList = [];

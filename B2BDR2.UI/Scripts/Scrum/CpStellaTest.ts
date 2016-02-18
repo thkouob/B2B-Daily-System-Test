@@ -353,11 +353,6 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                 });
         };
 
-        $scope.RedirectTest = function () {
-              //$location.path(url);
-   
-        }
-
         ////Private function ---------------------------------------------------------------////
         function GetBackLogWithSubTask(key) {
             var subTaskInfoList = [];
