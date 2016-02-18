@@ -1,7 +1,8 @@
 ﻿interface IBackLog {
     Id: string,
     Key: string,
-    Summary: string
+    Summary: string,
+    Pburl: string
 }
 //interface ISubTask2 extends IBackLog {
 //    SubTaskList: any;
@@ -30,10 +31,12 @@ class BackLog implements IBackLog {
     Id: string;
     Key: string;
     Summary: string;
-    constructor(id: string, key: string, summary: string) {
+    Pburl: string;
+    constructor(id: string, key: string, summary: string, url: string) {
         this.Id = id;
         this.Key = key;
         this.Summary = summary;
+        this.Pburl = url;
     }
 }
 
@@ -90,8 +93,9 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
                 $('.sk-circle').hide();
                 $('.pbArea').fadeIn();
                 angular.forEach(resultData.data, function (value, key) {
+                    var url = "http://jira/browse/" + value.key;
                     backlogInfoList.push(
-                        new BackLog(value.id, value.key, value.summary));
+                        new BackLog(value.id, value.key, value.summary, url));
                 });
                 deferred.resolve(backlogInfoList);
             }, function (response) {
@@ -257,7 +261,8 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
             angular.forEach(tempBackLog, function (value, key) {
                 if (keepGoing) {
                     if (value.Key === $scope.ProjectList[idx].Key) {
-                        $scope.BacklogList.push(new BackLog(value.Id, value.Key, value.Summary));
+                        var url = "http://jira/browse/" + value.Key;
+                        $scope.BacklogList.push(new BackLog(value.Id, value.Key, value.Summary, url));
                         keepGoing = false;
                     }
                 }
