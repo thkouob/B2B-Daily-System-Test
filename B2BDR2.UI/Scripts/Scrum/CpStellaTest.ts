@@ -79,7 +79,7 @@ class SubTask implements ISubTask {
 
 
 
-var tpscpPractice = angular.module("jiraApp", ['ngTagsInput']);
+var tpscpPractice = angular.module("jiraApp", ['ngTagsInput', 'mgcrea.ngStrap.datepicker']);
 tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHttpService, $q: ng.IQService) {
     ////getBackLog
     var url = '/base/GetMockNodeBacklogInfo';

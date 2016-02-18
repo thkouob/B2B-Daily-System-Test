@@ -33,7 +33,7 @@ var SubTask = (function () {
     }
     return SubTask;
 })();
-var tpscpPractice = angular.module("jiraApp", ['ngTagsInput']);
+var tpscpPractice = angular.module("jiraApp", ['ngTagsInput', 'mgcrea.ngStrap.datepicker']);
 tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http, $q) {
         ////getBackLog
         var url = '/base/GetMockNodeBacklogInfo';
