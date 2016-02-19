@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "ProjectStatus";
     Layout = "~/Views/Shared/_LayoutB2B.cshtml";
 }
@@ -8,6 +7,7 @@
     <link href="@Url.Content("~/Content/ProjectStatus.css")" rel="stylesheet" />
 }
 @section scripts{
+    <script src="~/Scripts/Utility/UtitlityCommon.js"></script>
     <script src="~/Scripts/Utility/ProjectStatus.js"></script>
 }
 
@@ -35,7 +35,6 @@
                                 <th title="Project Number">Project#</th>
                                 <th>Project Name</th>
                                 <th title="Scrum Master">SM</th>
-                                <th>SMUID</th>
                                 <th>Created Date</th>
                                 <th>JIRA Status</th>
                                 <th>DR Status</th>
@@ -43,14 +42,20 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="item in DataList | filter:SearchVal">
-                                @*ng-class="$index % 2 == 0 ? 'odd' : 'even'"*@
                                 <td>{{item.ProjectNumber}}</td>
                                 <td>{{item.ProjectName}}</td>
-                                <td>{{item.SMName}}</td>
-                                <td>{{uid|uidToFullName}}</td>
+                                <td>{{item.SMName|uidToFullName}}</td>
                                 <td class="text-center">{{item.CreateDate}}</td>
-                                <td class="text-center" ng-bind-html="GetTdClass(item.JIRAStatus)"></td>
-                                <td class="text-center" ng-bind-html="GetTdClass(item.DRStatus)"></td>
+                                <td class="text-center" ng-switch on="item.JIRAStatus">
+                                    <p ng-switch-when="@JiraStatus.Process" class="fa fa-spinner" title="Processing..." />
+                                    <p ng-switch-when="@JiraStatus.Done" class="fa fa-check" title="Done" />
+                                    <p ng-switch-when="@JiraStatus.Error" class="fa fa-times" title="Error" />
+                                </td>
+                                <td class="text-center" ng-switch on="item.DRStatus">
+                                    <p ng-switch-when="@DRStatus.Process" class="fa fa-spinner" title="Processing..." />
+                                    <p ng-switch-when="@DRStatus.Done" class="fa fa-check" title="Done" />
+                                    <p ng-switch-when="@DRStatus.Error" class="fa fa-times" title="Error" />
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -59,19 +64,19 @@
             </div>
             <!-- 分頁 -->
             @*<div class="pull-right">
-            <nav>
-                <ul class="pagination">
-                    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">2</a></li>
-                    <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>*@
+                    <nav>
+                        <ul class="pagination">
+                            <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                            <li><a href="#">2</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>*@
         </div>
         <!-- /.container-fluid -->
     </div>
