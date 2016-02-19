@@ -137,9 +137,10 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
 }]).directive('calander', function () {
     var tpl = '<div class="input-group">' +
         '<input name="{{name}}" type="text" class="form-control" placeholder= "yyyy/MM/dd" uib-datepicker-popup="{{format}}"' +
-        'ng-model="datemodel" is-open="popupDateCalander.opened" close-text="Close" ng-click="openDateCalander()" readonly required />' +
+        'ng-model="datemodel" is-open="popupDateCalander.opened" close-text="Close" ng-click="openDateCalander()" required />' +
         '<span class="input-group-btn" >' +
-        '<button type="button" class="btn btn-default" ng-click="openDateCalander()" ><i class="glyphicon glyphicon-calendar" ></i></button>' +
+        '<button type="button" class="btn btn-default" ng-click="openDateCalander()" >' +
+        '<i class="glyphicon glyphicon-calendar" ></i></button>' +
         '</span>' +
         '</div>';
     return {
@@ -212,15 +213,6 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
         }
 
         $scope.format = 'yyyy/MM/dd';
-        $scope.TestDate;
-
-        $scope.openDateCalander = function () {
-            $scope.popupDateCalander.opened = true;
-        };
-
-        $scope.popupDateCalander = {
-            opened: false
-        };
 
         ////display lists info ---------------------------------------------------------------////
         // Members
