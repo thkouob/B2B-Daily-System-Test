@@ -1,7 +1,7 @@
 ﻿(function () {
-    angular.module('mvcapp', ['UtitlityCommon'])
+    angular.module('mvcapp', ['UtilityCommon'])
         .controller('indexCtrl', ['$scope', 'DR2Service',
-            function ($scope, DR2Service, JiraService) {
+            function ($scope, DR2Service) {
 
                 DR2Service.GetProjectStatus.then(function (data) {
                     $scope.DataList = data;
