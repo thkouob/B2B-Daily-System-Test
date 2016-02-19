@@ -8,6 +8,7 @@
 }
 @section scripts{
     <script src="@Url.Content("~/Scripts/angular.js")"></script>
+    <script src="~/Scripts/Utility/UtilityCommon.js"></script>
     <script src="@Url.Content("~/Scripts/Scrum/CpStellaTest.js")"></script>
 }
 
@@ -32,7 +33,7 @@
                                 <div class="form-group" ng-class="{ 'has-error' : dailyForm.ProjectNumber.$invalid && dailyForm.ProjectNumber.$touched }">
                                     <label>Project No</label>
                                     <input name="ProjectNumber" class="form-control" maxlength="5" placeholder="9527" ng-model="AllFormData.ProjectNumber" required ng-pattern="/^\-?\d+$/" />
-                                    
+
                                     <div ng-messages="dailyForm.ProjectNumber.$error" ng-show="dailyForm.ProjectNumber.$touched || dailyForm.ProjectNumber.$dirty" role="alert">
                                         <span ng-message="required">This is required!!</span>
                                         <span ng-message="pattern">Please enter integers!</span>

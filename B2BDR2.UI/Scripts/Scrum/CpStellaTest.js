@@ -33,7 +33,7 @@ var SubTask = (function () {
     }
     return SubTask;
 })();
-var tpscpPractice = angular.module("jiraApp", ['ngTagsInput', 'ui.bootstrap', 'ngMessages']);
+var tpscpPractice = angular.module("jiraApp", ['ngTagsInput', 'ui.bootstrap', 'ngMessages', 'UtilityCommon']);
 tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http, $q) {
         ////getBackLog
         var url = '/base/GetMockNodeBacklogInfo';
@@ -85,7 +85,7 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http, $q) {
         'ng-model="datemodel" is-open="popupDateCalander.opened" close-text="Close" ng-click="openDateCalander()" required />' +
         '<span class="input-group-btn" >' +
         '<button type="button" class="btn btn-default" ng-click="openDateCalander()" >' +
-        '<i class="glyphicon glyphicon-calendar" ></i></button>' +
+        '<i class="fa fa-calendar-o" ></i></button>' +
         '</span>' +
         '</div>';
     return {
@@ -101,37 +101,6 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http, $q) {
                 opened: false
             };
         }
-    };
-}).filter('unique', function () {
-    return function (items, filterOn) {
-        if (filterOn === false) {
-            return items;
-        }
-        if ((filterOn || angular.isUndefined(filterOn)) && angular.isArray(items)) {
-            var hashCheck = {}, newItems = [];
-            var extractValueToCompare = function (item) {
-                if (angular.isObject(item) && angular.isString(filterOn)) {
-                    return item[filterOn];
-                }
-                else {
-                    return item;
-                }
-            };
-            angular.forEach(items, function (item) {
-                var valueToCheck, isDuplicate = false;
-                for (var i = 0; i < newItems.length; i++) {
-                    if (angular.equals(extractValueToCompare(newItems[i]), extractValueToCompare(item))) {
-                        isDuplicate = true;
-                        break;
-                    }
-                }
-                if (!isDuplicate) {
-                    newItems.push(item);
-                }
-            });
-            items = newItems;
-        }
-        return items;
     };
 });
 tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http', '$filter', '$window', '$timeout', '$location',
@@ -294,6 +263,7 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                 $timeout(redirectedPage, 500);
             });
         };
+        ////Show warning message if user leave page ---------------------------------------------------------------////
         $scope.$watch('dailyForm.$dirty', function (value) {
             debugger;
             if (value) {
