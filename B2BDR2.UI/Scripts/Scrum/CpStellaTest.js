@@ -103,8 +103,8 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http, $q) {
         }
     };
 });
-tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http', '$filter', '$window', '$timeout', '$location',
-    function ($scope, getBackLogList, getMemberList, $http, $filter, $window, $timeout, $location) {
+tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http', '$filter', '$window', '$timeout',
+    function ($scope, getBackLogList, getMemberList, $http, $filter, $window, $timeout) {
         ////Init ---------------------------------------------------------------////
         $scope.AllFormData = {
             DevGruop: null
