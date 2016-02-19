@@ -17,7 +17,8 @@ input[type=number]::-webkit-outer-spin-button {
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control 
 {
     background-color:white;
-    color:#555
+    color:#555;
+    cursor:pointer;
 }
 
 .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, 

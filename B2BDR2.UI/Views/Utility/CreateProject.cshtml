@@ -35,9 +35,9 @@
                                 <!-- Basic Info -->
                                 <div class="row">
                                     <div class="col-lg-3">
-                                        <div class="form-group" ng-class="{ 'has-error' : (drform.prjnumber.$touched || drform.$submitted) && drform.prjnumber.$invalid }">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.prjnumber.$dirty || drform.$submitted) && drform.prjnumber.$invalid }">
                                             <label>Project No.</label>
-                                            <ng-messages for="drform.prjnumber.$error" ng-if="drform.prjnumber.$touched || drform.$submitted">
+                                            <ng-messages for="drform.prjnumber.$error" ng-if="drform.prjnumber.$dirty || drform.$submitted">
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                             </ng-messages>
                                             <input type="number" class="form-control" name="prjnumber" ng-model="projectNumber" required
@@ -45,18 +45,18 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <div class="form-group" ng-class="{ 'has-error' : (drform.prjname.$touched || drform.$submitted) && drform.prjname.$invalid }">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.prjname.$dirty || drform.$submitted) && drform.prjname.$invalid }">
                                             <label>Project Name</label>
-                                            <ng-messages for="drform.prjname.$error" ng-if="drform.prjname.$touched || drform.$submitted">
+                                            <ng-messages for="drform.prjname.$error" ng-if="drform.prjname.$dirty || drform.$submitted">
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                             </ng-messages>
                                             <input class="form-control" name="prjname" maxlength="200" placeholder="" ng-model="projectName" required />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <div class="form-group" ng-class="{ 'has-error' : (drform.smname.$touched || drform.$submitted) && drform.smname.$invalid }">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.smname.$dirty || drform.$submitted) && drform.smname.$invalid }">
                                             <label>Scrum Master</label>
-                                            <ng-messages for="drform.smname.$error" ng-if="drform.smname.$touched || drform.$submitted">
+                                            <ng-messages for="drform.smname.$error" ng-if="drform.smname.$dirty || drform.$submitted">
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                                 <ng-message class="text-danger pull-right" when="checksmname">not in B2B member list.</ng-message>
                                             </ng-messages>

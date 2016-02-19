@@ -79,27 +79,27 @@
                                 <!-- Date -->
                                 <div class="row">
                                     <div class="col-lg-3">
-                                        <div class="form-group" ng-class="{ 'has-error' : (drform.startdaycal.$touched || drform.$submitted) && drform.startdaycal.$invalid }">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.startdaycal.$dirty || drform.$submitted) && drform.startdaycal.$invalid }">
                                             <label>Start Day</label>
-                                            <ng-messages for="drform.startdaycal.$error" ng-if="drform.startdaycal.$touched || drform.$submitted">
+                                            <ng-messages for="drform.startdaycal.$error" ng-if="drform.startdaycal.$dirty || drform.$submitted">
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                             </ng-messages>
                                             <drcalander name="startdaycal" format="{{format}}" datemodel="startDate"></drcalander>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <div class="form-group" ng-class="{ 'has-error' : (drform.releasedaycal.$touched || drform.$submitted) && drform.releasedaycal.$invalid }">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.releasedaycal.$dirty || drform.$submitted) && drform.releasedaycal.$invalid }">
                                             <label>Release Day</label>
-                                            <ng-messages for="drform.releasedaycal.$error" ng-if="drform.releasedaycal.$touched || drform.$submitted">
+                                            <ng-messages for="drform.releasedaycal.$error" ng-if="drform.releasedaycal.$dirty || drform.$submitted">
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                             </ng-messages>
                                             <drcalander name="releasedaycal" format="{{format}}" datemodel="releaseDate" required></drcalander>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <div class="form-group" ng-class="{ 'has-error' : (drform.launchdaycal.$touched || drform.$submitted) && drform.launchdaycal.$invalid }">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.launchdaycal.$dirty || drform.$submitted) && drform.launchdaycal.$invalid }">
                                             <label>Launch Day</label>
-                                            <ng-messages for="drform.launchdaycal.$error" ng-if="drform.launchdaycal.$touched || drform.$submitted">
+                                            <ng-messages for="drform.launchdaycal.$error" ng-if="drform.launchdaycal.$dirty || drform.$submitted">
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
                                             </ng-messages>
                                             <drcalander name="launchdaycal" format="{{format}}" datemodel="launchDate" required></drcalander>
