@@ -1,5 +1,91 @@
-﻿(function () {
-    angular.module('UtitlityCommon', [])
+﻿interface IPBInfo {
+    IssueKey: string;
+    JiraLink: string;
+    Summary: string;
+    SubTaskList: Array<ISubTaskInfo>;
+}
+
+interface ISubTaskInfo {
+    RoleName: string;
+    Role: number;
+    Assignee: Array<IMemberInfo>;
+}
+
+interface IMemberInfo {
+    UID: string;
+    Name: string;
+    Title: string;
+    FirstName: string;
+    GroupID: number;
+    MemberType: number;
+    MemberTypeDesc: string;
+}
+
+interface ICreateProjectRequest {
+    ProjectNumber: number;
+    ProjectName: string;
+    StartDate: string;
+    ReleaseDate: string;
+    LaunchDate: string;
+    DevGruop: number;
+    SMUID: string;
+    PBList: Array<IPBInfo>;
+}
+
+class PBInfo implements IPBInfo {
+    IssueId: number;
+    IssueKey: string;
+    Summary: string;
+    JiraLink: string;
+    Selected: boolean;
+    SubTaskList: Array<SubTaskInfo>;
+
+    constructor(id: number, key: string, link: string, summary: string, selected: boolean) {
+        this.IssueId = id;
+        this.IssueKey = key;
+        this.JiraLink = link;
+        this.Summary = summary;
+        this.Selected = selected;
+        this.SubTaskList = [new SubTaskInfo(3, "Dev-UI", [], ""), new SubTaskInfo(2, "Dev-Service", [], ""), new SubTaskInfo(1, "Test", [], "")];
+    }
+}
+
+class SubTaskInfo implements ISubTaskInfo {
+    RoleName: string;
+    Role: number;
+    Assignee: Array<MemberInfo>;
+    AssigneeUID: string;
+
+    constructor(role: number, roleName: string, assignee: Array<MemberInfo>, uid: string) {
+        this.Role = role;
+        this.RoleName = roleName;
+        this.Assignee = assignee;
+        this.AssigneeUID = uid;
+    }
+}
+
+class MemberInfo implements IMemberInfo {
+    UID: string;
+    Name: string;
+    Title: string;
+    FirstName: string;
+    GroupID: number;
+    MemberType: number;
+    MemberTypeDesc: string;
+
+    constructor(uid: string, name: string, title: string, firstName: string, groupID: number, membertype: number, memberTypeDesc: string) {
+        this.UID = uid;
+        this.Name = name;
+        this.Title = title;
+        this.FirstName = firstName;
+        this.GroupID = groupID;
+        this.MemberType = membertype;
+        this.MemberTypeDesc = memberTypeDesc;
+    }
+}
+
+(function () {
+    angular.module('UtilityCommon', [])
         .constant('DR2Config', {
             PersonSessionKey: "personList",
             DRServiceHostUrl: 'http://10.16.133.102:52332',
@@ -188,7 +274,7 @@
         })
         .factory('DR2Service', ['$http', '$q', 'DR2Config', 'storageHelper', function ($http: ng.IHttpService, $q: ng.IQService, DR2Config, storageHelper) {
             var hostUrl = DR2Config.DRServiceHostUrl;
-            var personUrl = `${hostUrl}/Person`; //'/base/GetPersonInfo';
+            var personUrl = `${hostUrl}/prj/v1/Person`; //'/base/GetPersonInfo';
             var prjStatusUrl = `${hostUrl}/prj/v1/newprjstatus`;
 
             function GetOriginPersonData(url) {
@@ -256,9 +342,26 @@
                 return deferred.promise;
             }
 
+            function GetMemberData(url) {
+                var memberInfoList: Array<MemberInfo> = [];
+                $http.get(url)
+                    .then(function (response) {
+                        var result: any = response.data;
+                        angular.forEach(result, function (value, key) {
+                            memberInfoList.push(
+                                new MemberInfo(value.UID, value.Name, value.Title, value.FirstName, value.GroupID, value.MemberType, value.MemberTypeDesc));
+                        });
+                    }, function (error) {
+                        //// write log / show error alert.
+                        console.log(error);
+                    });
+                return memberInfoList;
+            }
+
             return {
                 GetPersonList: GetPersonList(personUrl),
-                GetProjectStatus: GetProjectStatus(prjStatusUrl)
+                GetProjectStatus: GetProjectStatus(prjStatusUrl),
+                GetMemberData: GetMemberData(personUrl)
             }
         }])
         .factory('NodeService', ['$http', 'DR2Config', function ($http: ng.IHttpService, DR2Config) {
@@ -267,8 +370,37 @@
             var createPrjUrl = `${hostUrl}/jiraapi/project`;
             //TODO logic
 
-            return {
+            function GetBackLogList() {
+                var backLogList: Array<PBInfo> = [];
+                $http.get(backLogListUrl)
+                    .then(function (response) {
+                        var result: any = response.data;
+                        angular.forEach(result.data, function (value, key) {
+                            backLogList.push(new PBInfo(value.id, value.key, "http://jira/browse/" + value.key, value.summary, true));
+                        });
+                        $('#iconLoading').hide();
+                        $('#t_BackLog').fadeIn();
+                    }, function (error) {
+                        // write log / show error alert.
+                        console.log(error);
+                    });
+                return backLogList;
+            }
 
+            function PostCreateProject(request: ICreateProjectRequest) {
+                $http.post(createPrjUrl, request)
+                    .then(function (response) {
+                        return true;
+                    }, function (error) {
+                        // write log / show error alert.
+                        console.log(error);
+                        return false;
+                    });
+            }
+
+            return {
+                GetBackLogList,
+                PostCreateProject
             }
         }])
 
@@ -290,6 +422,13 @@
         CreateDate: string,
         JIRAStatus: number,
         DRStatus: number
+    }
+
+    interface IPBInfo {
+        IssueKey: string;
+        JiraLink: string;
+        Summary: string;
+        SubTaskList: Array<ISubTaskInfo>;
     }
 
     interface IStatefulFunction {

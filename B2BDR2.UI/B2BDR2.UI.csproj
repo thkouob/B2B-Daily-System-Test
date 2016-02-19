@@ -949,11 +949,14 @@
     <Content Include="Scripts\Scrum\CreateProject_Sean.js">
       <DependentUpon>CreateProject_Sean.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\Utility\CreateProject.js">
+      <DependentUpon>CreateProject.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\Utility\ProjectStatus.js">
       <DependentUpon>ProjectStatus.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\Utility\UtitlityCommon.js">
-      <DependentUpon>UtitlityCommon.ts</DependentUpon>
+    <Content Include="Scripts\Utility\UtilityCommon.js">
+      <DependentUpon>UtilityCommon.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
@@ -1002,7 +1005,7 @@
       <DependentUpon>CpStellaTest.ts</DependentUpon>
     </Content>
     <Content Include="Views\Mockup\_CreateProjectConfirm.cshtml" />
-    <Content Include="Views\Scrum\_CreateProjectConfirmSin.cshtml" />
+    <Content Include="Views\Utility\_CreateProjectConfirm.cshtml" />
     <Content Include="Views\Scrum\_CpconfirmStellaTest.cshtml" />
     <Content Include="Views\Scrum\CreateProjectSean.cshtml" />
     <Content Include="Scripts\Scrum\CreateProject_Sean.js.map">
@@ -1014,8 +1017,12 @@
     <Content Include="Scripts\Utility\ProjectStatus.js.map">
       <DependentUpon>ProjectStatus.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\Utility\UtitlityCommon.js.map">
-      <DependentUpon>UtitlityCommon.ts</DependentUpon>
+    <Content Include="Scripts\Utility\CreateProject.js.map">
+      <DependentUpon>CreateProject.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Scrum\_CreateProjectConfirmSin.cshtml" />
+    <Content Include="Scripts\Utility\UtilityCommon.js.map">
+      <DependentUpon>UtilityCommon.ts</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -1045,7 +1052,8 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\es6-promise\es6-promise.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
-    <TypeScriptCompile Include="Scripts\Utility\UtitlityCommon.ts" />
+    <TypeScriptCompile Include="Scripts\Utility\CreateProject.ts" />
+    <TypeScriptCompile Include="Scripts\Utility\UtilityCommon.ts" />
     <TypeScriptCompile Include="Scripts\Utility\ProjectStatus.ts" />
   </ItemGroup>
   <PropertyGroup>

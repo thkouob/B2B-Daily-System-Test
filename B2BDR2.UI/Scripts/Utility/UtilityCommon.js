@@ -1,5 +1,37 @@
+var PBInfo = (function () {
+    function PBInfo(id, key, link, summary, selected) {
+        this.IssueId = id;
+        this.IssueKey = key;
+        this.JiraLink = link;
+        this.Summary = summary;
+        this.Selected = selected;
+        this.SubTaskList = [new SubTaskInfo(3, "Dev-UI", [], ""), new SubTaskInfo(2, "Dev-Service", [], ""), new SubTaskInfo(1, "Test", [], "")];
+    }
+    return PBInfo;
+})();
+var SubTaskInfo = (function () {
+    function SubTaskInfo(role, roleName, assignee, uid) {
+        this.Role = role;
+        this.RoleName = roleName;
+        this.Assignee = assignee;
+        this.AssigneeUID = uid;
+    }
+    return SubTaskInfo;
+})();
+var MemberInfo = (function () {
+    function MemberInfo(uid, name, title, firstName, groupID, membertype, memberTypeDesc) {
+        this.UID = uid;
+        this.Name = name;
+        this.Title = title;
+        this.FirstName = firstName;
+        this.GroupID = groupID;
+        this.MemberType = membertype;
+        this.MemberTypeDesc = memberTypeDesc;
+    }
+    return MemberInfo;
+})();
 (function () {
-    angular.module('UtitlityCommon', [])
+    angular.module('UtilityCommon', [])
         .constant('DR2Config', {
         PersonSessionKey: "personList",
         DRServiceHostUrl: 'http://10.16.133.102:52332',
@@ -182,7 +214,7 @@
     })
         .factory('DR2Service', ['$http', '$q', 'DR2Config', 'storageHelper', function ($http, $q, DR2Config, storageHelper) {
             var hostUrl = DR2Config.DRServiceHostUrl;
-            var personUrl = hostUrl + "/Person"; //'/base/GetPersonInfo';
+            var personUrl = hostUrl + "/prj/v1/Person"; //'/base/GetPersonInfo';
             var prjStatusUrl = hostUrl + "/prj/v1/newprjstatus";
             function GetOriginPersonData(url) {
                 return $http.get(url, { cache: true });
@@ -234,9 +266,24 @@
                 });
                 return deferred.promise;
             }
+            function GetMemberData(url) {
+                var memberInfoList = [];
+                $http.get(url)
+                    .then(function (response) {
+                    var result = response.data;
+                    angular.forEach(result, function (value, key) {
+                        memberInfoList.push(new MemberInfo(value.UID, value.Name, value.Title, value.FirstName, value.GroupID, value.MemberType, value.MemberTypeDesc));
+                    });
+                }, function (error) {
+                    //// write log / show error alert.
+                    console.log(error);
+                });
+                return memberInfoList;
+            }
             return {
                 GetPersonList: GetPersonList(personUrl),
-                GetProjectStatus: GetProjectStatus(prjStatusUrl)
+                GetProjectStatus: GetProjectStatus(prjStatusUrl),
+                GetMemberData: GetMemberData(personUrl)
             };
         }])
         .factory('NodeService', ['$http', 'DR2Config', function ($http, DR2Config) {
@@ -244,7 +291,36 @@
             var backLogListUrl = hostUrl + "/jiraapi/issues";
             var createPrjUrl = hostUrl + "/jiraapi/project";
             //TODO logic
-            return {};
+            function GetBackLogList() {
+                var backLogList = [];
+                $http.get(backLogListUrl)
+                    .then(function (response) {
+                    var result = response.data;
+                    angular.forEach(result.data, function (value, key) {
+                        backLogList.push(new PBInfo(value.id, value.key, "http://jira/browse/" + value.key, value.summary, true));
+                    });
+                    $('#iconLoading').hide();
+                    $('#t_BackLog').fadeIn();
+                }, function (error) {
+                    // write log / show error alert.
+                    console.log(error);
+                });
+                return backLogList;
+            }
+            function PostCreateProject(request) {
+                $http.post(createPrjUrl, request)
+                    .then(function (response) {
+                    return true;
+                }, function (error) {
+                    // write log / show error alert.
+                    console.log(error);
+                    return false;
+                });
+            }
+            return {
+                GetBackLogList: GetBackLogList,
+                PostCreateProject: PostCreateProject
+            };
         }]);
     //class
     var DR2Person = (function () {
@@ -270,4 +346,4 @@
         return ProjectStatus;
     })();
 })();
-//# sourceMappingURL=UtitlityCommon.js.map
+//# sourceMappingURL=UtilityCommon.js.map

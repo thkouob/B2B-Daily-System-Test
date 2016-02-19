@@ -7,7 +7,7 @@
     <link href="@Url.Content("~/Content/ProjectStatus.css")" rel="stylesheet" />
 }
 @section scripts{
-    <script src="~/Scripts/Utility/UtitlityCommon.js"></script>
+    <script src="~/Scripts/Utility/UtilityCommon.js"></script>
     <script src="~/Scripts/Utility/ProjectStatus.js"></script>
 }
 
@@ -47,14 +47,14 @@
                                 <td>{{item.SMName|uidToFullName}}</td>
                                 <td class="text-center">{{item.CreateDate}}</td>
                                 <td class="text-center" ng-switch on="item.JIRAStatus">
-                                    <p ng-switch-when="@JiraStatus.Process" class="fa fa-spinner" title="Processing..." />
-                                    <p ng-switch-when="@JiraStatus.Done" class="fa fa-check" title="Done" />
-                                    <p ng-switch-when="@JiraStatus.Error" class="fa fa-times" title="Error" />
+                                    <p ng-switch-when="@((int)JiraStatus.Process)" class="fa fa-spinner" title="Processing..." />
+                                    <p ng-switch-when="@((int)JiraStatus.Done)" class="fa fa-check" title="Done" />
+                                    <p ng-switch-when="@((int)JiraStatus.Error)" class="fa fa-times" title="Error" />
                                 </td>
                                 <td class="text-center" ng-switch on="item.DRStatus">
-                                    <p ng-switch-when="@DRStatus.Process" class="fa fa-spinner" title="Processing..." />
-                                    <p ng-switch-when="@DRStatus.Done" class="fa fa-check" title="Done" />
-                                    <p ng-switch-when="@DRStatus.Error" class="fa fa-times" title="Error" />
+                                    <p ng-switch-when="@((int)DRStatus.Process)" class="fa fa-spinner" title="Processing..." />
+                                    <p ng-switch-when="@((int)DRStatus.Done)" class="fa fa-check" title="Done" />
+                                    <p ng-switch-when="@((int)DRStatus.Error)" class="fa fa-times" title="Error" />
                                 </td>
                             </tr>
                         </tbody>
