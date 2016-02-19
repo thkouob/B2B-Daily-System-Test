@@ -120,7 +120,9 @@
     <Compile Include="Controllers\NavbarController.cs" />
     <Compile Include="Controllers\UtilityController.cs" />
     <Compile Include="Domain\Data.cs" />
+    <Compile Include="Enums\DRStatus.cs" />
     <Compile Include="Enums\EnvironmentType.cs" />
+    <Compile Include="Enums\JiraStatus.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -949,6 +951,12 @@
     <Content Include="Scripts\Scrum\CreateProject_Sean.js">
       <DependentUpon>CreateProject_Sean.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\Utility\ProjectStatus.js">
+      <DependentUpon>ProjectStatus.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Utility\UtitlityCommon.js">
+      <DependentUpon>UtitlityCommon.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1005,10 +1013,15 @@
     <Content Include="Views\Shared\_LayoutB2B.cshtml" />
     <Content Include="Views\Utility\CreateProject.cshtml" />
     <Content Include="Views\Utility\ProjectStatus.cshtml" />
+    <Content Include="Scripts\Utility\ProjectStatus.js.map">
+      <DependentUpon>ProjectStatus.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Utility\UtitlityCommon.js.map">
+      <DependentUpon>UtitlityCommon.ts</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -1034,6 +1047,8 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\es6-promise\es6-promise.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\Utility\UtitlityCommon.ts" />
+    <TypeScriptCompile Include="Scripts\Utility\ProjectStatus.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

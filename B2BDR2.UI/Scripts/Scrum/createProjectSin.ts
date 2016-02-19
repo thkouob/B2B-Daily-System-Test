@@ -153,14 +153,13 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngMessages'])
         }
 
         function PostCreateProject(request: ICreateProjectRequest) {
-            debugger;
             $http.post(postCreateProjectUrl, request)
                 .then(function (response) {
-                    // redirect to project status page.
-                    alert("Create Project Success");
+                    return true;
                 }, function (error) {
                     // write log / show error alert.
                     console.log(error);
+                    return false;
                 });
         }
 
@@ -436,6 +435,7 @@ angular.module('scrumModule', ['ngTagsInput', 'ui.bootstrap', 'ngMessages'])
 
             $scope.CreateProject = function () {
                 NodeService.PostCreateProject($scope.GetCreateProjectRequest());
+                $scope.CloseModal();
             }
 
             $scope.GetCreateProjectRequest = function () {
