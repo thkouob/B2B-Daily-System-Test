@@ -376,7 +376,7 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
 
             $http.post(postapiurl, request)
                 .then(function (response) {
-                    alert("Create Project Success");
+                    alert("Create Project Success!");
                     function redirectedPage() {
                         var url = "http://" + $window.location.host + "/Mockup/Index";
                         $window.location.href = url;
@@ -384,6 +384,15 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
                     $timeout(redirectedPage, 500);
                 });
         };
+
+        $scope.$watch('dailyForm.$dirty', function (value) {
+            debugger
+            if (value) {
+                $window.onbeforeunload = function () {
+                    return "Your data will be lost, if you're leave!! Do you want to leave?";
+                };
+            }
+        });
 
         ////Private function ---------------------------------------------------------------////
         function GetBackLogWithSubTask(key) {
