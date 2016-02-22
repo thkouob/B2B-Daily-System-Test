@@ -10,6 +10,7 @@
     <script src="@Url.Content("~/Scripts/angular.js")"></script>
     <script src="~/Scripts/Utility/UtilityCommon.js"></script>
     <script src="@Url.Content("~/Scripts/Scrum/CpStellaTest.js")"></script>
+    <script src="~/Scripts/angular-local-storage.min.js"></script>
 }
 
 <div class="container-fluid" ng-app="jiraApp" ng-controller="JiraCtrl">
@@ -65,7 +66,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group" ng-class="{ 'has-error' : dailyForm.ScrumMaster.$invalid && dailyForm.ScrumMaster.$touched }">
                                     <label>Scrum Master</label>
-                                    <input class="form-control" list="listMembers" maxlength="20" placeholder="" ng-model="SmName" name="ScrumMaster" required />
+                                    <input class="form-control" list="listMembers" maxlength="20" placeholder="" ng-model="SmName" value="{{SmName}}" name="ScrumMaster" required />
                                     <div ng-messages="dailyForm.ScrumMaster.$error" ng-show="dailyForm.ScrumMaster.$touched || dailyForm.ScrumMaster.$dirty">
                                         <span ng-message="required">This is required!!</span>
                                     </div>
@@ -163,8 +164,11 @@
                                     <li ng-repeat="b in ProjectList" class="{{b.Active}}" ng-click="UpdateActiveClass($index)">
 
                                         <a href="#{{b.Key}}" data-toggle="tab">
-                                            {{b.Key}}&nbsp;&nbsp;&nbsp;<i class="fa fa-times" ng-click="RemoveProjectLog($index)"></i>
+                                            {{b.Key}}&nbsp;&nbsp;&nbsp;<i class="fa fa-times" data-toggle="modal" data-target="#modalRemovePBConfirm"></i>
                                         </a>
+                                        <div class="modal fade" id="modalRemovePBConfirm" tabindex="-1" role="dialog" aria-labelledby="modalRemovePBConfirmLabel">
+                                            @Html.Partial("_RpbconfirmStellaTest")
+                                        </div>
                                     </li>
                                 </ul>
                                 <!-- /.SubTaskTagArea -->
@@ -304,9 +308,10 @@
             <!-- /.panel -->
         </div>
         <!-- /.col-lg-12 -->
-        <div class="modal fade" id="modalCreateProjectConfirm" tabindex="-1" role="dialog" aria-labelledby="modalCreateProjectConfirmLabel">
+        <div class="modal fade" id="modalCreateProjectConfirm" tabindex="-1" role="dialog" aria-labelledby="modalCreateProjectConfirmLabel" modal-visible="showDialog">
             @Html.Partial("_CpconfirmStellaTest")
         </div>
+       
     </div>
     <!-- /.row -->
 </div>

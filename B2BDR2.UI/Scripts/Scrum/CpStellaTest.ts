@@ -78,9 +78,7 @@
         }
     }
 
-
-
-    var tpscpPractice = angular.module("jiraApp", ['ngTagsInput', 'ui.bootstrap', 'ngMessages', 'UtilityCommon']);
+    var tpscpPractice = angular.module("jiraApp", ['ngTagsInput', 'ui.bootstrap', 'ngMessages', 'UtilityCommon', 'LocalStorageModule']);
     tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHttpService, $q: ng.IQService) {
         ////getBackLog
         var url = '/base/GetMockNodeBacklogInfo';
@@ -137,11 +135,19 @@
         }
     }]);
 
-    tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http', '$filter', '$window', '$timeout',
-        function ($scope, getBackLogList, getMemberList, $http, $filter, $window, $timeout) {
+    tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList', '$http', '$filter', '$window', '$timeout', 'localStorageService',
+        function ($scope, getBackLogList, getMemberList, $http, $filter, $window, $timeout, localStorageService) {
             ////Init ---------------------------------------------------------------////
             $scope.AllFormData = {
                 DevGruop: null
+            }
+
+            if (localStorageService.get("DevGruop") != null || localStorageService.get("DevGruop") != undefined) {
+                $scope.AllFormData.DevGruop = localStorageService.get("DevGruop");
+            }
+
+            if (localStorageService.get("SmName") != null || localStorageService.get("SmName") != undefined) {
+                $scope.SmName = localStorageService.get("SmName");
             }
 
             $scope.ShowEditTitle = function () {
@@ -284,6 +290,8 @@
                 });
 
                 $scope.DevGroup = GetDevGroup();
+                localStorageService.set("DevGruop", $scope.AllFormData.DevGruop);
+                localStorageService.set("SmName", $scope.SmName);
 
                 var index = 5;
                 var myinterval = setInterval(function () {
