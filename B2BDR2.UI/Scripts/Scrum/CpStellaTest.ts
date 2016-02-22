@@ -79,7 +79,7 @@ class SubTask implements ISubTask {
 
 
 
-var tpscpPractice = angular.module("jiraApp", ['ngTagsInput', 'mgcrea.ngStrap.datepicker']);
+var tpscpPractice = angular.module("jiraApp", ['ngTagsInput', 'ui.bootstrap', 'ngMessages']);
 tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHttpService, $q: ng.IQService) {
     ////getBackLog
     var url = '/base/GetMockNodeBacklogInfo';
@@ -134,7 +134,31 @@ tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHtt
     return {
         GetMembers: GetMembersList(apiurl)
     }
-}]).filter('unique', function () {
+}]).directive('calander', function () {
+    var tpl = '<div class="input-group">' +
+        '<input name="{{name}}" type="text" class="form-control" placeholder= "yyyy/MM/dd" uib-datepicker-popup="{{format}}"' +
+        'ng-model="datemodel" is-open="popupDateCalander.opened" close-text="Close" ng-click="openDateCalander()" required />' +
+        '<span class="input-group-btn" >' +
+        '<button type="button" class="btn btn-default" ng-click="openDateCalander()" >' +
+        '<i class="glyphicon glyphicon-calendar" ></i></button>' +
+        '</span>' +
+        '</div>';
+    return {
+        restrict: 'E',
+        template: tpl,
+        replace: true,
+        scope: { format: '@', datemodel: '=', name: '@' },
+        link: function (scope: any) {
+            scope.openDateCalander = function () {
+                scope.popupDateCalander.opened = true;
+            };
+
+            scope.popupDateCalander = {
+                opened: false
+            };
+        }
+    };
+}).filter('unique', function () {
 
     return function (items, filterOn) {
         if (filterOn === false) {
@@ -187,6 +211,8 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
 
             return true;
         }
+
+        $scope.format = 'yyyy/MM/dd';
 
         ////display lists info ---------------------------------------------------------------////
         // Members
@@ -350,11 +376,12 @@ tpscpPractice.controller("JiraCtrl", ['$scope', 'getBackLogList', 'getMemberList
 
             $http.post(postapiurl, request)
                 .then(function (response) {
-                    function redirectedPage1() {
+                    alert("Create Project Success");
+                    function redirectedPage() {
                         var url = "http://" + $window.location.host + "/Mockup/Index";
                         $window.location.href = url;
                     };
-                    $timeout(redirectedPage1, 500);
+                    $timeout(redirectedPage, 500);
                 });
         };
 
