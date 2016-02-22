@@ -75,13 +75,13 @@
                 }
             };
         }])
-        .controller('indexCtrl', ['$scope', '$filter', 'DR2Service', 'NodeService', '$anchorScroll', '$location', '$window',
-            function ($scope, $filter, DR2Service, NodeService, $anchorScroll: ng.IAnchorScrollService, $location, $window:ng.IWindowService) {
+        .controller('indexCtrl', ['$scope', '$filter', 'DR2Service', 'NodeService', '$anchorScroll', '$location', '$window', 'DR2Config',
+            function ($scope, $filter, DR2Service, NodeService, $anchorScroll: ng.IAnchorScrollService, $location, $window: ng.IWindowService, DR2Config) {
                 // Init
                 $scope.projectNumber;
                 $scope.projectName;
                 $scope.scrumMasterName; //TODO: use localStorage to get init
-                $scope.devGroup = 1; //TODO: use localStorage to get init: OOO || 1
+                $scope.devGroup = DevGroup.www; //TODO: use localStorage to get init: OOO || 1
                 $scope.startDate;
                 $scope.releaseDate;
                 $scope.launchDate;
@@ -122,13 +122,13 @@
 
                 $scope.AddPB = function ($index) {
                     var selectedPB: PBInfo = $scope.backLogList[$index];
-                    selectedPB.SubTaskList = [new SubTaskInfo(3, "Dev-UI", [], ""), new SubTaskInfo(2, "Dev-Service", [], ""), new SubTaskInfo(1, "Test", [], "")];
+                    selectedPB.SubTaskList = [new SubTaskInfo(PbUserRole.UI, "Dev-UI", [], ""), new SubTaskInfo(PbUserRole.Service, "Dev-Service", [], ""), new SubTaskInfo(PbUserRole.Test, "Test", [], "")];
                     $scope.addedProjectPBInfo.push(selectedPB);
                     $scope.backLogList.splice($index, 1);
                 }
 
                 $scope.RemovePB = function ($index, JiraName) {
-                    var answer = confirm("Remove " + JiraName + " from added list?");
+                    var answer = confirm(`Remove ${JiraName} from added list?`);
                     if (answer) {
                         $scope.backLogList.push($scope.addedProjectPBInfo[$index]);
                         $scope.addedProjectPBInfo.splice($index, 1);
@@ -149,9 +149,22 @@
                 }
 
                 $scope.CreateProject = function () {
-                    NodeService.PostCreateProject($scope.GetCreateProjectRequest());
-
-                    $window.location.href = '/Utility/ProjectStatus';
+                    NodeService.PostCreateProject($scope.GetCreateProjectRequest())
+                        //.then(function (response) {
+                        //
+                        //    if (response.IsSuccess) {
+                        //        //TODO success message
+                        //        $window.location.href = DR2Config.ProjectStatusUrl;
+                        //    } else if (response.ErrorMessage) {
+                        //        alert(response.ErrorMessage);
+                        //    } else if (response.status) {
+                        //        alert(response.data)
+                        //    } else {
+                        //
+                        //    }
+                        //}, function (response) {
+                        //
+                        //});
                 }
 
                 $scope.GetCreateProjectRequest = function () {

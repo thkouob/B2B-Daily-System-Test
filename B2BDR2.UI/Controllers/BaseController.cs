@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HtmlAgilityPack;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -230,6 +231,31 @@ namespace B2BDR2.UI.Controllers
             }
 
             return Content(result, "application/json; charset=utf-8");
+        }
+
+        public ActionResult GetProjectRelease()
+        {
+            string result = string.Empty;
+            var req = (HttpWebRequest)HttpWebRequest.Create("http://10.16.133.102:828/");//http://localhost:7519/WorkReportB2B/
+            req.Method = "GET";
+            req.UseDefaultCredentials = true;
+
+            using (WebResponse res = req.GetResponse())
+            {
+                using (StreamReader reader = new StreamReader(res.GetResponseStream()))
+                {
+                    result = reader.ReadToEnd();
+                }
+            }
+            
+            var data = WebUtility.HtmlDecode(result);
+            var doc = new HtmlDocument();
+            doc.LoadHtml(data);
+            HtmlNode navNode = doc.DocumentNode.SelectSingleNode("//*[@id='MainContent_panelPrjRelease']");
+
+            navNode.SelectSingleNode("table").Attributes.Add("class", "table table-bordered table-striped");
+
+            return Content(navNode.OuterHtml);
         }
 
         private string GetJIRABackLogData()
