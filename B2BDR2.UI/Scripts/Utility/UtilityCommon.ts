@@ -232,7 +232,7 @@ class MemberInfo implements IMemberInfo {
                 '<input name="{{name}}" type="text" class="form-control" placeholder= "yyyy/MM/dd" uib-datepicker-popup="{{format}}"' +
                 'ng-model="datemodel" is-open="popupDateCalander.opened" close-text="Close" ng-click="openDateCalander()" readonly required />' +
                 '<span class="input-group-btn" >' +
-                '<button type="button" class="btn btn-default" ng-click="openDateCalander()" ><i class="glyphicon glyphicon-calendar" ></i></button>' +
+                '<button type="button" class="btn btn-default" ng-click="openDateCalander()" ><i class="fa fa-calendar" ></i></button>' +
                 '</span>' +
                 '</div>';
             return {

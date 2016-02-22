@@ -82,7 +82,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group" ng-class="{ 'has-error' : dailyForm.StartDate.$invalid && dailyForm.StartDate.$touched }">
                                     <label>Start Day</label>
-                                    <calander name="StartDate" format="{{format}}" datemodel="StartDate" required></calander>
+                                    <drcalander name="StartDate" format="{{format}}" datemodel="StartDate" required></drcalander>
                                     <div ng-messages="dailyForm.StartDate.$error" ng-show="dailyForm.StartDate.$touched || dailyForm.StartDate.$dirty">
                                         <span ng-message="required">This is required!!</span>
                                     </div>
@@ -91,7 +91,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group" ng-class="{ 'has-error' : dailyForm.ReleaseDate.$invalid && dailyForm.ReleaseDate.$touched }">
                                     <label>Release Day</label>
-                                    <calander name="ReleaseDate" format="{{format}}" datemodel="ReleaseDate" required></calander>
+                                    <drcalander name="ReleaseDate" format="{{format}}" datemodel="ReleaseDate" required></drcalander>
                                     <div ng-messages="dailyForm.ReleaseDate.$error" ng-show="dailyForm.ReleaseDate.$touched || dailyForm.ReleaseDate.$dirty">
                                         <span ng-message="required">This is required!!</span>
                                     </div>
@@ -100,7 +100,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group" ng-class="{ 'has-error' : dailyForm.LaunchDate.$invalid && dailyForm.LaunchDate.$touched }">
                                     <label>Launch Day</label>
-                                    <calander name="LaunchDate" format="{{format}}" datemodel="LaunchDate" required></calander>
+                                    <drcalander name="LaunchDate" format="{{format}}" datemodel="LaunchDate" required></drcalander>
                                     <div ng-messages="dailyForm.LaunchDate.$error" ng-show="dailyForm.LaunchDate.$touched || dailyForm.LaunchDate.$dirty">
                                         <span ng-message="required">This is required!!</span>
                                     </div>
@@ -131,17 +131,19 @@
                                             <div class="sk-circle12 sk-child"></div>
                                         </div>
                                         <!-- Loading... -->
-                                        <table class="table table-hover pbArea" style="display:none">
+                                        <table class="table table-hover pbArea" style="display:none;">
                                             <thead>
                                                 <tr>
                                                     <th>PB Number</th>
                                                     <th>PB Title</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr id="{{u.Id}}" ng-repeat="u in BacklogList">
                                                     <td><a href="{{u.Pburl}}" target="_blank">{{u.Key}}</a></td>
-                                                    <td ng-click="SelectedProjectLog($index)">{{u.Summary}}</td>
+                                                    <td>{{u.Summary}}</td>
+                                                    <td><button class="btn btn-default fa fa-plus" ng-click="SelectedProjectLog($index)"></button></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -175,7 +177,7 @@
                                             <div class="panel-heading">
                                                 <div class="btn-group pull-right">
 
-                                                    <button type="button" class="btn btn-default glyphicon glyphicon-plus" ng-click="addAreaDisplay=true;"></button>
+                                                    <button type="button" class="btn btn-default fa fa-plus" ng-click="addAreaDisplay=true;"></button>
 
                                                 </div>
                                                 <h4>{{b.Title}}</h4>
