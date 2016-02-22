@@ -142,6 +142,7 @@ angular.module('mvcapp', [])
 })
     .factory('DR2Service', ['$http', '$q', 'DR2Config', 'storageHelper', function ($http, $q, DR2Config, storageHelper) {
         var url = '/base/GetPersonInfo';
+        var prjReleaseUrl = '/base/GetProjectRelease';
         function GetOriginPersonData(url) {
             return $http.get(url + "/Person", { cache: true });
         }
@@ -165,8 +166,19 @@ angular.module('mvcapp', [])
             }
             return deffered.promise;
         }
+        function GetProjRelease(prjReleaseUrl) {
+            var deffered = $q.defer();
+            $http.get(prjReleaseUrl).then(function (response) {
+                var element = angular.element(response.data).html().trim();
+                deffered.resolve(element);
+            }, function (response) {
+                deffered.reject(response);
+            });
+            return deffered.promise;
+        }
         return {
-            GetPersonList: GetPersonList(url)
+            GetPersonList: GetPersonList(url),
+            GetProjRelease: GetProjRelease(prjReleaseUrl)
         };
     }])
     .factory('JiraService', ['$http', '$q', function ($http, $q) {
@@ -226,6 +238,9 @@ angular.module('mvcapp', [])
         };
         JiraService.GetBacklog.then(function (data) {
             console.info(data);
+        });
+        DR2Service.GetProjRelease.then(function (html) {
+            $scope.PrjReleaseContent = $sce.trustAsHtml(html);
         });
         $scope.uid = 'll9v';
     }]);

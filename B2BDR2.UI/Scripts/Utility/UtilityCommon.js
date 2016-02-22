@@ -1,3 +1,14 @@
+var DevGroup;
+(function (DevGroup) {
+    DevGroup[DevGroup["www"] = 1] = "www";
+    DevGroup[DevGroup["ssl"] = 2] = "ssl";
+})(DevGroup || (DevGroup = {}));
+var PbUserRole;
+(function (PbUserRole) {
+    PbUserRole[PbUserRole["Test"] = 1] = "Test";
+    PbUserRole[PbUserRole["Service"] = 2] = "Service";
+    PbUserRole[PbUserRole["UI"] = 3] = "UI";
+})(PbUserRole || (PbUserRole = {}));
 var PBInfo = (function () {
     function PBInfo(id, key, link, summary, selected) {
         this.IssueId = id;
@@ -34,6 +45,7 @@ var MemberInfo = (function () {
     angular.module('UtilityCommon', [])
         .constant('DR2Config', {
         PersonSessionKey: "personList",
+        ProjectStatusUrl: "/Utility/ProjectStatus",
         DRServiceHostUrl: 'http://10.16.133.102:52332',
         NodeServiceHostUrl: 'http://10.16.133.102:3000'
     })
@@ -286,11 +298,10 @@ var MemberInfo = (function () {
                 GetMemberData: GetMemberData(personUrl)
             };
         }])
-        .factory('NodeService', ['$http', 'DR2Config', function ($http, DR2Config) {
+        .factory('NodeService', ['$http', '$q', 'DR2Config', function ($http, $q, DR2Config) {
             var hostUrl = DR2Config.NodeServiceHostUrl;
             var backLogListUrl = hostUrl + "/jiraapi/issues";
             var createPrjUrl = hostUrl + "/jiraapi/project";
-            //TODO logic
             function GetBackLogList() {
                 var backLogList = [];
                 $http.get(backLogListUrl)
@@ -308,6 +319,20 @@ var MemberInfo = (function () {
                 return backLogList;
             }
             function PostCreateProject(request) {
+                //var deferred = $q.defer();
+                //if (true) {
+                //    $http.post(createPrjUrl, request)
+                //        .then(function (response) {
+                //            debugger;
+                //            deferred.resolve(response.data);
+                //        }, function (response) {
+                //            debugger
+                //            // write log / show error alert.
+                //            console.log(response);
+                //            deferred.resolve(response);
+                //        });
+                //}
+                //return deferred.promise;
                 $http.post(createPrjUrl, request)
                     .then(function (response) {
                     return true;
