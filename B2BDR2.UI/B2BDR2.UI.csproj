@@ -136,6 +136,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Code\NavbarHelper.cshtml" />
+    <Content Include="..\Readme.md">
+      <Link>Readme.md</Link>
+    </Content>
     <None Include="bower_components\bootstrap-social\.gitignore" />
     <None Include="bower_components\bootstrap-social\bootstrap-social.css" />
     <None Include="bower_components\bootstrap\dist\css\bootstrap-theme.css" />
@@ -926,7 +929,6 @@
       <DependentUpon>Demo.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\angular-messages.min.js.map" />
-    <Content Include="Readme.md" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Demo.js">
       <DependentUpon>Demo.ts</DependentUpon>
