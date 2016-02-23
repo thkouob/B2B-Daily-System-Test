@@ -12,4 +12,6 @@
 
 * Package檔案請不要上版控。
 
-* 另有架設內部Nuget Server(http://10.16.133.102:59698/)，可參考(http://confluence.newegg.org/display/TCBB/Create+Nuget+Package+In+Visual+studio+Project)做配置連線。
+* 另有架設內部Nuget Server(http://10.16.133.102:59698/)
+，可參考(http://confluence.newegg.org/display/TCBB/Create+Nuget+Package+In+Visual+studio+Project)
+做配置連線。
