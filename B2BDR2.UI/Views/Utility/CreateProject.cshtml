@@ -38,9 +38,9 @@
                                             <label>Project No.</label>
                                             <ng-messages for="drform.prjnumber.$error" ng-if="drform.prjnumber.$touched || drform.$submitted">
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
+                                                <ng-message class="text-danger pull-right" when="pattern">Input numbers.</ng-message>
                                             </ng-messages>
-                                            <input type="number" class="form-control" name="prjnumber" ng-model="projectNumber" required
-                                                   onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                                            <input type="text" class="form-control" name="prjnumber" ng-model="projectNumber" required pattern="[0-9]+" />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
