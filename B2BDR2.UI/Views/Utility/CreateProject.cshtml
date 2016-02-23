@@ -29,7 +29,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading"></div>
                         <div class="panel-body">
-                            <form name="drform" role="form" class="ng-pristine ng-valid">
+                            <form name="drform" role="form" class="ng-pristine ng-valid" accessibleform>
 
                                 <!-- Basic Info -->
                                 <div class="row">
@@ -38,9 +38,9 @@
                                             <label>Project No.</label>
                                             <ng-messages for="drform.prjnumber.$error" ng-if="drform.prjnumber.$touched || drform.$submitted">
                                                 <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
+                                                <ng-message class="text-danger pull-right" when="pattern">Input numbers.</ng-message>
                                             </ng-messages>
-                                            <input type="number" class="form-control" name="prjnumber" ng-model="projectNumber" required
-                                                   onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                                            <input type="text" class="form-control" name="prjnumber" ng-model="projectNumber" required pattern="[0-9]+" />
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
@@ -216,7 +216,7 @@
                                 <!-- /.row -->
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="OpenModal()">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="OpenModal()">
                                             Confirm
                                         </button>
                                     </div>

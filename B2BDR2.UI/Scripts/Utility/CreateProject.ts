@@ -53,6 +53,24 @@
                 return result;
             }
         })
+        .directive('accessibleForm', function () {
+            return {
+                restrict: 'A',
+                link: function (scope, elem) {
+                    // set up event handler on the form element
+                    elem.on('submit', function () {
+
+                        // find the first invalid element
+                        var firstInvalid: any = elem.find('.ng-invalid:first');
+
+                        // if we find one, set focus
+                        if (firstInvalid) {
+                            firstInvalid.focus();
+                        }
+                    });
+                }
+            };
+        })
         .directive('checksmname', ['$filter', function ($filter) {
             return {
                 restrict: 'A',
@@ -105,9 +123,6 @@
                     $scope.drform.$setSubmitted();
                     if ($scope.drform.$valid) {
                         $scope.showDialog = true;
-                    } else {
-                        $location.hash('top');
-                        $anchorScroll();
                     }
                 }
 
