@@ -1,4 +1,5 @@
 ﻿(function () {
+
     interface IBackLog {
         Id: string,
         Key: string,
@@ -77,6 +78,11 @@
             this.Assign = assign;
         }
     }
+
+    //interface JQuery {
+    //    modal(): JQuery;
+    //}
+
 
     var tpscpPractice = angular.module("jiraApp", ['ngTagsInput', 'ui.bootstrap', 'ngMessages', 'UtilityCommon', 'LocalStorageModule']);
     tpscpPractice.factory('getBackLogList', ['$http', '$q', function ($http: ng.IHttpService, $q: ng.IQService) {
@@ -211,7 +217,7 @@
                     $scope.BacklogList.splice(idx, 1);
                 }
 
-                $scope.ProjectList = tempData;
+                $scope.ProjectList = angular.copy(tempData);
 
             };
 
@@ -228,9 +234,21 @@
                 });
             }
 
+            $scope.currentItemIdx = null;
             ////remove pb to project ---------------------------------------------------------------////
-            $scope.RemoveProjectLog = function (idx) {
+            $scope.OpenWarningPopUp = function (idx) {
+                 var d: any = angular.element("#modalRemovePBConfirm");
+                 $scope.currentItemIdx = angular.copy(idx);
+                 d.modal("show");
+            }
+
+            $scope.RemoveProjectLog = function () {
+                
+                var d: any = angular.element("#modalRemovePBConfirm");
+            
                 var keepGoing = true;
+                var idx = $scope.currentItemIdx;
+                
                 angular.forEach(tempBackLog, function (value, key) {
                     if (keepGoing) {
                         if (value.Key === $scope.ProjectList[idx].Key) {
@@ -240,11 +258,16 @@
                         }
                     }
                 });
+
                 tempData.splice(idx, 1);
                 //fix if remove first tag, content area will be disappear
-                if (tempData[0].Active === "") {
+                if (tempData[0] !== undefined && tempData[0].Active === "") {
                     tempData[0].Active = "in active";
                 }
+                
+                $scope.ProjectList = angular.copy(tempData)
+                
+                d.modal("hide");
             };
 
             //while click <li> update class active, then the tag will work correct when remove it. 

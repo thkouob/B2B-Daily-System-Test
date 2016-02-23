@@ -7,7 +7,7 @@
     <link href="@Url.Content("~/Content/spinkit.css")" rel="stylesheet" />
 }
 @section scripts{
-    <script src="@Url.Content("~/Scripts/angular.js")"></script>
+    @*<script src="@Url.Content("~/Scripts/angular.js")"></script>*@
     <script src="~/Scripts/Utility/UtilityCommon.js"></script>
     <script src="@Url.Content("~/Scripts/Scrum/CpStellaTest.js")"></script>
     <script src="~/Scripts/angular-local-storage.min.js"></script>
@@ -162,14 +162,13 @@
                                 <!-- /.SubTaskTagArea -->
                                 <ul class="nav nav-tabs">
                                     <li ng-repeat="b in ProjectList" class="{{b.Active}}" ng-click="UpdateActiveClass($index)">
-
                                         <a href="#{{b.Key}}" data-toggle="tab">
-                                            {{b.Key}}&nbsp;&nbsp;&nbsp;<i class="fa fa-times" data-toggle="modal" data-target="#modalRemovePBConfirm"></i>
+                                            {{b.Key}}&nbsp;&nbsp;&nbsp;<i class="fa fa-times" ng-click="OpenWarningPopUp($index)"></i>
                                         </a>
-                                        <div class="modal fade" id="modalRemovePBConfirm" tabindex="-1" role="dialog" aria-labelledby="modalRemovePBConfirmLabel">
-                                            @Html.Partial("_RpbconfirmStellaTest")
-                                        </div>
                                     </li>
+                                    <div class="modal fade" id="modalRemovePBConfirm">
+                                        @Html.Partial("_RpbconfirmStellaTest")
+                                    </div>
                                 </ul>
                                 <!-- /.SubTaskTagArea -->
 
