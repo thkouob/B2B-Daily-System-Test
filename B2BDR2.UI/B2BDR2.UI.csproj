@@ -926,6 +926,7 @@
       <DependentUpon>Demo.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\angular-messages.min.js.map" />
+    <Content Include="Readme.md" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Demo.js">
       <DependentUpon>Demo.ts</DependentUpon>
