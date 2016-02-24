@@ -147,7 +147,6 @@
             };
             ////add a subTask to pb ---------------------------------------------------------------////
             $scope.AddSubTask = function (pbId, role, asign, idx) {
-                debugger;
                 var keepGoing = true;
                 angular.forEach($scope.ProjectList, function (value, key) {
                     if (keepGoing) {
