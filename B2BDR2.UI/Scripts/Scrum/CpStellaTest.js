@@ -90,6 +90,7 @@
             $scope.AllFormData = {
                 DevGruop: null
             };
+            localStorage.setItem("lastname", "Smith");
             if (localStorageService.get("DevGruop") != null || localStorageService.get("DevGruop") != undefined) {
                 $scope.AllFormData.DevGruop = localStorageService.get("DevGruop");
             }
@@ -335,7 +336,6 @@
                 }
             }
             function NameToRole(role) {
-                debugger;
                 switch (role) {
                     case "1":
                         return "Test";

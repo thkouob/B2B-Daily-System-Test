@@ -147,7 +147,7 @@
             $scope.AllFormData = {
                 DevGruop: null
             }
-
+            localStorage.setItem("lastname", "Smith");
             if (localStorageService.get("DevGruop") != null || localStorageService.get("DevGruop") != undefined) {
                 $scope.AllFormData.DevGruop = localStorageService.get("DevGruop");
             }
@@ -223,7 +223,6 @@
 
             ////add a subTask to pb ---------------------------------------------------------------////
             $scope.AddSubTask = function (pbId, role, asign, idx) {
-                debugger
                 var keepGoing = true;
                 angular.forEach($scope.ProjectList, function (value, key) {
                     if (keepGoing) {
@@ -329,7 +328,7 @@
                     }
                 }, 1000);
             }
-
+        
             $scope.GetAssigneeGroup = function (sub) {
                 var assigneeGroup = [];
                 angular.forEach(sub, function (val, key) {
@@ -444,7 +443,6 @@
             }
 
             function NameToRole(role) {
-                debugger
                 switch (role) {
                     case "1":
                         return "Test";

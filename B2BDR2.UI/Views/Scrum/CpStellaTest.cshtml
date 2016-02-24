@@ -157,6 +157,9 @@
                         <!-- /.row -->
 
                         <h2 class="EditST" ng-show="ShowEditTitle()">Edit Sub Task</h2>
+                        @*<div role="alert" class="alert alert-danger" ng-if="ProjectList[0] == null || ProjectList[0] == undefined">
+                            Please add Pb!
+                        </div>*@
                         <div class="row">
                             <div class="col-lg-12">
                                 <!-- /.SubTaskTagArea -->
@@ -173,6 +176,7 @@
                                 <!-- /.SubTaskTagArea -->
 
                                 <div class="tab-content">
+                                 
                                     <div class="tab-pane fade {{b.Active}}" id="{{b.Key}}" ng-repeat="b in ProjectList">
 
                                         <div class="panel panel-default">
