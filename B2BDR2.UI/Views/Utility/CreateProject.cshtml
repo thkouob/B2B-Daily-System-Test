@@ -1,0 +1,242 @@
+﻿@{
+    ViewBag.Title = "Create Project";
+    Layout = "~/Views/Shared/_LayoutB2B.cshtml";
+}
+
+@section scripts{
+    <script src="~/Scripts/Utility/UtilityCommon.js"></script>
+    <script src="~/Scripts/Utility/CreateProject.js"></script>
+}
+
+@section styles{
+    <link href="~/Content/spinkit.css" rel="stylesheet" />
+    <link href="~/Content/Utility/CreateProject.css" rel="stylesheet" />
+}
+
+<div ng-app="mvcapp">
+    <div ng-controller="indexCtrl">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Create Project</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"></div>
+                        <div class="panel-body">
+                            <form name="drform" role="form" class="ng-pristine ng-valid" accessibleform>
+
+                                <!-- Basic Info -->
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.prjnumber.$touched || drform.$submitted) && drform.prjnumber.$invalid }">
+                                            <label>Project No.</label>
+                                            <ng-messages for="drform.prjnumber.$error" ng-if="drform.prjnumber.$touched || drform.$submitted">
+                                                <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
+                                                <ng-message class="text-danger pull-right" when="pattern">Input numbers.</ng-message>
+                                            </ng-messages>
+                                            <input type="text" class="form-control" name="prjnumber" ng-model="projectNumber" required pattern="[0-9]+" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.prjname.$touched || drform.$submitted) && drform.prjname.$invalid }">
+                                            <label>Project Name</label>
+                                            <ng-messages for="drform.prjname.$error" ng-if="drform.prjname.$touched || drform.$submitted">
+                                                <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
+                                            </ng-messages>
+                                            <input class="form-control" name="prjname" maxlength="200" placeholder="" ng-model="projectName" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.smname.$touched || drform.$submitted) && drform.smname.$invalid }">
+                                            <label>Scrum Master</label>
+                                            <ng-messages for="drform.smname.$error" ng-if="drform.smname.$touched || drform.$submitted">
+                                                <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
+                                                <ng-message class="text-danger pull-right" when="checksmname">not in B2B member list.</ng-message>
+                                            </ng-messages>
+                                            <input name="smname" class="form-control" ng-maxlength="30" list="memberlist" ng-model="scrumMasterName" required checksmname />
+                                            <datalist id="memberlist">
+                                                <select>
+                                                    <option data-ng-repeat="p in memberData" value="{{p.Name}}"></option>
+                                                </select>
+                                            </datalist>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Dev Gruop</label>
+                                            <div></div>
+                                            <label class="radio-inline"><input type="radio" ng-model="devGroup" name="optionsDevGroup" id="optionsDevGruop1" value="1" />WWW</label>
+                                            <label class="radio-inline"><input type="radio" ng-model="devGroup" name="optionsDevGroup" id="optionsDevGruop2" value="2" />SSL</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                                <!-- Date -->
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.startdaycal.$dirty || drform.$submitted) && drform.startdaycal.$invalid }">
+                                            <label>Start Day</label>
+                                            <ng-messages for="drform.startdaycal.$error" ng-if="drform.startdaycal.$dirty || drform.$submitted">
+                                                <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
+                                            </ng-messages>
+                                            <drcalander name="startdaycal" format="{{format}}" datemodel="startDate"></drcalander>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.releasedaycal.$dirty || drform.$submitted) && drform.releasedaycal.$invalid }">
+                                            <label>Release Day</label>
+                                            <ng-messages for="drform.releasedaycal.$error" ng-if="drform.releasedaycal.$dirty || drform.$submitted">
+                                                <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
+                                            </ng-messages>
+                                            <drcalander name="releasedaycal" format="{{format}}" datemodel="releaseDate" required></drcalander>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group" ng-class="{ 'has-error' : (drform.launchdaycal.$dirty || drform.$submitted) && drform.launchdaycal.$invalid }">
+                                            <label>Launch Day</label>
+                                            <ng-messages for="drform.launchdaycal.$error" ng-if="drform.launchdaycal.$dirty || drform.$submitted">
+                                                <ng-message class="text-danger pull-right" when="required">Required.</ng-message>
+                                            </ng-messages>
+                                            <drcalander name="launchdaycal" format="{{format}}" datemodel="launchDate" required></drcalander>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+
+                                <h2>Backlog</h2>
+                                <!-- Back log PB list-->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <!-- Loading animation -->
+                                                <div class="sk-circle" id="iconLoading">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
+                                                </div>
+                                                <!-- Data display -->
+                                                <table id="t_BackLog" class="table table-hover" style="display:none">
+                                                    <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Jira Number</th>
+                                                            <th>Summary</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="backlog in backLogList">
+                                                            <td><button class="btn btn-default" type="button" ng-click="AddPB($index)"><i class="fa fa-plus"></i></button></td>
+                                                            <td><a href="{{backlog.JiraLink}}" target="_blank">{{backlog.IssueKey}}</a></td>
+                                                            <td>{{backlog.Summary}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- /.panel-body -->
+                                        </div>
+                                        <!-- /.panel -->
+                                    </div>
+                                    <!-- /.col-lg-12 -->
+                                </div>
+                                <!-- /.row -->
+                                <h2>Project {{projectNumber}} PBs</h2>
+
+                                <div class="row" id="projectPBs">
+                                    <div class="col-lg-12">
+                                        <uib-tabset justtified="true">
+                                            <uib-tab ng-repeat="addedList in addedProjectPBInfo" active="tab.active" disable="tab.disabled">
+                                                <uib-tab-heading>
+                                                    <div class="pbtab">
+                                                        {{addedList.IssueKey}}
+                                                        <a ng-click="RemovePB($index,addedList.IssueKey)">
+                                                            <span class="fa-stack fa-1x">
+                                                                <i class="fa fa-times fa-stack-1x"></i>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </uib-tab-heading>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h4>{{addedList.Summary}}</h4>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Role</th>
+                                                                    <th>Assignee</th>
+                                                                    <th>&nbsp;</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="subTask in addedList.SubTaskList">
+                                                                    <td class="thwid1">{{subTask.RoleName}}</td>
+                                                                    <td class="thwid2">
+                                                                        <tags-input ng-model="subTask.Assignee"
+                                                                                    placeholder="Add a member"
+                                                                                    add-from-autocomplete-only="true"
+                                                                                    on-tag-added="tagAdded($tag)"
+                                                                                    on-tag-removed="tagRemoved($tag)"
+                                                                                    key-property="UID"
+                                                                                    display-property="Name">
+                                                                            <auto-complete source="LoadMemberData($query)"
+                                                                                           min-length="0"
+                                                                                           debounce-delay="0"
+                                                                                           max-results-to-show="10"></auto-complete>
+
+                                                                        </tags-input>
+                                                                    </td>
+                                                                    <td class="thwid3">&nbsp;</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </uib-tab>
+                                        </uib-tabset>
+                                    </div>
+                                </div>
+
+                                <!-- /.row -->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="OpenModal()">
+                                            Confirm
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+
+        <!-- Confirm Modal-->
+        <div class="modal fade" modal-show modal-visible="showDialog">
+            @Html.Partial("_CreateProjectConfirm")
+        </div>
+    </div>
+</div>
+
