@@ -1,0 +1,61 @@
+﻿<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="createSubTaskLabel">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                Project 19999
+            </h4>            
+            <p>Fix the deadlock issue of Sciquest order process app.</p>
+        </div>
+        <div class="modal-body">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    SSL - Carboon.C.Wu
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>PB</th>
+                                <th>Name</th>
+                                <th>Assignee</th>
+                            </tr>
+                            <tr>
+                                <td>TCBB-9682</td>
+                                <td>TEST the Project create</td>
+                                <td>Leo, Stella, Tina</td>
+                            </tr>
+                            <tr>
+                                <td>TCBB-9232</td>
+                                <td>Fix the deadlock issue of Sciquest order process app</td>
+                                <td>Sin, Howard, Jarvis</td>
+                            </tr>
+                            <tr>
+                                <td>TCBB-9643</td>
+                                <td>TEST the Project create</td>
+                                <td>Jarvis, Sean, Jonathan</td>
+                            </tr>
+                            <tr>
+                                <td>TCBB-9612</td>
+                                <td>SSL - Re-structure API URL (phase 2)</td>
+                                <td>Jarvis, Jarvis</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button id="bt_accept" type="button" class="btn btn-primary disabled"><span>(5)</span>&nbsp;Accept</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.modal .modal-title').addClass('animated zoomIn');
+    $('.modal .modal-header p').addClass('animated zoomIn');
+    $('.modal .modal-body .panel-heading').addClass('animated slideInDown');
+    $('.modal .table tr').addClass('animated slideInDown');
+</script>

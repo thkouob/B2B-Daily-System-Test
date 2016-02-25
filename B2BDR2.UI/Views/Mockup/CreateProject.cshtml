@@ -1,0 +1,349 @@
+﻿@{
+    ViewBag.Title = "Create Project";
+    Layout = "~/Views/Shared/_LayoutMockup.cshtml";
+}
+
+@section styles{
+    <link href="~/Content/spinkit.css" rel="stylesheet" />
+    @* required tip icon *@
+    @*<style>
+        input:required:invalid, input:focus:invalid, textarea:required:invalid, textarea:focus:invalid {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAT1JREFUeNpi/P//PwMpgImBRMACY/x7/uDX39sXt/67cMoDyOVgMjBjYFbV/8kkqcCBrIER5KS/967s+rmkXxzI5wJiRSBm/v8P7NTfHHFFl5mVdIzhGv4+u///x+xmuAlcdXPB9KeqeLgYd3bDU2ZpRRmwH4DOeAI07QXIRKipYPD35184/nn17CO4p/+cOfjl76+/X4GYAYThGn7/g+Mfh/ZZwjUA/aABpJVhpv6+dQUjZP78Z0YEK7OezS2gwltg64GmfTu6i+HL+mUMP34wgvGvL78ZOEysf8M1sGgZvQIqfA1SDAL8iUUMPIFRQLf+AmMQ4DQ0vYYSrL9vXDz2sq9LFsiX4dLRA0t8OX0SHKzi5bXf2HUMBVA0gN356N7p7xdOS3w5fAgcfNxWtn+BJi9gVVBOQfYPQIABABvRq3BwGT3OAAAAAElFTkSuQmCC');
+            background-position: right top;
+            background-repeat: no-repeat;
+            box-shadow: none;
+        }
+
+        input:required:valid, textarea:required:valid {
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAZZJREFUeNpi/P//PwMpgImBRMAy58QshrNPTzP8+vOLIUInisFQyYjhz98/DB9/fmT48/+35v7H+8KNhE2+WclZd+G0gZmJmYGThUNz1fUVMZtvbWT59eUXG9wGZIWMUPj993eJ5VeWxuy8veM/CzPL3yfvH/9H0QBSBDYZyOVm4mGYfn6q4cory5lYmFh+MrEwM/76/YsR7mk2ZjbWP///WP37/y8cqIDhx58fjvtu7XV6//ndT34G/v8FasUsDjKO/+A2PP3wpGLd+TVsfOz8XH6KAT+nHpokcu7h6d9q/BoMxToVbBYqlt9///+1GO4/WVdpXqY/zMqXn13/+vTjI9mj94/y//v9/3e9ZRObvYbDT0Y2xnm///x+wsfHB3GSGLf41jb3rv0O8nbcR66d+HPvxf2/+YZFTHaqjl8YWBnm/vv37yly5LL8+vuLgYuVa3uf/4T/Kd8SnSTZpb6FGUXwcvJxbAPKP2VkZESNOBDx8+9PBm4OwR1TwmYwcfzjsBUQFLjOxs52A2YyKysrXANAgAEA7buhysQuIREAAAAASUVORK5CYII=');
+            background-position: right top;
+            background-repeat: no-repeat;
+        }
+    </style>*@
+}
+
+@section scripts{
+    <script src="~/Scripts/Mockup/CreateProject.js"></script>
+    <script type="text/javascript">
+        angular.module('myApp', ['ngTagsInput'])
+            .controller('myCtrl', function ($scope, $http) {
+            $scope.tagsS = [
+              { name: 'leo' },
+              { name: 'sin' },
+              { name: 'perry' },
+              { name: 'stella' }
+            ];
+            $scope.tagsU = [
+                  { name: 'sin' },
+                  { name: 'perry' },
+                  { name: 'stella' }
+            ];
+            $scope.tagsT = [
+                  { name: 'leo' },
+                  { name: 'sin' },
+                  { name: 'perry' }
+            ];
+            $scope.loadTags = function ($query) {
+                var data = [{name:'sean'}];
+                return data.filter(function (item) {
+                    return item.name.toLowerCase().indexOf($query.toLowerCase()) != -1;
+                });
+            };
+        });
+    </script>
+}
+
+<div class="container-fluid" ng-app="myApp" ng-controller="myCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Create Project</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <form role="form" class="ng-pristine ng-valid">
+
+                        <!-- Basic Info -->
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Project No</label>
+                                    <input class="form-control" maxlength="5" placeholder="19999" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Project Name</label>
+                                    <input class="form-control" maxlength="200" placeholder="" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Dev Gruop</label>
+                                    <div></div>
+                                    <label class="radio-inline"><input type="radio" name="optionsDevGroup" id="optionsDevGruop1" value="1" required />WWW</label>
+                                    <label class="radio-inline"><input type="radio" name="optionsDevGroup" id="optionsDevGruop2" value="2" required />SSL</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Scrum Master</label>
+                                    <input class="form-control" list="listMembers" maxlength="20" placeholder="" required />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                        <!-- Date -->
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Start Day</label>
+                                    <input class="form-control" type="date" maxlength="10" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Release Day</label>
+                                    <input class="form-control" type="date" maxlength="10" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label>Launch Day</label>
+                                    <input class="form-control" type="date" maxlength="10" required />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                        <h2>Back log</h2>
+                        <!-- Back log PB list-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <!-- Loading... -->
+                                        <div class="sk-circle" id="iconLoading">
+                                            <div class="sk-circle1 sk-child"></div>
+                                            <div class="sk-circle2 sk-child"></div>
+                                            <div class="sk-circle3 sk-child"></div>
+                                            <div class="sk-circle4 sk-child"></div>
+                                            <div class="sk-circle5 sk-child"></div>
+                                            <div class="sk-circle6 sk-child"></div>
+                                            <div class="sk-circle7 sk-child"></div>
+                                            <div class="sk-circle8 sk-child"></div>
+                                            <div class="sk-circle9 sk-child"></div>
+                                            <div class="sk-circle10 sk-child"></div>
+                                            <div class="sk-circle11 sk-child"></div>
+                                            <div class="sk-circle12 sk-child"></div>
+                                        </div>
+                                        <!-- Loading... -->
+                                        <table id="t_BackLog" class="table table-hover" style="display:none">
+                                            <tbody>
+                                                <tr>
+                                                    <td><a href="http://jira/browse/TCBB-9679" target="_blank">TCBB-9679</a></td>
+                                                    <td>Fix the deadlock issue of Sciquest order process app.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href="http://jira/browse/TCBB-9634" target="_blank">TCBB-9634</a></td>
+                                                    <td>Export order results</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href="http://jira/browse/TCBB-9623" target="_blank">TCBB-9623</a></td>
+                                                    <td>support multiple fixed discount promo code for multiple warehouse order</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href="http://jira/browse/TCBB-9642" target="_blank">TCBB-9642</a></td>
+                                                    <td>Remove redundancy javascript file (phase 2)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href="http://jira/browse/TCBB-9611" target="_blank">TCBB-9611</a></td>
+                                                    <td>SSL - Re-structure API URL (phase 2)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><a href="http://jira/browse/TCBB-9667" target="_blank">TCBB-9667</a></td>
+                                                    <td>Fix the deadlock issue of Sciquest order process app.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.panel-body -->
+                                </div>
+                                <!-- /.panel -->
+                            </div>
+                            <!-- /.col-lg-12 -->
+                        </div>
+                        <!-- /.row -->
+
+                        <h2>Projrct 19999 PBs</h2>
+                        <div class="row" id="projectPBs">
+                            <div class="col-lg-12">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#TCBB9527" data-toggle="tab">TCBB9527</a>
+                                    </li>
+                                    <li><a href="#TCBB689" data-toggle="tab">TCBB689</a></li>
+                                    <li><a href="#TCBB0001" data-toggle="tab">TCBB0001</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade in active" id="TCBB9527">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="btn-group pull-right">
+                                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Remove</button>
+                                                </div>
+                                                <h4>Fix the deadlock issue of Sciquest order process app</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                                @AssigneeTable()
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="TCBB689">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="btn-group pull-right">
+                                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Remove</button>
+                                                </div>
+                                                <h4>Export order results</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                                @AssigneeTable()
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="TCBB0001">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <div class="btn-group pull-right">
+                                                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>&nbsp;Remove</button>
+                                                </div>
+                                                <h4>TEST the Project create</h4>
+                                            </div>
+                                            <div class="panel-body">
+                                                @AssigneeTable()
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="button"
+                                        class="btn btn-primary btn-lg btn-block"
+                                        data-toggle="modal"
+                                        data-target="#modalCreateProjectConfirm"
+                                        onclick="CountdownToAccept();">
+                                    Create
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                    </form>
+                </div>
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+</div>
+
+<!-- List Data -->
+<datalist id="listMembers">
+    <!-- TODO get it from service [GET_MemberList] -->
+    <option>Carboon.C.Wu</option>
+    <option>Sin.C.Lin</option>
+    <option>Stella.W.Chen</option>
+</datalist>
+
+
+<script>
+    // !! js 為 mockup 示意暫時使用 !!
+    $(document).ready(function () {
+
+        $('#t_BackLog tr').on('click', SelectBackLogPB)
+
+        setTimeout(loading5Second, 3000);
+
+        setAnimated();
+    })
+</script>
+
+
+@section Modal{
+    <div class="modal fade" id="modalCreateProjectConfirm" tabindex="-1" role="dialog" aria-labelledby="modalCreateProjectConfirmLabel">
+        @Html.Partial("_CreateProjectConfirm")
+    </div>
+
+}
+
+@helper AssigneeTable()
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Role</th>
+                <th>Assignee</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Dev-Service</td>
+                <td>
+                    <tags-input id="tags_Service" ng-model="tagsS" display-property="name" placeholder="Add a country" replace-spaces-with-dashes="false">
+                        <auto-complete source="loadTags($query)"
+                                       min-length="0"
+                                       load-on-focus="true"
+                                       load-on-empty="true"
+                                       max-results-to-show="32"
+                                       template="my-custom-template"></auto-complete>
+                    </tags-input>
+
+                    <script type="text/ng-template" id="my-custom-template">
+                        <div class="right-panel">
+                            <span ng-bind-html="$highlight($getDisplayText())"></span>
+                            <span>({{data.name}})</span>
+                        </div>
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td>Dev-UI</td>
+                <td>
+                    <tags-input id="tags_UI" ng-model="tagsU" display-property="name" placeholder="Add a country" replace-spaces-with-dashes="false">
+                        <auto-complete source="loadTags($query)"
+                                       min-length="0"
+                                       load-on-focus="true"
+                                       load-on-empty="true"
+                                       max-results-to-show="32"
+                                       template="my-custom-template"></auto-complete>
+                    </tags-input>
+                </td>
+            </tr>
+            <tr>
+                <td>Tester</td>
+                <td>
+                    <tags-input id="tags_Tester" ng-model="tagsT" display-property="name" placeholder="Add a country" replace-spaces-with-dashes="false">
+                        <auto-complete source="loadTags($query)"
+                                       min-length="0"
+                                       load-on-focus="true"
+                                       load-on-empty="true"
+                                       max-results-to-show="32"
+                                       template="my-custom-template"></auto-complete>
+                    </tags-input>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
