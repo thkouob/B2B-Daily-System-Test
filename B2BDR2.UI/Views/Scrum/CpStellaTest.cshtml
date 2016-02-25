@@ -1,0 +1,322 @@
+﻿@{
+    ViewBag.Title = "Create Project";
+    Layout = "~/Views/Shared/_LayoutMockup.cshtml";
+}
+@section styles{
+    <link href="@Url.Content("~/Content/Scrum/CpStellaTest.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/spinkit.css")" rel="stylesheet" />
+}
+@section scripts{
+    @*<script src="@Url.Content("~/Scripts/angular.js")"></script>*@
+    <script src="~/Scripts/Utility/UtilityCommon.js"></script>
+    <script src="@Url.Content("~/Scripts/Scrum/CpStellaTest.js")"></script>
+    <script src="~/Scripts/angular-local-storage.min.js"></script>
+}
+
+<div class="container-fluid" ng-app="jiraApp" ng-controller="JiraCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Create Project</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <form role="form" name="dailyForm" class="ng-pristine ng-valid" ng-submit="Save()" novalidate>
+
+                        <!-- Basic Info -->
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group" ng-class="{ 'has-error' : dailyForm.ProjectNumber.$invalid && dailyForm.ProjectNumber.$touched }">
+                                    <label>Project No</label>
+                                    <input name="ProjectNumber" class="form-control" maxlength="5" placeholder="9527" ng-model="AllFormData.ProjectNumber" required ng-pattern="/^\-?\d+$/" />
+
+                                    <div ng-messages="dailyForm.ProjectNumber.$error" ng-show="dailyForm.ProjectNumber.$touched || dailyForm.ProjectNumber.$dirty" role="alert">
+                                        <span ng-message="required">This is required!!</span>
+                                        <span ng-message="pattern">Please enter integers!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group" ng-class="{ 'has-error' : dailyForm.ProjectName.$invalid && dailyForm.ProjectName.$touched  }">
+                                    <label>Project Name</label>
+                                    <input name="ProjectName" class="form-control" maxlength="200" placeholder="" ng-model="AllFormData.ProjectName" required />
+                                    <div ng-messages="dailyForm.ProjectName.$error" ng-show="dailyForm.ProjectName.$touched || dailyForm.ProjectName.$dirty">
+                                        <span ng-message="required">This is required!!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group" ng-class="{ 'has-error' : dailyForm.$submitted && dailyForm.optionsDevGroup.$invalid }">
+                                    <label>Dev Gruop</label>
+                                    <div></div>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optionsDevGroup" id="optionsDevGruop1" value="1" ng-model="AllFormData.DevGruop" required />WWW
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="optionsDevGroup" id="optionsDevGruop2" value="2" ng-model="AllFormData.DevGruop" required />SSL
+                                    </label>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group" ng-class="{ 'has-error' : dailyForm.ScrumMaster.$invalid && dailyForm.ScrumMaster.$touched }">
+                                    <label>Scrum Master</label>
+                                    <input class="form-control" list="listMembers" maxlength="20" placeholder="" ng-model="SmName" value="{{SmName}}" name="ScrumMaster" required />
+                                    <div ng-messages="dailyForm.ScrumMaster.$error" ng-show="dailyForm.ScrumMaster.$touched || dailyForm.ScrumMaster.$dirty">
+                                        <span ng-message="required">This is required!!</span>
+                                    </div>
+                                    <!-- List Data -->
+                                    <datalist id="listMembers">
+                                        <option ng-repeat="m in MembersList" value="{{m.Name}}">{{m.UID}}</option>
+                                    </datalist>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                        <!-- Date -->
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group" ng-class="{ 'has-error' : dailyForm.StartDate.$invalid && dailyForm.StartDate.$touched }">
+                                    <label>Start Day</label>
+                                    <drcalander name="StartDate" format="{{format}}" datemodel="StartDate" required></drcalander>
+                                    <div ng-messages="dailyForm.StartDate.$error" ng-show="dailyForm.StartDate.$touched || dailyForm.StartDate.$dirty">
+                                        <span ng-message="required">This is required!!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group" ng-class="{ 'has-error' : dailyForm.ReleaseDate.$invalid && dailyForm.ReleaseDate.$touched }">
+                                    <label>Release Day</label>
+                                    <drcalander name="ReleaseDate" format="{{format}}" datemodel="ReleaseDate" required></drcalander>
+                                    <div ng-messages="dailyForm.ReleaseDate.$error" ng-show="dailyForm.ReleaseDate.$touched || dailyForm.ReleaseDate.$dirty">
+                                        <span ng-message="required">This is required!!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group" ng-class="{ 'has-error' : dailyForm.LaunchDate.$invalid && dailyForm.LaunchDate.$touched }">
+                                    <label>Launch Day</label>
+                                    <drcalander name="LaunchDate" format="{{format}}" datemodel="LaunchDate" required></drcalander>
+                                    <div ng-messages="dailyForm.LaunchDate.$error" ng-show="dailyForm.LaunchDate.$touched || dailyForm.LaunchDate.$dirty">
+                                        <span ng-message="required">This is required!!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                        <h2 class="SelectBL">Select Back Log</h2>
+                        <!-- Back log PB list-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <!-- Loading... -->
+                                        <div class="sk-circle">
+                                            <div class="sk-circle1 sk-child"></div>
+                                            <div class="sk-circle2 sk-child"></div>
+                                            <div class="sk-circle3 sk-child"></div>
+                                            <div class="sk-circle4 sk-child"></div>
+                                            <div class="sk-circle5 sk-child"></div>
+                                            <div class="sk-circle6 sk-child"></div>
+                                            <div class="sk-circle7 sk-child"></div>
+                                            <div class="sk-circle8 sk-child"></div>
+                                            <div class="sk-circle9 sk-child"></div>
+                                            <div class="sk-circle10 sk-child"></div>
+                                            <div class="sk-circle11 sk-child"></div>
+                                            <div class="sk-circle12 sk-child"></div>
+                                        </div>
+                                        <!-- Loading... -->
+                                        <table class="table table-hover pbArea" style="display:none;">
+                                            <thead>
+                                                <tr>
+                                                    <th>PB Number</th>
+                                                    <th>PB Title</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr id="{{u.Id}}" ng-repeat="u in BacklogList">
+                                                    <td><a href="{{u.Pburl}}" target="_blank">{{u.Key}}</a></td>
+                                                    <td>{{u.Summary}}</td>
+                                                    <td><button class="btn btn-default fa fa-plus" ng-click="SelectedProjectLog($index)"></button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- /.panel -->
+                            </div>
+                            <!-- /.col-lg-12 -->
+                        </div>
+                        <!-- /.row -->
+
+                        <h2 class="EditST" ng-show="ShowEditTitle()">Edit Sub Task</h2>
+                        @*<div role="alert" class="alert alert-danger" ng-if="ProjectList[0] == null || ProjectList[0] == undefined">
+                            Please add Pb!
+                        </div>*@
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <!-- /.SubTaskTagArea -->
+                                <ul class="nav nav-tabs">
+                                    <li ng-repeat="b in ProjectList" class="{{b.Active}}" ng-click="UpdateActiveClass($index)">
+                                        <a href="#{{b.Key}}" data-toggle="tab">
+                                            {{b.Key}}&nbsp;&nbsp;&nbsp;<i class="fa fa-times" ng-click="OpenWarningPopUp($index)"></i>
+                                        </a>
+                                    </li>
+                                    <div class="modal fade" id="modalRemovePBConfirm">
+                                        @Html.Partial("_RpbconfirmStellaTest")
+                                    </div>
+                                </ul>
+                                <!-- /.SubTaskTagArea -->
+
+                                <div class="tab-content">
+                                 
+                                    <div class="tab-pane fade {{b.Active}}" id="{{b.Key}}" ng-repeat="b in ProjectList">
+
+                                        <div class="panel panel-default">
+                                            <!-- /.SubTaskTitleArea -->
+                                            <div class="panel-heading">
+                                                <div class="btn-group pull-right">
+
+                                                    <button type="button" class="btn btn-default fa fa-plus" ng-click="addAreaDisplay=true;"></button>
+
+                                                </div>
+                                                <h4>{{b.Title}}</h4>
+                                            </div>
+                                            <!-- /.SubTaskTitleArea -->
+                                            <div class="panel-body">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>NO.</th>
+                                                            <th>Role</th>
+                                                            <th>Assignee</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- /.SubTaskDisplayArea -->
+                                                        <tr ng-repeat="s in b.Subtask">
+                                                            <td>{{$index+1}}</td>
+                                                            <td>{{s.Role}}</td>
+                                                            <td>
+                                                                <tags-input ng-model="s.Assign" class="cpsStyle" placeholder="Add a Assignee" display-property="Name"
+                                                                            replace-spaces-with-dashes="false" add-from-autocomplete-only="true">
+                                                                    <auto-complete source="LoadAssigneeTag($query)" min-length="0" load-on-focus="true"
+                                                                                   load-on-empty="true" max-results-to-show="32" template="AssignMemberListTemplate"></auto-complete>
+                                                                </tags-input>
+                                                                <!-- /.Assignee member List -->
+                                                                <script type="text/ng-template" id="AssignMemberListTemplate">
+                                                                    <div class="right-panel">
+                                                                        <span ng-bind-html="$highlight($getDisplayText())"></span>
+                                                                        <span>({{data.UID}})</span>
+                                                                    </div>
+                                                                </script>
+                                                            </td>
+                                                            <td>
+                                                                <p></p>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <i class="fa fa-times-circle" ng-click="RemoveSubTask(s.Id, $index)"></i>
+                                                            </td>
+                                                        </tr>
+                                                        <!-- /.SubTaskDisplayArea -->
+                                                        <!-- /.SubTaskAddArea -->
+                                                        <tr>
+                                                            <td>
+                                                                <div ng-hide="addAreaDisplay"></div>
+                                                                <div ng-show="addAreaDisplay">
+                                                                    <i class="glyphicon glyphicon-exclamation-sign" ng-click="RemoveSubTask($index)"></i>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div ng-hide="addAreaDisplay"></div>
+                                                                <div ng-show="addAreaDisplay">
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optionsRoleGroup" id="optionsRoleGruop1" value=3 ng-model="Role" />UI
+                                                                    </label>
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optionsRoleGroup" id="optionsRoleGroup2" value=2 ng-model="Role" />Service
+                                                                    </label>
+                                                                    <label class="radio-inline">
+                                                                        <input type="radio" name="optionsRoleGroup" id="optionsRoleGroup3" value=1 ng-model="Role" />Test
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div ng-hide="addAreaDisplay"></div>
+                                                                <div ng-show="addAreaDisplay">
+                                                                    <tags-input ng-model="NewAssignee" class="cpsStyle" placeholder="Add a Assignee" display-property="Name"
+                                                                                replace-spaces-with-dashes="false">
+                                                                        <auto-complete source="LoadAssigneeTag($query)" min-length="0" load-on-focus="true"
+                                                                                       load-on-empty="true" max-results-to-show="32" template="AssignMemberListTemplate"></auto-complete>
+                                                                    </tags-input>
+                                                                    <!-- /.Assignee member List -->
+                                                                    <script type="text/ng-template" id="AssignMemberListTemplate">
+                                                                        <div class="right-panel">
+                                                                            <span ng-bind-html="$highlight($getDisplayText())"></span>
+                                                                            <span>({{data.UID}})</span>
+                                                                        </div>
+                                                                    </script>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-right">
+                                                                <div ng-hide="addAreaDisplay"></div>
+                                                                <div ng-show="addAreaDisplay">
+                                                                    <button type="button" class="btn btn-default fa fa-plus-circle" ng-click="AddSubTask(b.Key, Role, NewAssignee, $index)" style="font-size:larger;"></button>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div ng-hide="addAreaDisplay"></div>
+                                                                <div ng-show="addAreaDisplay">
+                                                                    <i class="fa fa-times-circle" ng-click="addAreaDisplay=false;"></i>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <!-- /.SubTaskAddArea -->
+                                                        <tr></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.one -->
+
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-primary btn-lg btn-block"
+                                        data-toggle="modal" data-target="#modalCreateProjectConfirm"
+                                        ng-disabled="dailyForm.$invalid" ng-click="OpenPopUp()">
+                                    Create
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+
+                    </form>
+                </div>
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+        <div class="modal fade" id="modalCreateProjectConfirm" tabindex="-1" role="dialog" aria-labelledby="modalCreateProjectConfirmLabel" modal-visible="showDialog">
+            @Html.Partial("_CpconfirmStellaTest")
+        </div>
+       
+    </div>
+    <!-- /.row -->
+</div>
+
+
