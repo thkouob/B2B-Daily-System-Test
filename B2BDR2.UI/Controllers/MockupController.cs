@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace B2BDR2.UI.Controllers
 {
-    public class B2BHomeController : Controller
+    public class MockupController : Controller
     {
         public ActionResult Index()
         {
@@ -15,19 +15,12 @@ namespace B2BDR2.UI.Controllers
 
         public ActionResult CreateProject()
         {
-            return View("CreateProject");
+            return View();
         }
 
         public ActionResult ProjectStatus()
         {
             return View();
         }
-
-        #region Modal
-        public ActionResult CreateSubTask()
-        {
-            return View();
-        }
-        #endregion
     }
 }
