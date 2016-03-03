@@ -263,9 +263,9 @@ class MemberInfo implements IMemberInfo {
                 }
             };
         })
-        .factory('storageHelper', function () {
+        .factory('storageHelper', ['$window', function ($window) {
             function GetSessionStorageItem(key, isString: boolean = false) {
-                var data = window.sessionStorage.getItem(key);
+                var data = $window.sessionStorage.getItem(key);
                 if (isString) {
                     return data;
                 }
@@ -276,14 +276,14 @@ class MemberInfo implements IMemberInfo {
                 if (!angular.isString(data)) {
                     data = angular.toJson(data)
                 }
-                window.sessionStorage.setItem(key, data);
+                $window.sessionStorage.setItem(key, data);
             }
 
             return {
                 GetSessionStorageItem: GetSessionStorageItem,
                 SetSessionStorageItem: SetSessionStorageItem
             }
-        })
+        }])
         .factory('DR2Service', ['$http', '$q', 'DR2Config', 'storageHelper', function ($http: ng.IHttpService, $q: ng.IQService, DR2Config, storageHelper) {
             var hostUrl = DR2Config.DRServiceHostUrl;
             var personUrl = `${hostUrl}/prj/v1/Person`; //'/base/GetPersonInfo';
@@ -399,33 +399,35 @@ class MemberInfo implements IMemberInfo {
             }
 
             function PostCreateProject(request: ICreateProjectRequest) {
-                //var deferred = $q.defer();
-                //if (true) {
-                //    $http.post(createPrjUrl, request)
-                //        .then(function (response) {
-                //            debugger;
-                //            deferred.resolve(response.data);
-                //        }, function (response) {
-                //            debugger
-                //            // write log / show error alert.
-                //            console.log(response);
-                //            deferred.resolve(response);
-                //        });
-                //}
-                //return deferred.promise;
-                $http.post(createPrjUrl, request)
-                    .then(function (response) {
-                        return true;
-                    }, function (error) {
-                        // write log / show error alert.
-                        console.log(error);
-                        return false;
-                    });
+
+                return $http.post(createPrjUrl, request)
+
+                //$http.post(createPrjUrl, request)
+                //    .then(function (response) {
+                //        return true;
+                //    }, function (error) {
+                //        // write log / show error alert.
+                //        console.log(error);
+                //        return false;
+                //    });
             }
 
             return {
                 GetBackLogList,
                 PostCreateProject
+            }
+        }])
+        .factory('userInfo', ['$http', '$q', 'userinfo', function ($http: ng.IHttpService, $q: ng.IQService, userinfo) {
+            function GetUserName() {
+                return $http.get('/base/GetUserName').then(function (response) {
+                    return response.data;
+                }, function (response) {
+                    console.info(response);
+                })
+            }
+
+            return {
+                GetUserName
             }
         }])
 

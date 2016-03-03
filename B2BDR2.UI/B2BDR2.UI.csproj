@@ -13,7 +13,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>B2BDR2.UI</RootNamespace>
-    <AssemblyName>sb-admin-2.Web</AssemblyName>
+    <AssemblyName>B2BDR2.UI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -33,14 +33,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -113,18 +118,33 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\B2BHomeController.cs" />
-    <Compile Include="Controllers\ScrumController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MockupController.cs" />
+    <Compile Include="Controllers\ScrumController.cs" />
+    <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\NavbarController.cs" />
+    <Compile Include="Controllers\UtilityController.cs" />
     <Compile Include="Domain\Data.cs" />
+    <Compile Include="Enums\DRStatus.cs" />
+    <Compile Include="Enums\EnvironmentType.cs" />
+    <Compile Include="Enums\JiraStatus.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\B2bAuthHelper.cs" />
+    <Compile Include="Models\APIService\HttpResult.cs" />
+    <Compile Include="Models\APIService\Implement\BaseAPIService.cs" />
+    <Compile Include="Models\APIService\Implement\DRAPIService.cs" />
+    <Compile Include="Models\APIService\Implement\JiraAPIService.cs" />
     <Compile Include="Models\Navbar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\NavbarHelper.cshtml" />
+    <Content Include="..\Readme.md">
+      <Link>Readme.md</Link>
+    </Content>
     <None Include="bower_components\bootstrap-social\.gitignore" />
     <None Include="bower_components\bootstrap-social\bootstrap-social.css" />
     <None Include="bower_components\bootstrap\dist\css\bootstrap-theme.css" />
@@ -213,6 +233,9 @@
     <None Include="bower_components\datatables-plugins\integration\bootstrap\3\dataTables.bootstrap.css" />
     <None Include="bower_components\datatables-plugins\integration\bootstrap\3\dataTables.bootstrap.js" />
     <None Include="bower_components\datatables-plugins\integration\bootstrap\3\dataTables.bootstrap.min.js" />
+    <Content Include="bower_components\datatables-plugins\integration\bootstrap\3\dataTables.bootstrap.min.js.map">
+      <DependentUpon>dataTables.bootstrap.min.js</DependentUpon>
+    </Content>
     <None Include="bower_components\datatables-plugins\integration\bootstrap\3\index.html" />
     <None Include="bower_components\datatables-plugins\integration\bootstrap\images\sort_asc.png" />
     <None Include="bower_components\datatables-plugins\integration\bootstrap\images\sort_asc_disabled.png" />
@@ -550,20 +573,52 @@
     <None Include="bower_components\morrisjs\spec\viz\exemplary\stacked_bar0.png" />
     <None Include="bower_components\morrisjs\spec\viz\test.html" />
     <None Include="bower_components\morrisjs\spec\viz\visual_specs.js" />
+    <None Include="bower_components\ngTagsInput\bower.json" />
+    <None Include="bower_components\ngTagsInput\README" />
     <None Include="bower_components\raphael\dev\amdDev.js" />
     <None Include="bower_components\raphael\dev\index.js" />
     <None Include="bower_components\raphael\dev\require.js" />
     <None Include="bower_components\raphael\license.txt" />
     <None Include="bower_components\raphael\raphael-min.js" />
     <None Include="bower_components\raphael\raphael.js" />
+    <None Include="bower_components\ngTagsInput\ng-tags-input.bootstrap.css" />
+    <None Include="bower_components\ngTagsInput\ng-tags-input.bootstrap.min.css" />
+    <None Include="bower_components\ngTagsInput\ng-tags-input.css" />
+    <None Include="bower_components\ngTagsInput\ng-tags-input.js" />
+    <None Include="bower_components\ngTagsInput\ng-tags-input.min.css" />
+    <None Include="bower_components\ngTagsInput\ng-tags-input.min.js" />
+    <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Home\Dashboard.css" />
+    <Content Include="Content\metisMenu.css" />
+    <Content Include="Content\metisMenu.min.css" />
     <Content Include="Content\ProjectStatus.css" />
     <Content Include="Content\sb-admin-2.css" />
+    <Content Include="Content\Scrum\CpStellaTest.css" />
+    <Content Include="Content\Scrum\CreateProjectSin.css" />
+    <Content Include="Content\spinkit.css" />
     <Content Include="Content\timeline.css" />
+    <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="Content\Utility\CreateProject.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\angular-local-storage.min.js" />
+    <Content Include="Scripts\angular-messages.js" />
+    <Content Include="Scripts\angular-messages.min.js" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-route.js" />
+    <Content Include="Scripts\angular-route.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="bower_components\bootstrap-social\.bower.json" />
@@ -869,9 +924,25 @@
     <Content Include="Content\less\mixins.less" />
     <Content Include="Content\less\sb-admin-2.less" />
     <Content Include="Content\less\variables.less" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\b2bdr2.pubxml" />
     <None Include="Properties\PublishProfiles\localfile.pubxml" />
+    <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular-route.min.js.map" />
+    <Content Include="Scripts\Demo.js.map">
+      <DependentUpon>Demo.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\angular-messages.min.js.map" />
+    <Content Include="Scripts\Home\Dashboard.js" />
+    <Content Include="Scripts\Home\Dashboard.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Demo.js">
+      <DependentUpon>Demo.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\flot-data.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -880,11 +951,32 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\metisMenu.js" />
+    <Content Include="Scripts\metisMenu.min.js" />
+    <Content Include="Scripts\Mockup\CreateProject.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\morris-data.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\sb-admin-2.js" />
+    <Content Include="Scripts\Scrum\createProjectSin.js">
+      <DependentUpon>createProjectSin.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Scrum\CpStellaTest.js">
+      <DependentUpon>CpStellaTest.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Scrum\CreateProject_Sean.js">
+      <DependentUpon>CreateProject_Sean.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Utility\CreateProject.js">
+      <DependentUpon>CreateProject.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Utility\ProjectStatus.js">
+      <DependentUpon>ProjectStatus.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Utility\UtilityCommon.js">
+      <DependentUpon>UtilityCommon.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -898,45 +990,80 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Demo\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\_Navbar.cshtml" />
-    <Content Include="Views\Home\FlotCharts.cshtml" />
-    <Content Include="Views\Home\MorrisCharts.cshtml" />
-    <Content Include="Views\Home\Tables.cshtml" />
-    <Content Include="Views\Home\Forms.cshtml" />
-    <Content Include="Views\Home\Panels.cshtml" />
-    <Content Include="Views\Home\Buttons.cshtml" />
-    <Content Include="Views\Home\Notifications.cshtml" />
-    <Content Include="Views\Home\Typography.cshtml" />
-    <Content Include="Views\Home\Icons.cshtml" />
-    <Content Include="Views\Home\Grid.cshtml" />
-    <Content Include="Views\Home\Blank.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\B2BHome\ProjectStatus.cshtml" />
-    <Content Include="Views\B2BHome\CreateProject.cshtml">
+    <Content Include="Views\Demo\FlotCharts.cshtml" />
+    <Content Include="Views\Demo\MorrisCharts.cshtml" />
+    <Content Include="Views\Demo\Tables.cshtml" />
+    <Content Include="Views\Demo\Forms.cshtml" />
+    <Content Include="Views\Demo\Panels.cshtml" />
+    <Content Include="Views\Demo\Buttons.cshtml" />
+    <Content Include="Views\Demo\Notifications.cshtml" />
+    <Content Include="Views\Demo\Typography.cshtml" />
+    <Content Include="Views\Demo\Icons.cshtml" />
+    <Content Include="Views\Demo\Grid.cshtml" />
+    <Content Include="Views\Demo\Blank.cshtml" />
+    <Content Include="Views\Demo\Login.cshtml" />
+    <Content Include="Views\Mockup\ProjectStatus.cshtml" />
+    <Content Include="Views\Mockup\CreateProject.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\B2BHome\Index.cshtml" />
-    <Content Include="Views\Shared\_B2BLayout.cshtml" />
+    <Content Include="Views\Mockup\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutMockup.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_B2BNavbar.cshtml" />
+    <Content Include="Views\Shared\_NavbarB2B.cshtml" />
     <Content Include="Views\Scrum\CreateProjectTest.cshtml" />
-    <Content Include="Views\B2BHome\CreateSubTask.cshtml" />
+    <Content Include="Views\Mockup\_CreateSubTask.cshtml" />
+    <Content Include="Views\Scrum\CreateProjectSin.cshtml" />
+    <Content Include="Scripts\Scrum\createProjectSin.js.map">
+      <DependentUpon>createProjectSin.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Scrum\CpStellaTest.cshtml" />
+    <Content Include="Scripts\Scrum\CpStellaTest.js.map">
+      <DependentUpon>CpStellaTest.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Mockup\_CreateProjectConfirm.cshtml" />
+    <Content Include="Views\Utility\_CreateProjectConfirm.cshtml" />
+    <Content Include="Views\Scrum\_CpconfirmStellaTest.cshtml" />
+    <Content Include="Views\Scrum\CreateProjectSean.cshtml" />
+    <Content Include="Scripts\Scrum\CreateProject_Sean.js.map">
+      <DependentUpon>CreateProject_Sean.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\_LayoutB2B.cshtml" />
+    <Content Include="Views\Utility\CreateProject.cshtml" />
+    <Content Include="Views\Utility\ProjectStatus.cshtml" />
+    <Content Include="Scripts\Utility\ProjectStatus.js.map">
+      <DependentUpon>ProjectStatus.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Utility\CreateProject.js.map">
+      <DependentUpon>CreateProject.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Scrum\_CreateProjectConfirmSin.cshtml" />
+    <Content Include="Scripts\Utility\UtilityCommon.js.map">
+      <DependentUpon>UtilityCommon.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Scrum\_RpbconfirmStellaTest.cshtml" />
+    <Content Include="Views\Home\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Scrum\" />
-    <Folder Include="Scripts\Scrum\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\Demo.ts" />
+    <TypeScriptCompile Include="Scripts\Home\Dashboard.ts" />
+    <TypeScriptCompile Include="Scripts\Scrum\CreateProject_Sean.ts" />
+    <TypeScriptCompile Include="Scripts\Scrum\createProjectSin.ts" />
+    <TypeScriptCompile Include="Scripts\Scrum\CpStellaTest.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-component-router.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
@@ -947,6 +1074,9 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\es6-promise\es6-promise.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="Scripts\Utility\CreateProject.ts" />
+    <TypeScriptCompile Include="Scripts\Utility\UtilityCommon.ts" />
+    <TypeScriptCompile Include="Scripts\Utility\ProjectStatus.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

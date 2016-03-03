@@ -81,8 +81,8 @@
                 }
             };
         }])
-        .controller('indexCtrl', ['$scope', '$filter', 'DR2Service', 'NodeService', '$anchorScroll', '$location', '$window', 'DR2Config',
-        function ($scope, $filter, DR2Service, NodeService, $anchorScroll, $location, $window, DR2Config) {
+        .controller('indexCtrl', ['$scope', '$filter', 'DR2Service', 'NodeService', '$anchorScroll', '$location', '$window', 'DR2Config', '$timeout',
+        function ($scope, $filter, DR2Service, NodeService, $anchorScroll, $location, $window, DR2Config, $timeout) {
             // Init
             $scope.projectNumber;
             $scope.projectName;
@@ -96,6 +96,8 @@
             $scope.memberData = DR2Service.GetMemberData;
             $scope.format = 'yyyy/MM/dd';
             $scope.showDialog;
+            $scope.SubmitStyle = false;
+            $scope.CreatSuccess = false;
             // Function
             $scope.scrumMasterUID = function () {
                 var result = $filter('nameToUid')($scope.scrumMasterName, $scope.memberData);
@@ -142,22 +144,31 @@
                 return pbAssignees.join(", ");
             };
             $scope.CreateProject = function () {
-                NodeService.PostCreateProject($scope.GetCreateProjectRequest());
-                //.then(function (response) {
-                //
-                //    if (response.IsSuccess) {
-                //        //TODO success message
-                //        $window.location.href = DR2Config.ProjectStatusUrl;
-                //    } else if (response.ErrorMessage) {
-                //        alert(response.ErrorMessage);
-                //    } else if (response.status) {
-                //        alert(response.data)
-                //    } else {
-                //
-                //    }
-                //}, function (response) {
-                //
-                //});
+                $scope.SubmitStyle = true;
+                NodeService.PostCreateProject($scope.GetCreateProjectRequest())
+                    .then(function (response) {
+                    var data = response.data;
+                    if (data !== undefined && data) {
+                        if (data.IsSuccess) {
+                            //TODO success message
+                            $scope.isSubmit = true;
+                            $scope.CreatSuccess = true;
+                            function redirectedPage() {
+                                $window.location.href = DR2Config.ProjectStatusUrl;
+                            }
+                            ;
+                            $timeout(redirectedPage, 1000);
+                            return;
+                        }
+                        else if (data.ErrorMessage !== undefined && data.ErrorMessage) {
+                            alert(data.ErrorMessage);
+                            return;
+                        }
+                    }
+                    alert("Fail Status:" + data.status);
+                }, function (response) {
+                    alert("Error");
+                });
             };
             $scope.GetCreateProjectRequest = function () {
                 $scope.reuqestAddedPBList = angular.copy($scope.addedProjectPBInfo);
@@ -173,6 +184,16 @@
                 var request = new CreateProjectRequest($scope.projectNumber, $scope.projectName, $scope.FormatDate($scope.startDate), $scope.FormatDate($scope.releaseDate), $scope.FormatDate($scope.launchDate), $scope.devGroup, $scope.scrumMasterUID(), $scope.reuqestAddedPBList);
                 return request;
             };
+            ////Show warning message if user leave page ---------------------------------------------------------------////
+            $scope.$watch('drform.$dirty', function (value) {
+                if (value && !$scope.isSubmit) {
+                    $window.onbeforeunload = function () {
+                        if (!$scope.isSubmit) {
+                            return "Your data will be lost, if you're leave!! Do you want to leave?";
+                        }
+                    };
+                }
+            });
         }]);
 })();
 //# sourceMappingURL=CreateProject.js.map

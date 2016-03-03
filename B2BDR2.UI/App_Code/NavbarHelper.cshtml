@@ -4,12 +4,15 @@
     public static IEnumerable<Navbar> GetB2BNavbarItems()
     {
         var menu = new List<Navbar>();
-
-        menu.Add(new Navbar { Id = 001, nameOption = "Utility", controller = "Utility", imageClass = "fa fa-wrench fa-fw", status = true, isParent = true, parentId = 0 });
-
-        // Project
-        menu.Add(new Navbar { Id = 0001, nameOption = "Create Project", controller = "Utility", action = "CreateProject", status = true, isParent = false, parentId = 001 });
-        menu.Add(new Navbar { Id = 0002, nameOption = "Project Status", controller = "Utility", action = "ProjectStatus", status = true, isParent = false, parentId = 001 });
+        
+        // 1.Home
+        menu.Add(new Navbar { Id = 1, nameOption = "Home", controller = "Home", imageClass = "fa fa-dashboard fa-fw", status = true, isParent = true, parentId = 0 });
+        menu.Add(new Navbar { Id = 101, nameOption = "Dashboard", controller = "Home", action="Dashboard", status = true, isParent = false, parentId = 1 });
+        
+        // 2.Utility
+        menu.Add(new Navbar { Id = 2, nameOption = "Utility", controller = "Utility", imageClass = "fa fa-wrench fa-fw", status = true, isParent = true, parentId = 0 });
+        menu.Add(new Navbar { Id = 201, nameOption = "Create Project", controller = "Utility", action = "CreateProject", status = true, isParent = false, parentId = 2 });
+        menu.Add(new Navbar { Id = 202, nameOption = "Project Status", controller = "Utility", action = "ProjectStatus", status = true, isParent = false, parentId = 2 });
 
         return menu.ToList();
     }

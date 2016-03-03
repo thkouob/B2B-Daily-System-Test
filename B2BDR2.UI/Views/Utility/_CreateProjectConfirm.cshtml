@@ -6,6 +6,9 @@
                 Project {{projectNumber}}
             </h4>            
             <p>{{projectName}}</p>
+            <div role="alert" class="alert alert-success" ng-show="CreatSuccess">
+                <strong>Creat project success!!</strong>
+            </div>
         </div>
         <div class="modal-body">
             <div class="panel panel-default">
@@ -33,7 +36,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button id="bt_create" type="button" ng-click="CreateProject()" class="btn btn-primary">&nbsp;Create</button>
+            <button id="bt_create" type="button" ng-click="CreateProject()" class="btn btn-primary" ng-disabled="SubmitStyle">&nbsp;Create</button>
         </div>
     </div>
 </div>

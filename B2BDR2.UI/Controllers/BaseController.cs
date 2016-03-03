@@ -14,172 +14,23 @@ using System.Web.Mvc;
 
 namespace B2BDR2.UI.Controllers
 {
-    #region
-    //public enum DR2HttpMethod
-    //{
-    //    Get,
-    //    Post,
-    //    Put,
-    //    Delete
-    //}
-
-    //public enum DR2ContentType
-    //{
-    //    [Metadata(Value = "text/html", IsText = true)]
-    //    HTML,
-    //    [Metadata(Value = "application/json", IsText = true)]
-    //    JSON,
-    //    [Metadata(Value = "image/png", IsBinary = true)]
-    //    PNG,
-    //    [Metadata]
-    //    TXT,
-    //    [Metadata(Value = "application/octet-stream", IsBinary = true)]
-    //    DEFAULT
-    //}
-
-    ////http://scottoffen.com/2014/04/23/extending-enum-in-c-sharp-dot-net/
-    //public class Metadata : Attribute
-    //{
-    //    public Metadata()
-    //    {
-    //        this.Value = "text/plain";
-    //        this.IsText = true;
-    //    }
-
-    //    public string Value { get; set; }
-    //    public bool IsText { get; set; }
-
-    //    public bool IsBinary
-    //    {
-    //        get
-    //        {
-    //            return !this.IsText;
-    //        }
-    //        set
-    //        {
-    //            this.IsText = !value;
-    //        }
-    //    }
-    //}
-
-    //public static class ContentTypeExtensions
-    //{
-    //    private static object GetMetadata(DR2ContentType ct)
-    //    {
-    //        var type = ct.GetType();
-    //        MemberInfo[] info = type.GetMember(ct.ToString());
-    //        if ((info != null) && (info.Length > 0))
-    //        {
-    //            object[] attrs = info[0].GetCustomAttributes(typeof(Metadata), false);
-    //            if ((attrs != null) && (attrs.Length > 0))
-    //            {
-    //                return attrs[0];
-    //            }
-    //        }
-    //        return null;
-    //    }
-
-    //    public static string ToValue(this DR2ContentType ct)
-    //    {
-    //        var metadata = GetMetadata(ct);
-    //        return (metadata != null) ? ((Metadata)metadata).Value : ct.ToString();
-    //    }
-
-    //    public static bool IsText(this DR2ContentType ct)
-    //    {
-    //        var metadata = GetMetadata(ct);
-    //        return (metadata != null) ? ((Metadata)metadata).IsText : true;
-    //    }
-
-    //    public static bool IsBinary(this DR2ContentType ct)
-    //    {
-    //        var metadata = GetMetadata(ct);
-    //        return (metadata != null) ? ((Metadata)metadata).IsBinary : false;
-    //    }
-    //}
-
-    //public static class DR2HttpHelper
-    //{
-    //    //TODO 尚未實作完成
-    //    public static string GetRequest(string uri, DR2HttpMethod method, Dictionary<string, string> parameters)
-    //    {
-    //        //http://blackriver.to/2011/09/rest-service-with-asp-net-mvc-part-2/
-    //        if (string.IsNullOrWhiteSpace(uri))
-    //        {
-    //            throw new ArgumentException("Uri cannot be empty", "uri");
-    //        }
-
-    //        if (method == DR2HttpMethod.Get && parameters != null)
-    //        {
-    //            //uri = string.Format("", uri, string.Join(parameters.ToList(x=>x), ""));
-    //        }
-
-
-    //        var req = (HttpWebRequest)HttpWebRequest.Create(uri);
-    //        switch (method)
-    //        {
-    //            case DR2HttpMethod.Get:
-    //                req.Method = DR2HttpMethod.Get.ToString();
-    //                break;
-    //            case DR2HttpMethod.Post:
-    //                req.Method = DR2HttpMethod.Post.ToString();
-    //                break;
-    //            case DR2HttpMethod.Put:
-    //                req.Method = DR2HttpMethod.Put.ToString();
-    //                break;
-    //            case DR2HttpMethod.Delete:
-    //                req.Method = DR2HttpMethod.Delete.ToString();
-    //                break;
-    //        }
-
-    //        req.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-
-    //        if (method != DR2HttpMethod.Get)
-    //        {
-    //            using (var reW = new StreamWriter(req.GetRequestStream()))
-    //            {
-    //                //reW.Write(parameters)
-    //            }
-    //        }
-
-    //        var httpReq = (HttpWebResponse)req.GetResponse();
-    //        using (var reR = new StreamReader(httpReq.GetResponseStream()))
-    //        {
-    //            return reR.ReadToEnd();
-    //        }
-    //    }
-    //}
-
-    #endregion
-
     public class BaseController : Controller
     {
-        //private string GetPostData(NameValueCollection nameValueCollection)
-        //{
-        //    var parameters = new StringBuilder();
-
-        //    foreach (string key in nameValueCollection.Keys)
-        //    {
-        //        parameters.AppendFormat("{0}={1}&",
-        //            HttpUtility.UrlEncode(key),
-        //            HttpUtility.UrlEncode(nameValueCollection[key]));
-        //    }
-        //    return parameters.ToString();
-        //}
-
         private string GetJsonData(Dictionary<string, string> dct)
         {
             return JsonConvert.SerializeObject(dct);
         }
 
-        public ActionResult GetJIRABacklogInfo()
+        public ActionResult GetJiraBacklogInfo()
         {
-            return Content(this.GetJIRABackLogData(), "application/json; charset=utf-8");
+            var j = new JiraAPIService();
+            return Content(j.GetJiraBackLogData(), ContentType.JSON.ToValue());
         }
 
         public ActionResult GetMockNodeBacklogInfo()
         {
-            var data = this.GetJIRABackLogData();
+            var j = new JiraAPIService();
+            var data = j.GetJiraBackLogData();
             var result = JObject.Parse(data);
             var d = result["issues"];
             if (d.HasValues)
@@ -210,83 +61,60 @@ namespace B2BDR2.UI.Controllers
                 });
                 string errorMsg = null;
                 data = JsonConvert.SerializeObject(new { status = "success", data = f, errorMsg = errorMsg });
-                return Content(data, "application/json; charset=utf-8");
+                return Content(data, ContentType.JSON.ToValue());
             }
 
-            return Content(data, "application/json; charset=utf-8");
+            return Content(data, ContentType.JSON.ToValue());
         }
 
         public ActionResult GetPersonInfo()
         {
-            string result = string.Empty;
-            var req = (HttpWebRequest)HttpWebRequest.Create("http://10.16.133.102:52332/prj/v1/Person");
-            req.Method = "GET";
+            var dr = new DRAPIService();
 
-            using (WebResponse res = req.GetResponse())
-            {
-                using (StreamReader reader = new StreamReader(res.GetResponseStream()))
-                {
-                    result = reader.ReadToEnd();
-                }
-            }
-
-            return Content(result, "application/json; charset=utf-8");
+            return Content(dr.GetPersonInfo(), ContentType.JSON.ToValue());
         }
 
         public ActionResult GetProjectRelease()
         {
-            string result = string.Empty;
-            var req = (HttpWebRequest)HttpWebRequest.Create("http://10.16.133.102:828/");//http://localhost:7519/WorkReportB2B/
-            req.Method = "GET";
-            req.UseDefaultCredentials = true;
+            var dr = new DRAPIService("http://10.16.133.102:828/");
 
-            using (WebResponse res = req.GetResponse())
-            {
-                using (StreamReader reader = new StreamReader(res.GetResponseStream()))
-                {
-                    result = reader.ReadToEnd();
-                }
-            }
-            
-            var data = WebUtility.HtmlDecode(result);
-            var doc = new HtmlDocument();
-            doc.LoadHtml(data);
-            HtmlNode navNode = doc.DocumentNode.SelectSingleNode("//*[@id='MainContent_panelPrjRelease']");
-
-            navNode.SelectSingleNode("table").Attributes.Add("class", "table table-bordered table-striped");
-
-            return Content(navNode.OuterHtml);
+            return Content(dr.GetProjectRelease());
         }
 
-        private string GetJIRABackLogData()
+        public ActionResult TestPutJsonData(string hostUrl, string u,
+            string data, Dictionary<string, string> headerInfo)
         {
-            string result = string.Empty;
-            var req = (HttpWebRequest)HttpWebRequest.Create("http://jira/rest/api/2/search");
+            //Todo js Test data
+            //var jsonI ={"TransactionNumber":2919,"MasterId":"353","CatalogType":"1","CatalogId":"2","ConstraintType":"I","Status":"D","InDate":"2016-02-05T06:40:38.000Z","InUser":"superuser","LastEditDate":"2016-02-25T07:10:02.000Z","LastEditUser":"superuser"}
+            //$.post('http://localhost:29128/base/PutJsonData',{data:angular.toJson(jsonI)})
 
-            req.Method = "POST";
-            req.ContentType = "application/json; charset=utf-8";
-            req.Headers.Add("Authorization", "Basic cWFzYXV0aDAxOldpbmRqYWNrITIz");
-            var data = new Dictionary<string, string>() { 
-            { "jql", "project=TC_B2B AND issuetype ='Product Backlog' AND fixVersion is EMPTY" } ,
-            {"maxResults","5000"}};
+            var d = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
 
-            byte[] byteArray = Encoding.UTF8.GetBytes(GetJsonData(data));
-            req.ContentLength = byteArray.Length;
-            Stream rs = req.GetRequestStream();
-
-            rs.Write(byteArray, 0, byteArray.Length);
-            rs.Close();
-
-            using (WebResponse res = req.GetResponse())
+            if (string.IsNullOrWhiteSpace(hostUrl))
             {
-                rs = res.GetResponseStream();
-                using (StreamReader reader = new StreamReader(rs))
-                {
-                    result = reader.ReadToEnd();
-                }
+                hostUrl = "http://10.16.133.103/v1.0.50/misc/v1.0.0";
             }
 
-            return result;
+            if (string.IsNullOrWhiteSpace(u))
+            {
+                u = "siteconstraint/setting/typebinding";
+            }
+
+            var s = new DRAPIService(hostUrl);
+            var result = s.ExecuteJasonRequest(u, HttpMethod.Put, d, headerInfo);
+
+            return Content(result.ResultMsg, ContentType.JSON.ToValue());
+        }
+
+        public ActionResult GetUserName()
+        {
+            return Json(B2bAuthHelper.CurrentUserName, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult HasJIRAFixVersion(string prjNo)
+        {
+            var j = new JiraAPIService();
+            return Json(j.HasFixVersion(prjNo), JsonRequestBehavior.AllowGet);
         }
     }
 }

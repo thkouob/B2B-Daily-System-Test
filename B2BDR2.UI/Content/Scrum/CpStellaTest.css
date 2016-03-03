@@ -63,3 +63,9 @@
     width: 400px;
     padding-top: 200px;
 }
+
+form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color:white;
+    color:#555;
+    cursor:pointer;
+}

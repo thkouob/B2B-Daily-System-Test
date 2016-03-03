@@ -147,7 +147,7 @@
             $scope.AllFormData = {
                 DevGruop: null
             }
-            localStorage.setItem("lastname", "Smith");
+
             if (localStorageService.get("DevGruop") != null || localStorageService.get("DevGruop") != undefined) {
                 $scope.AllFormData.DevGruop = localStorageService.get("DevGruop");
             }
@@ -165,6 +165,7 @@
             }
 
             $scope.format = 'yyyy/MM/dd';
+            $scope.CreatSuccess = false;
 
             ////display lists info ---------------------------------------------------------------////
             // Members
@@ -236,18 +237,18 @@
             $scope.currentItemIdx = null;
             ////remove pb to project ---------------------------------------------------------------////
             $scope.OpenWarningPopUp = function (idx) {
-                 var d: any = angular.element("#modalRemovePBConfirm");
-                 $scope.currentItemIdx = angular.copy(idx);
-                 d.modal("show");
+                var d: any = angular.element("#modalRemovePBConfirm");
+                $scope.currentItemIdx = angular.copy(idx);
+                d.modal("show");
             }
 
             $scope.RemoveProjectLog = function () {
-                
+
                 var d: any = angular.element("#modalRemovePBConfirm");
-            
+
                 var keepGoing = true;
                 var idx = $scope.currentItemIdx;
-                
+
                 angular.forEach(tempBackLog, function (value, key) {
                     if (keepGoing) {
                         if (value.Key === $scope.ProjectList[idx].Key) {
@@ -263,9 +264,9 @@
                 if (tempData[0] !== undefined && tempData[0].Active === "") {
                     tempData[0].Active = "in active";
                 }
-                
+
                 $scope.ProjectList = angular.copy(tempData)
-                
+
                 d.modal("hide");
             };
 
@@ -328,7 +329,7 @@
                     }
                 }, 1000);
             }
-        
+
             $scope.GetAssigneeGroup = function (sub) {
                 var assigneeGroup = [];
                 angular.forEach(sub, function (val, key) {
@@ -346,12 +347,13 @@
                 var postapiurl = 'http://10.16.133.102:3000/jiraapi/project';
                 $http.post(postapiurl, request)
                     .then(function (response) {
-                        alert("Create Project Success!");
+                        $scope.isSubmit = true;
+                        $scope.CreatSuccess = true;
                         function redirectedPage() {
                             var url = "http://" + $window.location.host + "/Mockup/Index";
                             $window.location.href = url;
                         };
-                        $timeout(redirectedPage, 500);
+                        $timeout(redirectedPage, 1000);
                     }, function (response) {
                         console.log(response);
 
@@ -362,7 +364,9 @@
             $scope.$watch('dailyForm.$dirty', function (value) {
                 if (value) {
                     $window.onbeforeunload = function () {
-                        return "Your data will be lost, if you're leave!! Do you want to leave?";
+                        if (!$scope.isSubmit) {
+                            return "Your data will be lost, if you're leave!! Do you want to leave?";
+                        }
                     };
                 }
             });
