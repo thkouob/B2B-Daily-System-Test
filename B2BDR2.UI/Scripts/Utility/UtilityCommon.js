@@ -228,6 +228,7 @@ var MemberInfo = (function () {
             var hostUrl = DR2Config.DRServiceHostUrl;
             var personUrl = hostUrl + "/prj/v1/Person"; //'/base/GetPersonInfo';
             var prjStatusUrl = hostUrl + "/prj/v1/newprjstatus";
+            var prjReleaseUrl = '/base/GetProjectRelease';
             function GetOriginPersonData(url) {
                 return $http.get(url, { cache: true });
             }
@@ -292,10 +293,21 @@ var MemberInfo = (function () {
                 });
                 return memberInfoList;
             }
+            function GetProjRelease(prjReleaseUrl) {
+                var deffered = $q.defer();
+                $http.get(prjReleaseUrl).then(function (response) {
+                    var element = angular.element(response.data).html().trim();
+                    deffered.resolve(element);
+                }, function (response) {
+                    deffered.reject(response);
+                });
+                return deffered.promise;
+            }
             return {
                 GetPersonList: GetPersonList(personUrl),
                 GetProjectStatus: GetProjectStatus(prjStatusUrl),
-                GetMemberData: GetMemberData(personUrl)
+                GetMemberData: GetMemberData(personUrl),
+                GetProjRelease: GetProjRelease(prjReleaseUrl)
             };
         }])
         .factory('NodeService', ['$http', '$q', 'DR2Config', function ($http, $q, DR2Config) {
