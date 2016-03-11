@@ -256,11 +256,6 @@
                     .then(function (response) {
                     $scope.isSubmit = true;
                     $scope.CreatSuccess = true;
-                    function redirectedPage() {
-                        var url = "http://" + $window.location.host + "/Mockup/Index";
-                        $window.location.href = url;
-                    }
-                    ;
                     $timeout(redirectedPage, 1000);
                 }, function (response) {
                     console.log(response);
@@ -347,6 +342,11 @@
                         return "UI";
                 }
             }
+            function redirectedPage() {
+                var url = "http://" + $window.location.host + "/Mockup/Index";
+                $window.location.href = url;
+            }
+            ;
         }]);
 })();
 //# sourceMappingURL=CpStellaTest.js.map
